@@ -1,25 +1,72 @@
-import logo from './logo.svg';
+import Tabla from './pages/GeneralDisplay/Tabla/Tabla';
 import './App.css';
 
-function App() {
+const products = [
+  {
+    id:1,
+    nombre:"HONDA cbr 1000 ",
+    cantidad: 2,
+    fi: "13/09/2022",
+    fv:0,
+    price: 42500
+  },
+  {
+    id:2,
+    nombre:"BMW s1000rr ",
+    cantidad: 3,
+    fi: "13/09/2022",
+    fv:0,
+    price: 55000
+  },
+  {
+    id:3,
+    nombre:"Kawasaki H2r",
+    cantidad:1,
+    fi:"13/09/2022",
+    fv:0,
+    price: 90000
+  },
+  {
+    id:3,
+    nombre:"Yamaha r1 ",
+    cantidad:5,
+    fi:"13/09/2022",
+    fv:0,
+    price: 57900
+  }
+]
+
+
+const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+      <nav className='nav-app'>
+        <button>Mostrar tabla</button>
+        <h1>STORE MANAGMENT</h1>
+        <button className='nav-login'>LOG-IN</button>
+      </nav>
+      <div className='container'>
+        <table>
+          <tbody>
+            <tr>
+            {products.map((item) => <Tabla 
+              key={item.id}
+              nombre={item.nombre}
+              cantidad={item.cantidad}
+              fi={item.fi} 
+              fv={item.fv} 
+              price={item.price}
+              /> ) 
+            }
+            </tr>
+          </tbody>
+        </table>
     </div>
+
+    </>
   );
+
 }
 
 export default App;

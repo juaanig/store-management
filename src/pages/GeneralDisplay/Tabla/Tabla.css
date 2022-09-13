@@ -1,0 +1,15 @@
+tr{
+    font-family: monospace;
+    font-size: 15px;
+    border-bottom: 1px solid black;
+}
+
+tr:nth-child(even) {
+    background-color: coral;
+}
+
+td {
+    text-align: center;
+    height: 30px;
+    width: 120px;
+}
