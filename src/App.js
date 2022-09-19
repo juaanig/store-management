@@ -42,7 +42,6 @@ const App = () => {
   return (
     <>
       <nav className='nav-app'>
-        <button>Mostrar tabla</button>
         <h1>STORE MANAGMENT</h1>
         <button className='nav-login'>LOG-IN</button>
       </nav>
