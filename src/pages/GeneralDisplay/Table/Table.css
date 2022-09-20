@@ -1,11 +1,17 @@
-tr{
+.container{
+    background: rebeccapurple;
+}
+table{
+    width: 98%;
+}
+tr,th{
     font-family: monospace;
     font-size: 15px;
     border-bottom: 1px solid black;
 }
 
 tr:nth-child(even) {
-    background-color: coral;
+    background-color: rgb(194, 194, 194);
 }
 
 td {
