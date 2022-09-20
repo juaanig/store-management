@@ -1,35 +1,4 @@
-.nav-app{
-    display: flex;
-    justify-content: space-between;
-    padding:1vh 1vw;
-    height: 9vh;
-    background: rgb(64, 70, 255);
-}
 
-h1{
-    margin: 0;
-    color: #fff;
-    font-family: monospace;
-    font-size: 8vh;
-}
-
-.nav-login{
-    background: rgb(82, 87, 255);
-    color: #fff;
-    width: 15vh;
-    height: 100%;
-    font-family: monospace;
-    text-align: center;
-    border:none;
-    cursor: pointer;
-    transition: 0.5s;
-}
-
-.nav-login:hover{
-    width: 15vh;
-    background: rgba(255, 255, 255, 0.474);
-    
-}
 
 .container{
     display: flex;
