@@ -1,13 +1,4 @@
 .container-db-btns{
-    display: flex;
-    justify-content: space-between;   
-}
-
-.dashboard{
-    padding: 10px;
-    background: #ffefad;
-    width: 40%;
-    height: 30vh;
-    text-align: left;
-    margin: 10px 10px;
+    display: flex;   
+    width: 100%;
 }

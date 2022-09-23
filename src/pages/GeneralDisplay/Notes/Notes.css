@@ -1,0 +1,47 @@
+.dashboard{
+    display: flex;
+    width: 50%;
+    height: 30vh;
+}
+
+.notes-title {
+    text-align: center;
+}
+
+.notepad {
+    display: flex;
+    flex-direction: column;
+    background: #fff9ac;
+    margin: auto;
+    padding: 15px;
+    width: 70%;
+    height: 20vh;
+    border: 2px solid rgb(90, 84, 0);
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,1);
+}
+
+.notes-area {
+    box-sizing: border-box;
+    background: #ccaf2e;
+    margin: auto;
+    border-radius: 5px;
+    width: 100%;
+    height: 16vh;
+    overflow: auto;
+    padding: 5px;
+}
+
+.notes {
+    background: wheat;
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.button-add-note{
+    margin-top: 3px;
+    margin-left: auto;
+    width: 10%;
+}
