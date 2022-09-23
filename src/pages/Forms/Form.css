@@ -1,0 +1,23 @@
+.form-style{
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 10px;
+    border: none;
+    width: 300px;
+    height: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: blueviolet;
+}
+
+.form-style>div{
+    display: flex;
+    flex-direction: column;
+}
+
+.container-button{
+    margin:30px 47%;
+}
