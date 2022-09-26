@@ -43,5 +43,5 @@
 .button-add-note{
     margin-top: 3px;
     margin-left: auto;
-    width: 10%;
+    min-width: 10%;
 }
