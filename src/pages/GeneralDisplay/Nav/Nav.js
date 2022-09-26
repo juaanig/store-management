@@ -8,6 +8,8 @@ const Nav = () => {
                 <h1>PANEL GENERAL</h1>
             </div>
             <button className="log-in"><ion-icon name="person-circle-outline"></ion-icon></button>
+            <button className="messages"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></button>
+
         </nav>
     </>
   )
