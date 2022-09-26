@@ -1,19 +1,31 @@
+import { Route,RouterProvider,Navigate,createBrowserRouter,createRoutesFromElements,} from "react-router-dom";
+
 import './App.css';
 
-import Nav from './pages/GeneralDisplay/Nav/Nav';
 import Section from './pages/GeneralDisplay/Section/Section';
-import Forms from './pages/Forms/Forms';
+import Layout from "./pages/Layout/Layout";
+
+/*
+
+  HACER COMPONENETE LOGIN ( HERMAN )
+  HACER COMPONENETE FORM ( JUAN )
+
+*/
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout/>} >
+      <Route path="/general" element={<Section />} />
+      <Route path="/login" element={<Section/>/*<Login />*/} />
+    </Route>
+  )
+
+);
 
 
 const App = () => {
 
-  return (
-    <>
-      <Nav/>
-      <Section/>
-      <Forms/>
-    </>
-  )
+  return <RouterProvider router={router}/>
 
 }
 
