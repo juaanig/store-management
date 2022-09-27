@@ -21,32 +21,28 @@ const Forms = () => {
 
                 <form className='form-style'>
                     <div>
-                        <label>Nombre del operario</label>
-                        <input type="text"/>
+                        <input type="text" placeholder='Nombre del operario'/>
                     </div>
                     <div>
-                        <label>Apellido del operario</label>
-                        <input type="text"/>
+                        <input type="text" placeholder='Apellido'/>
+                    </div>
+                    
+                    <div>
+                        <input type="text" placeholder='e-mail'/>
                     </div>
                     <div>
-                        <label>E-mail del operario</label>
-                        <select>
-                            <option value="" disabled>select</option>
+                        <input type="password" placeholder='contraseña'/>
+                    </div>
+                    <div>
+                        <select >
+                            <option value="" disabled selected>Rol del operario</option>
                             <option value="Vendedor">Vendedor</option>
                             <option value="Comprador">Comprador</option>
                             <option value="Deposito">Deposito</option>
                         </select>
                     </div>
                     <div>
-                        <label>Rol del operario</label>
-                        <input type="text"/>
-                    </div>
-                    <div>
-                        <label>Contraseña del operario</label>
-                        <input type="text"/>
-                    </div>
-                    <div>
-                        <button type='submit' >Agregar operario</button>
+                        <button type='submit' className='add-user' >Agregar operario</button>
                     </div>
                 </form>
             }

@@ -4,6 +4,7 @@ import './App.css';
 
 import Section from './pages/GeneralDisplay/Section/Section';
 import Layout from "./pages/Layout/Layout";
+import Forms from "./pages/Forms/Forms"; 
 
 /*
 
@@ -17,6 +18,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout/>} >
       <Route path="/general" element={<Section />} />
       <Route path="/login" element={<Section/>/*<Login />*/} />
+      <Route path="/superUser" element={<Forms/>} />
+
     </Route>
   )
 
@@ -24,9 +27,7 @@ const router = createBrowserRouter(
 
 
 const App = () => {
-
   return <RouterProvider router={router}/>
-
 }
 
 export default App;
