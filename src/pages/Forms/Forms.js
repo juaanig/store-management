@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 
 import "./Form.css";
+import "./../GeneralDisplay/Buttons/Buttons.css";
 
 let Users = [] ;
 
@@ -53,7 +54,7 @@ const Forms = () => {
     return (
         <>  
             <div className='container-button'>
-                <button onClick={showButtonHandler}>Nuevo operario</button>
+                <button onClick={showButtonHandler} className="common">Nuevo operario</button>
             </div>
             { showButton &&
 

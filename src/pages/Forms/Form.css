@@ -35,8 +35,9 @@
 
 
 .container-button{
-    margin:30px 47%;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
 }
 
 /*__________________*/
-
