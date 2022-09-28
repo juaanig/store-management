@@ -5,6 +5,13 @@ import "./../GeneralDisplay/Buttons/Buttons.css";
 
 let Users = [] ;
 
+// VALIDACIÓN DEL FORM PARA QUE PUEDE AGREGAR LOS USUARIOS
+// const validationForm = () => {
+//     console.log("algo")
+// }
+
+
+
 const Forms = () => {
 
     const [showButton,setShowButton ] = useState(false);
@@ -15,22 +22,25 @@ const Forms = () => {
     const [role,setRole] = useState();
 
 
-    const showButtonHandler = (e) => {
-        e.preventDefault();
-        let aux = showButton ? false : true; 
-        setShowButton(aux);
-    }
-    /* Hacer una funcion para captar todos los valores del los input y que los almacene en un arreglo de objetos */
+    // Función para mostrar formulario
+        const showButtonHandler = (e) => {
+            e.preventDefault();
+            let aux = showButton ? false : true; 
+            setShowButton(aux);
+        }
+    // ===============================
 
-    const nameHandler = (e) => setNameUser(e.target.value);  
+    // Handlers para captar todos los valores del los input
+        const nameHandler = (e) => setNameUser(e.target.value);  
 
-    const lastNameHandler = (e) => setLastNameUser(e.target.value); 
-    
-    const emailHandler = (e) => setEmail(e.target.value); 
-     
-    const passwordHandler = (e) => setPassword(e.target.value); 
-    
-    const roleHandler = (e) => setRole(e.target.value)
+        const lastNameHandler = (e) => setLastNameUser(e.target.value); 
+        
+        const emailHandler = (e) => setEmail(e.target.value); 
+        
+        const passwordHandler = (e) => setPassword(e.target.value); 
+        
+        const roleHandler = (e) => setRole(e.target.value)
+    // ===================================================== 
     
 
     const submitUserHandler = (event) =>{
@@ -43,7 +53,6 @@ const Forms = () => {
             role: role
         };
         Users.push(user);
-        console.log(Users)
 
         setNameUser("");
         setLastNameUser("");
@@ -91,7 +100,7 @@ const Forms = () => {
                 <th>Apellido</th>
                 <th>Email</th>
                 <th>Rol</th>
-                <th>Borrar</th>
+                <th>Modificar</th>
                 <th>Eliminar</th>
                 <tbody>
                     {Users.map((item,index) =>
