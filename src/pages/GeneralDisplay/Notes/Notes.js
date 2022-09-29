@@ -1,23 +1,53 @@
-import React from 'react'
-import "./Notes.css"
+import "./Notes.css";
+
+import { useState } from 'react';
+
 
 const Notes = () => {
+  
+  const [arrayNotes,setArrayNotes] = useState([]);
+  const [enteredNote, setEnteredNote] = useState("");
+
+  const enteredNoteHandler = (event) => {
+    setEnteredNote(event.target.value);
+  };
+
+  const submitNoteHandler = (event) => {
+    event.preventDefault();
+    if (enteredNote === "") {
+      alert('No se puede agregar una nota vacia');
+      setEnteredNote("");
+    } else {
+      arrayNotes.push(enteredNote);
+      setArrayNotes(arrayNotes);
+      setEnteredNote("");
+    };
+  };
+
   return (
     <div className='dashboard'>
        <div className='notepad'>
             <p className='notes-title'>NOTAS</p>
             <div className='notes-area'>
-                <div className='notes'>
-                    Esto es una nota
-                </div>
-                <div className='notes'>
-                    Esto es una nota
-                </div>
-                <div className='notes'>
-                    Esto es una nota
-                </div>
+              {arrayNotes.length === 0 
+              ? (<div className='notes empty'>No hay notas</div>) 
+              : arrayNotes.map((note, index) => {
+                return (
+                  <div className='notes' key={index}>
+                    {note}
+                  </div>
+                )
+              })} 
             </div>
-            <button className='button-add-note'>añadir</button>
+            <div className='new-notes'>
+              <input 
+                type="text" 
+                placeholder='Escriba la nota que desea agregar' 
+                onChange={enteredNoteHandler} 
+                value={enteredNote}>
+              </input>
+              <button className='button-add-note' onClick={submitNoteHandler}>+</button>
+            </div>
        </div>
     </div>
   )
