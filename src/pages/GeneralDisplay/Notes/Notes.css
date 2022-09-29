@@ -15,7 +15,7 @@
     margin: auto;
     padding: 15px;
     width: 70%;
-    height: 20vh;
+    height: 80%;
     border: 2px solid rgb(90, 84, 0);
     border-radius: 15px;
     box-shadow: 5px 5px 15px rgba(0,0,0,1);
@@ -24,10 +24,10 @@
 .notes-area {
     box-sizing: border-box;
     background: #ccaf2e;
-    margin: auto;
+    margin: 15px auto;
     border-radius: 5px;
     width: 100%;
-    height: 16vh;
+    min-height: 70%;
     overflow: auto;
     padding: 5px;
 }
@@ -38,10 +38,47 @@
     margin: 5px;
     border: 2px solid black;
     border-radius: 5px;
+    text-align: justify;
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.new-notes {
+    display: flex;
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: 100%;
+    height: 10%;
+}
+
+.new-notes > input {
+    min-width: 85%;
+    height: 80%;
+    border: 2px solid black;
+    border-radius: 5px;
+    background: wheat;
+    overflow: auto;
+    resize: none;
 }
 
 .button-add-note{
-    margin-top: 3px;
-    margin-left: auto;
     min-width: 10%;
+    height: 100%;
+    background: rgb(179, 179, 179);
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: auto;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.button-add-note:hover{
+    background: rgb(0, 99, 0);
 }
