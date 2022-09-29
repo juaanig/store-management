@@ -67,6 +67,7 @@
     background: wheat;
     overflow: auto;
     resize: none;
+    padding-left: 5px;
 }
 
 .button-add-note{
