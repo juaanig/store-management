@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useRef} from 'react'
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
@@ -12,7 +12,14 @@ let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
 let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 // ============================================
 
+/* 
+    ########################################################
 
+    TERMINAR FUNCIONALIDAD DE MODIFICAR Y ELEMINAR USUARIO
+
+    ########################################################
+
+*/
 const Forms = () => {
 
     const [showForm,setShowForm ] = useState(false);
@@ -22,6 +29,8 @@ const Forms = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(null);
     const [errors, setErrors] = useState({});
+
+    const  nameTd = useRef(null)
 
     
     // Función para mostrar formulario
@@ -59,25 +68,29 @@ const Forms = () => {
             _errors.lastName= "El campo apellido solo acepta letras y espacios ";
         }
         //====================================
-        if(email === ''){
+        if(form.email === ''){
             _errors.email= 'Campo obligatorio.';
-        }else if(!regexEmail.test(email)){
+        }else if(!regexEmail.test(form.email)){
             _errors.email = "email incorrecto";
         }
         //====================================
-        if( password === '' ){
+        if( form.password === '' ){
             _errors.pass = 'Campo obligatorio.';
-        }else if(password.length < 10){
+        }else if(form.password.length < 10){
             _errors.pass = "la contraseña debe contener más de 10 caracteres";
         }
         //====================================
-        if( role === null ){
+        if( form.role === null ){
             _errors.role = 'Campo obligatorio.';
         }
 
         return _errors;
     }
 
+    const showDataFormHandler = () => {
+        console.log(nameTd)
+         
+    }
 
     const submitUserHandler = (e) =>{
         e.preventDefault()
@@ -137,7 +150,7 @@ const Forms = () => {
                             {errors.role && <p>{errors.role}</p>} 
                         </Form.Group>
                         <Form.Group>
-                            <Button type='button' className='add-user' onClick={submitUserHandler}>Agregar operario</Button>
+                            <Button type='button' variant='success' className='add-user' onClick={submitUserHandler}>Agregar operario</Button>
                         </Form.Group>
                     </Form>
                 }  
@@ -153,12 +166,12 @@ const Forms = () => {
                     <tbody>
                         {Users.map((item,index) =>
                         <tr key={index}  >
-                            <td>{item.name}</td>  
+                            <td ref={nameTd} value={item.name} >{item.name}</td>  
                             <td>{item.lastName}</td>          
                             <td>{item.email}</td>  
                             <td>{item.role}</td>  
-                            <td><button>Modificar</button></td>  
-                            <td><button>Eliminar</button></td> 
+                            <td><Button onClick={showDataFormHandler}>Modificar</Button></td>  
+                            <td><Button variant='danger'>Eliminar</Button></td> 
                         </tr>
                         )}
                     </tbody>
