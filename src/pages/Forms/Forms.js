@@ -5,6 +5,7 @@ import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
 
+
 let Users = [] ;
 
 //REGEXP PARA VALIDACIONES DE CAMPO NAME Y MAIL
@@ -30,7 +31,7 @@ const Forms = () => {
     const [role,setRole] = useState(null);
     const [errors, setErrors] = useState({});
 
-    const  nameTd = useRef(null)
+    const tBody = useRef()
 
     
     // Función para mostrar formulario
@@ -87,9 +88,13 @@ const Forms = () => {
         return _errors;
     }
 
-    const showDataFormHandler = () => {
-        console.log(nameTd)
-         
+    const showDataFormHandler = (index) => {
+        //mostrar datos del usuario en el formulario
+        setNameUser(Users[index].name);
+        setLastNameUser(Users[index].lastName);
+        setEmail(Users[index].email);
+        setPassword(Users[index].password);
+        setRole(Users[index].role);
     }
 
     const submitUserHandler = (e) =>{
@@ -163,14 +168,17 @@ const Forms = () => {
                     <th>Rol</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
-                    <tbody>
+                    <tbody ref={tBody}>
                         {Users.map((item,index) =>
-                        <tr key={index}  >
-                            <td ref={nameTd} value={item.name} >{item.name}</td>  
+                        <tr key={index}>
+                            <td >{item.name}</td>  
                             <td>{item.lastName}</td>          
                             <td>{item.email}</td>  
                             <td>{item.role}</td>  
-                            <td><Button onClick={showDataFormHandler}>Modificar</Button></td>  
+                            <td><Button onClick={(e)=>{
+                                showDataFormHandler(index)
+                                showFormHandler(e)
+                            }}>Modificar</Button></td>  
                             <td><Button variant='danger'>Eliminar</Button></td> 
                         </tr>
                         )}
