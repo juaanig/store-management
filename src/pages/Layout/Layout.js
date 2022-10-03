@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Nav from "../GeneralDisplay/Nav/Nav";
+import NavLayout from "../GeneralDisplay/Nav/NavLayout";
 
 
 
@@ -9,7 +9,7 @@ const Layout = () => {
   
     return (
         <>
-            <Nav/>
+            <NavLayout/>
             <main>
                 <Outlet/>
             </main>

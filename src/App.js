@@ -7,9 +7,13 @@ import Layout from "./pages/Layout/Layout";
 import Forms from "./pages/Forms/Forms";
 
 /*
+auntentication context :
 
-  HACER COMPONENETE LOGIN ( HERMAN )
-  HACER COMPONENETE FORM ( JUAN )
+value {
+  nameUser:
+  mail:
+}
+
 
 */
 
@@ -20,7 +24,6 @@ const router = createBrowserRouter(
       <Route path="/general" element={<Section />} />
       <Route path="/login" element={<Section/>/*<Login />*/} />
       <Route path="/superUser" element={<Forms/>} />
-
     </Route>
   )
 
