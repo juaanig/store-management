@@ -1,6 +1,9 @@
 import "./Buttons.css"
 
 const Buttons = () => {
+
+  const role = "deposito, comprador, vendedor";
+
   return (
     <div className='buttons-section'>
         <div className="buttons-styles">
