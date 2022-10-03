@@ -88,13 +88,28 @@ const Forms = () => {
         return _errors;
     }
 
-    const showDataFormHandler = (index) => {
-        //mostrar datos del usuario en el formulario
+    const showDataFormHandler = (e,index) => {
+
         setNameUser(Users[index].name);
         setLastNameUser(Users[index].lastName);
         setEmail(Users[index].email);
         setPassword(Users[index].password);
         setRole(Users[index].role);
+        
+        if(!showForm) showFormHandler(e) ;
+    }
+
+    const deleteRowUserHandler = (index) => {
+
+        setNameUser("");
+        setLastNameUser("");
+        setEmail("");
+        setPassword("");
+        setRole(null);
+
+        delete Users[index];
+
+        console.log(Users)
     }
 
     const submitUserHandler = (e) =>{
@@ -131,19 +146,19 @@ const Forms = () => {
                     <Form>
                         <Form.Group className='mb-2'>
                             <Form.Control type="text" value={nameUser} placeholder='Nombre del operario'  onChange={nameHandler}/>
-                            {errors.name && <p>{errors.name}</p>}
+                            {errors.name && <p className="text-danger" >{errors.name}</p>}
                         </Form.Group>
                         <Form.Group className='mb-2'>
                             <Form.Control type="text" value={lastNameUser} placeholder='Apellido'  onChange={lastNameHandler}/>
-                            {errors.lastName && <p>{errors.lastName}</p>}
+                            {errors.lastName && <p className="text-danger">{errors.lastName}</p>}
                         </Form.Group>
                         <Form.Group className='mb-2'>
                             <Form.Control type="text" value={email} placeholder='e-mail'  onChange={emailHandler}/>
-                            {errors.email && <p>{errors.email}</p>} 
+                            {errors.email && <p className="text-danger">{errors.email}</p>} 
                         </Form.Group>
                         <Form.Group className='mb-2'>
                             <Form.Control type="password" value={password}  placeholder='contraseña'  onChange={passwordHandler}/>
-                            {errors.pass && <p>{errors.pass}</p>} 
+                            {errors.pass && <p className="text-danger">{errors.pass}</p>} 
                         </Form.Group>
                         <Form.Group className='mb-3'>
                             <Form.Select value={role}  onChange={roleHandler} >
@@ -152,7 +167,7 @@ const Forms = () => {
                                 <option value="Comprador">Comprador</option>
                                 <option value="Deposito">Deposito</option>
                             </Form.Select>
-                            {errors.role && <p>{errors.role}</p>} 
+                            {errors.role && <p className="text-danger">{errors.role}</p>} 
                         </Form.Group>
                         <Form.Group>
                             <Button type='button' variant='success' className='add-user' onClick={submitUserHandler}>Agregar operario</Button>
@@ -175,11 +190,12 @@ const Forms = () => {
                             <td>{item.lastName}</td>          
                             <td>{item.email}</td>  
                             <td>{item.role}</td>  
-                            <td><Button onClick={(e)=>{
-                                showDataFormHandler(index)
-                                showFormHandler(e)
-                            }}>Modificar</Button></td>  
-                            <td><Button variant='danger'>Eliminar</Button></td> 
+                            <td>
+                                <Button onClick={(e)=>showDataFormHandler(e,index)}>Modificar</Button>
+                            </td>  
+                            <td>
+                                <Button onClick={(e)=>deleteRowUserHandler(index)} variant='danger'>Eliminar</Button>
+                            </td> 
                         </tr>
                         )}
                     </tbody>
