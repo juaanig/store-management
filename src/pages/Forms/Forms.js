@@ -4,6 +4,9 @@ import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
+import { collection, addDoc } from 'firebase/firestore' ;
+import { db } from '../../firebaseConfig/firebase' ;
+
 
 
 let Users = [] ;
@@ -30,9 +33,10 @@ const Forms = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(null);
     const [errors, setErrors] = useState({});
-
+    
     const tBody = useRef()
-
+    
+    const usersCollection = collection(db, "users"); 
     
     // Función para mostrar formulario
     const showFormHandler = (e) => {
@@ -128,7 +132,7 @@ const Forms = () => {
         
         if(Object.entries(validate).length === 0){
             Users.push(user);
-
+            addDoc(usersCollection,user)
             setNameUser("");
             setLastNameUser("");
             setEmail("");
