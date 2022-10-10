@@ -36,24 +36,26 @@ const Forms = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(null);
     const [allUsers,setAllUsers] = useState([])
-    //const [allUsers,setAllUsers] = useState([]);
+   
 
     const tBody = useRef()
     
     const usersCollection = collection(db, "users"); 
     
-    const getUsers = async () => {
-
-        const data = await getDocs(usersCollection);
-        setAllUsers((data.docs.map( 
-            (doc) => ({...doc.data(),id:doc.id}) 
-        )))
-        
-    }
-
+  
     useEffect(() => {
+        
+        const getUsers = async() => {
+            
+            const data = await getDocs(usersCollection);
+            setAllUsers((data.docs.map( 
+                (doc) => ({...doc.data(),id:doc.id}) 
+            )))
+        }
+        
         getUsers();
-     },[allUsers])
+        
+    },[allUsers,usersCollection])
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value).trim());  
@@ -107,26 +109,26 @@ const Forms = () => {
         return _errors;
     }
 
-    const showDataFormHandler = (e,index) => {
+    // const showDataFormHandler = (e,index) => {
 
-        setNameUser(Users[index].name);
-        setLastNameUser(Users[index].lastName);
-        setEmail(Users[index].email);
-        setPassword(Users[index].password);
-        setRole(Users[index].role);
+    //     setNameUser(Users[index].name);
+    //     setLastNameUser(Users[index].lastName);
+    //     setEmail(Users[index].email);
+    //     setPassword(Users[index].password);
+    //     setRole(Users[index].role);
         
-        if(!showForm) showFormHandler(e) ;
-    }
+    //     if(!showForm) showFormHandler(e) ;
+    // }
 
     const deleteRowUserHandler = async (id) => {
 
         const userDoc = doc(db,"users", id)
         await deleteDoc(userDoc)
-        getUsers()
+
     }
 
-    const submitUserHandler = (e) =>{
-        e.preventDefault()
+    const submitUserHandler = () =>{
+        
         const user = {
             name: nameUser,
             lastName:lastNameUser,
@@ -204,7 +206,7 @@ const Forms = () => {
                             <td>{item.email}</td>  
                             <td>{item.role}</td>  
                             <td>
-                                <Button onClick={(e)=>showDataFormHandler(e,index)}>Modificar</Button>
+                                <Button /*onClick={/*(e)=>showDataFormHandler(e,index)}*/>Modificar</Button>
                             </td>  
                             <td>
                                 <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
