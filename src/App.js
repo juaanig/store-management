@@ -21,7 +21,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     
     <Route path="/" element={<Layout/>} >
-      <Route path="/general" element={<Section />} />
+      <Route path="/general" element={<Section/>} />
       <Route path="/superUser" element={<Forms/>} />
     </Route>
   )
