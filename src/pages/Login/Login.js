@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Form, Button, Col, Row, Container, FloatingLabel  } from 'react-bootstrap';
+//import "./Login.css"
 
 const Login = () => {
 
@@ -63,32 +61,33 @@ const Login = () => {
   
   return (
     
-    <div className="container">
-      <div className="container mt-5">
-        <h1>Iniciar sesion</h1>
-        <Form>
-          <Col xs={5}>
-            <Row >
-              <Form.Group className='mb-2'>
-                  <Form.Control type="email" placeholder="Ingrese correo electrónico" onChange={mailChangeHandler} value={mail}/>
-                  {errors.email && <p className="text-danger">{errors.email}</p>} 
-              </Form.Group>
-            </Row >
-            <Row>
-              <Form.Group className='mb-2'>
-                  <Form.Control type="password" placeholder="Ingrese contraseña" onChange={passwordChangeHandler} value={password}/>
-                  {errors.pass && <p className="text-danger">{errors.pass}</p>} 
-              </Form.Group>
-            </Row>
-            <Row>
-              <Form.Group>
-                  <Button type='button' variant='success' className='add-user' onClick={submitHandler}>Iniciar</Button>
-              </Form.Group>
-            </Row>
-          </Col>
+      <Container className="mt-5">
+        <Form className="mx-auto" >
+        
+          <h1 className="mb-3">Iniciar sesion</h1>
+          
+          <Form.Group className='mb-2'>
+            <FloatingLabel label="Correo electrónico" className="mb-2">
+              <Form.Control type="email" placeholder="a" onChange={mailChangeHandler} value={mail}/>
+            </FloatingLabel>
+            {errors.email && <p className="text-danger">{errors.email}</p>}
+          </Form.Group>
+
+          <Form.Group className='mb-2'>
+            <FloatingLabel label="Contraseña" className="mb-2">
+              <Form.Control type="password" placeholder="Ingrese contraseña" onChange={passwordChangeHandler} value={password}/>
+            </FloatingLabel>
+            {errors.pass && <p className="text-danger">{errors.pass}</p>}
+          </Form.Group>
+
+          
+          
+          <Form.Group>
+            <Button type='button' variant='success' className='add-user' onClick={submitHandler}>Iniciar</Button>
+          </Form.Group>
+          
         </Form>
-      </div>
-    </div>
+      </Container>
   )
 }
 
