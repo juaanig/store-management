@@ -5,6 +5,7 @@ import './App.css';
 import Section from './pages/GeneralDisplay/Section/Section';
 import Layout from "./pages/Layout/Layout";
 import Forms from "./pages/Forms/Forms";
+import Login from "./pages/Login/Login";
 
 /*
 auntentication context :
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout/>} >
       <Route path="/general" element={<Section/>} />
       <Route path="/superUser" element={<Forms/>} />
+      <Route path="/login" element={<Login/>} />
     </Route>
   )
 

@@ -1,97 +1,93 @@
-
 import { useState } from "react";
-import "./Login.css";
+import { Form } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 const Login = () => {
 
-
-  let regexPassword =/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
   let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
-  let emailValidation = true
-  let passwordValidation= true
-  
 
-  const [user, setUser] = useState('');
+  
+  const [errors, setErrors] = useState({});
+
+  const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
 
-  const mailError = document.getElementById('mailError');
-  const passwordError = document.getElementById('passwordError');
+  const mailChangeHandler = (e) => {
+    setMail(e.target.value);
+  }
 
-  function handleChange(name , value){
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+  }
+  
+  const validateForm = (form) => {
 
-
-    if(name==='user'){
-      setUser(value);
-      
+    let _errors = {}
+    
+    //====================================
+    if(form.email === ''){
+        _errors.email= 'Campo obligatorio.';
+    }else if(!regexEmail.test(form.email)){
+        _errors.email = "email incorrecto";
     }
     
-    if(name==='password'){
-      setPassword(value);
-      
+    //====================================
+    if( form.password === '' ){
+        _errors.pass = 'Campo obligatorio.';
+    }else if(form.password.length < 10){
+        _errors.pass = "la contraseña debe contener más de 10 caracteres";
+    }
+
+    console.log(_errors)
+
+    return _errors;
+}
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    let form = {
+      email: mail,
+      password: password
+    }
+
+    let validate = validateForm(form)
+    setErrors(validate)
+    
+    if(Object.entries(validate).length === 0){
+      console.log('submit')
     }
   }
   
-  console.log('user: ', user)
-  console.log('password: ', password)
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-
-      let account = 
-      {   
-        user:user, 
-        password:password,
-      } ;
- 
-      if(!regexEmail.test(account.user)){
-        emailValidation=false;
-        console.log(emailValidation);
-        mailError.style.display = 'show'; // show
-
-      }
-
-      if(!regexPassword.test(account.password)){
-        passwordValidation=false;
-        console.log(passwordValidation);
-        /*min 1Dígito, minúsculas y mayúsculas 8 a 16 caracteres*/
-        passwordError.style.display = 'show'; // show
-     
-      }
-      
-      if(passwordValidation=== true && emailValidation=== true){
-       
-        account.user = user;
-        account.password = password;
-        console.log('account: ', account);
-        alert("Bienvenido");
-      }
-    }
-
-  
   return (
     
-    <div className="form-container">
-      <form className="form">
-        <div className="form-content">
-          <h3 className="form-title">Inicio de sesión</h3>
-          <div className="form-group">
-            <input id="user" name="user" type="email" placeholder="Ingrese correo electrónico" onChange={(e) => handleChange(e.target.name, e.target.value)}/>
-          </div>
-          <p id="mailError" className="mailError">Mail incorrecto </p>
-          <div className="form-group">
-            <input id="password" name="password" type="password" placeholder="Ingrese contraseña" onChange={(e) => handleChange(e.target.name, e.target.value)}/>
-          </div>
-          <p id="passwordError" className="passwordError">Contraseña incorrecta</p>
-          <div className="submit-container">
-            <button id="button" name="button" type="submit" className="submit-button" onClick={handleSubmit}>
-              Iniciar
-            </button>
-          </div>
-          <p className="forgot-password">
-            <a href="login">Olvidó su contraseña?</a>
-          </p>
-        </div>
-      </form>
+    <div className="container">
+      <div className="container mt-5">
+        <h1>Iniciar sesion</h1>
+        <Form>
+          <Col xs={5}>
+            <Row >
+              <Form.Group className='mb-2'>
+                  <Form.Control type="email" placeholder="Ingrese correo electrónico" onChange={mailChangeHandler} value={mail}/>
+                  {errors.email && <p className="text-danger">{errors.email}</p>} 
+              </Form.Group>
+            </Row >
+            <Row>
+              <Form.Group className='mb-2'>
+                  <Form.Control type="password" placeholder="Ingrese contraseña" onChange={passwordChangeHandler} value={password}/>
+                  {errors.pass && <p className="text-danger">{errors.pass}</p>} 
+              </Form.Group>
+            </Row>
+            <Row>
+              <Form.Group>
+                  <Button type='button' variant='success' className='add-user' onClick={submitHandler}>Iniciar</Button>
+              </Form.Group>
+            </Row>
+          </Col>
+        </Form>
+      </div>
     </div>
   )
 }
