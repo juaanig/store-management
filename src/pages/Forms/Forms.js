@@ -34,7 +34,7 @@ const Forms = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(null);
     const [allUsers,setAllUsers] = useState([])
-    const {getUsersToCompare} = useAuth("juangarnero@hotmail.com")
+    const {getUsersToCompare} = useAuth()
 
     const tBody = useRef()
     
@@ -126,8 +126,6 @@ const Forms = () => {
     }
 
     const submitUserHandler = () =>{
-        
-        getUsersToCompare()
 
         const user = {
             name: nameUser,
