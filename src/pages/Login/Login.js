@@ -13,7 +13,7 @@ const Login = () => {
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   
-  const {getUsersToCompare} = useAuth()  
+  const {getUsersToCompare,getPassToCompare} = useAuth()  
   
   const mailChangeHandler = (e) => {
     setMail(e.target.value);
@@ -23,15 +23,16 @@ const Login = () => {
     setPassword(e.target.value);
   }
   
-   const validateForm = (form) => {
+   const validateForm = async (form) => {
 
     let _errors = {}
+
     //====================================
     if(form.email === ''){
       _errors.email= 'Campo obligatorio.';
     }else if(!regexEmail.test(form.email)){
       _errors.email = "email incorrecto";
-    }else if(getUsersToCompare(form.email) === 0){
+    }else if(await getUsersToCompare(form.email)){
       _errors.email = "email no registrado";
 
     }
@@ -39,21 +40,21 @@ const Login = () => {
     //====================================
     if( form.password === '' ){
         _errors.pass = 'Campo obligatorio.';
-    }else if(form.password.length < 10){
-        _errors.pass = "la contraseña debe contener más de 10 caracteres";
+    }else if(await getPassToCompare(form.password)){
+        _errors.pass = "contraseña incorrecta";
     }
 
     return _errors;
 }
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
 
     let form = {
       email: mail,
       password: password
     }
 
-    let validate = validateForm(form)
+    let validate = await validateForm(form)
     setErrors(validate)
     console.log(getUsersToCompare(form.email))
     
