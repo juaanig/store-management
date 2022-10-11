@@ -1,4 +1,5 @@
 import React,{useState,useRef,useEffect} from 'react'
+import { useAuth } from '../../hooks/hookAuth/useAuth';
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
@@ -6,9 +7,6 @@ import Button from 'react-bootstrap/Button';
 
 import { collection, addDoc,getDocs,doc, deleteDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
-
-
-
 
 
 //REGEXP PARA VALIDACIONES DE CAMPO NAME Y MAIL
@@ -36,7 +34,7 @@ const Forms = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(null);
     const [allUsers,setAllUsers] = useState([])
-   
+    const {getUsersToCompare} = useAuth("juangarnero@hotmail.com")
 
     const tBody = useRef()
     
@@ -52,7 +50,7 @@ const Forms = () => {
                 (doc) => ({...doc.data(),id:doc.id}) 
             )))
         }
-        
+
         getUsers();
         
     },[allUsers,usersCollection])
@@ -129,6 +127,8 @@ const Forms = () => {
 
     const submitUserHandler = () =>{
         
+        getUsersToCompare()
+
         const user = {
             name: nameUser,
             lastName:lastNameUser,

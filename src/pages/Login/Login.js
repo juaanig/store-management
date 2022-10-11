@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { Form, Button, Col, Row, Container, FloatingLabel  } from 'react-bootstrap';
-//import "./Login.css"
+import { Form, Button, Container, FloatingLabel  } from 'react-bootstrap';
+import { useAuth } from "../../hooks/hookAuth/useAuth";
+
+/* INVESTIGAR USEASYN Y USEFETCH */
 
 const Login = () => {
 
   let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 
-  
   const [errors, setErrors] = useState({});
-
+  
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
-
+  
+  const {getUsersToCompare} = useAuth()  
+  
   const mailChangeHandler = (e) => {
     setMail(e.target.value);
   }
@@ -20,15 +23,17 @@ const Login = () => {
     setPassword(e.target.value);
   }
   
-  const validateForm = (form) => {
+   const validateForm = (form) => {
 
     let _errors = {}
-    
     //====================================
     if(form.email === ''){
-        _errors.email= 'Campo obligatorio.';
+      _errors.email= 'Campo obligatorio.';
     }else if(!regexEmail.test(form.email)){
-        _errors.email = "email incorrecto";
+      _errors.email = "email incorrecto";
+    }else if(getUsersToCompare(form.email) === 0){
+      _errors.email = "email no registrado";
+
     }
     
     //====================================
@@ -38,13 +43,10 @@ const Login = () => {
         _errors.pass = "la contraseña debe contener más de 10 caracteres";
     }
 
-    console.log(_errors)
-
     return _errors;
 }
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = () => {
 
     let form = {
       email: mail,
@@ -53,6 +55,7 @@ const Login = () => {
 
     let validate = validateForm(form)
     setErrors(validate)
+    console.log(getUsersToCompare(form.email))
     
     if(Object.entries(validate).length === 0){
       console.log('submit')
