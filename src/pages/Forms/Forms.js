@@ -56,11 +56,11 @@ const Forms = () => {
     },[allUsers,usersCollection])
 
     // Handlers para captar todos los valores del los input
-    const nameHandler = (e) => setNameUser((e.target.value).trim());  
-    const lastNameHandler = (e) => setLastNameUser((e.target.value).trim()); 
-    const emailHandler = (e) => setEmail((e.target.value).trim()); 
-    const passwordHandler = (e) => setPassword((e.target.value).trim()); 
-    const roleHandler = (e) => setRole((e.target.value).trim())
+    const nameHandler = (e) => setNameUser((e.target.value));  
+    const lastNameHandler = (e) => setLastNameUser((e.target.value)); 
+    const emailHandler = (e) => setEmail((e.target.value)); 
+    const passwordHandler = (e) => setPassword((e.target.value)); 
+    const roleHandler = (e) => setRole((e.target.value))
     // ===================================================== 
 
     // Función para mostrar formulario
@@ -71,13 +71,13 @@ const Forms = () => {
     }
 
     // VALIDACION DE FORM 
-    const validateForm = (form) => {
+    const validateForm = async (form) => {
 
         let _errors = {}
-        
+
         if(form.name === ""){
             _errors.name  = 'Campo obligatorio.' ;
-        }else if(!regexName.test(nameUser)){
+        }else if(!regexName.test(form.name)){
             _errors.name  = "El campo nombre solo acepta letras y espacios ";
         }
         //====================================
@@ -92,7 +92,7 @@ const Forms = () => {
             _errors.email= 'Campo obligatorio.';
         }else if(!regexEmail.test(form.email)){
             _errors.email = "email incorrecto";
-        }
+        }else 
         //====================================
         if( form.password === '' ){
             _errors.pass = 'Campo obligatorio.';
@@ -103,7 +103,10 @@ const Forms = () => {
         if( form.role === null ){
             _errors.role = 'Campo obligatorio.';
         }
-
+        //====================================
+        if(! (await getUsersToCompare(form.email)).result){
+            _errors.user = "email ya registrado";
+        }
         return _errors;
     }
 
@@ -125,17 +128,17 @@ const Forms = () => {
 
     }
 
-    const submitUserHandler = () =>{
+    const submitUserHandler = async () =>{
 
         const user = {
-            name: nameUser,
-            lastName:lastNameUser,
-            email: email,
-            password: password,
+            name: nameUser.trim(),
+            lastName:lastNameUser.trim(),
+            email: email.trim(),
+            password: password.trim(),
             role: role
         };
         
-        let validate = validateForm(user)
+        let validate = await validateForm(user)
         setErrors(validate)
         
         if(Object.entries(validate).length === 0){
@@ -184,6 +187,7 @@ const Forms = () => {
                         </Form.Group>
                         <Form.Group>
                             <Button type='button' variant='success' className='add-user' onClick={submitUserHandler}>Agregar operario</Button>
+                            {errors.user && <p className="text-danger">{errors.user}</p>} 
                         </Form.Group>
                     </Form>
                 }  

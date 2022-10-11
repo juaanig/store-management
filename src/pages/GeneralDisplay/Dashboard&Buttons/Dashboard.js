@@ -1,9 +1,17 @@
-import React from 'react'
+import React,{useContext,useState} from 'react'
+import { authContext } from '../../../contexts/authContext/authContext';
+
 import Buttons from '../Buttons/Buttons';
 import Notes from '../Notes/Notes';
 import "./Dashboard.css";
 
 const Dashboard = () => {
+
+  const {data} = useContext(authContext)
+  const {profile,setProfile} = useState(data);
+
+  console.log(data)
+
   return (
     <>
         <div className='container-db-btns'>

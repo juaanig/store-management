@@ -9,7 +9,7 @@ export const useAuth = () => {
 
         const data = await getDocs(usersCollection);
         const dataParsed = (data.docs.map( 
-            (doc) => ({...doc.data()}) 
+            (doc) => ({...doc.data(),id:doc.id}) 
         ))
 
         return dataParsed;
@@ -27,9 +27,12 @@ export const useAuth = () => {
     const getUsersToCompare = async (email) => {
 
         let docsUser = await getList()
-        let aux = docsUser.filter((item) => item.email === email ).length
-        let result = aux === 0 ? true : false
-        return result;
+        let aux = docsUser.filter((item) => item.email === email )
+        let result = aux.length === 0 ? true : false
+        return{
+            result,
+            id:aux[0].id
+        } 
     }
 
     return {
