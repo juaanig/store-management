@@ -1,4 +1,4 @@
-import React,{useContext,useState} from 'react'
+import React,{useContext} from 'react'
 import { authContext } from '../../../contexts/authContext/authContext';
 
 import Buttons from '../Buttons/Buttons';
@@ -8,7 +8,6 @@ import "./Dashboard.css";
 const Dashboard = () => {
 
   const {data} = useContext(authContext)
-  const {profile,setProfile} = useState(data);
 
   console.log(data)
 
