@@ -5,6 +5,7 @@ const Buttons = () => {
   const role = "vendedor";
 
   const roleButtonHandler = (role) => {
+    
     switch (role) {
       case "vendedor":
         return ( <button className="common">Vender</button> );
@@ -16,6 +17,7 @@ const Buttons = () => {
         return (<h2>Que haces acá master?</h2>);
     }
   }
+
   return (
     <div className='buttons-section'>
         <div className="buttons-styles">

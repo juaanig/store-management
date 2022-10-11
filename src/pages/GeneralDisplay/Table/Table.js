@@ -1,17 +1,23 @@
 import React from 'react'
-import "./Table.css";
+
+import  TableProducts from 'react-bootstrap/Table';
+
 
 const Tabla = ({products}) => {
     
     return (
         <>
-            <div className='container'>
-                <table>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-                <th>Fecha de ingreso</th>
-                <th>Fecha de vencimiento</th>
-                <th>Precio</th>
+            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
+                <TableProducts striped hover >
+                <thead >
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de ingreso</th>
+                        <th>Fecha de vencimiento</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>    
                 <tbody>
                     {products.map((item) =>
                     <tr key={item.id}  >
@@ -23,9 +29,8 @@ const Tabla = ({products}) => {
                     </tr>
                     )}
                 </tbody>
-                </table>
+                </TableProducts>
             </div>
-            
         </>
     )
 }

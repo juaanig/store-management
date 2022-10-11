@@ -1,12 +1,13 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef,useEffect} from 'react'
+import { useAuth } from '../../hooks/hookAuth/useAuth';
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
+import { collection, addDoc,getDocs,doc, deleteDoc} from 'firebase/firestore' ;
+import { db } from '../../firebaseConfig/firebase' ;
 
-
-let Users = [] ;
 
 //REGEXP PARA VALIDACIONES DE CAMPO NAME Y MAIL
 let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
@@ -23,23 +24,36 @@ let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 */
 const Forms = () => {
 
+    let Users = [];
+    
+    const [errors, setErrors] = useState({});
     const [showForm,setShowForm ] = useState(false);
     const [nameUser,setNameUser] = useState('');
     const [lastNameUser,setLastNameUser] = useState('');    
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(null);
-    const [errors, setErrors] = useState({});
+    const [allUsers,setAllUsers] = useState([])
+    const {getUsersToCompare} = useAuth("juangarnero@hotmail.com")
 
     const tBody = useRef()
-
     
-    // Función para mostrar formulario
-    const showFormHandler = (e) => {
-        e.preventDefault();
-        let aux = showForm ? false : true; 
-        setShowForm(aux);
-    }
+    const usersCollection = collection(db, "users"); 
+    
+  
+    useEffect(() => {
+        
+        const getUsers = async() => {
+            
+            const data = await getDocs(usersCollection);
+            setAllUsers((data.docs.map( 
+                (doc) => ({...doc.data(),id:doc.id}) 
+            )))
+        }
+
+        getUsers();
+        
+    },[allUsers,usersCollection])
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value).trim());  
@@ -48,13 +62,18 @@ const Forms = () => {
     const passwordHandler = (e) => setPassword((e.target.value).trim()); 
     const roleHandler = (e) => setRole((e.target.value).trim())
     // ===================================================== 
-    
+
+    // Función para mostrar formulario
+    const showFormHandler = (e) => {
+        e.preventDefault();
+        let aux = showForm ? false : true; 
+        setShowForm(aux);
+    }
 
     // VALIDACION DE FORM 
     const validateForm = (form) => {
 
         let _errors = {}
-        console.log(form )
         
         if(form.name === ""){
             _errors.name  = 'Campo obligatorio.' ;
@@ -88,32 +107,28 @@ const Forms = () => {
         return _errors;
     }
 
-    const showDataFormHandler = (e,index) => {
+    // const showDataFormHandler = (e,index) => {
 
-        setNameUser(Users[index].name);
-        setLastNameUser(Users[index].lastName);
-        setEmail(Users[index].email);
-        setPassword(Users[index].password);
-        setRole(Users[index].role);
+    //     setNameUser(Users[index].name);
+    //     setLastNameUser(Users[index].lastName);
+    //     setEmail(Users[index].email);
+    //     setPassword(Users[index].password);
+    //     setRole(Users[index].role);
         
-        if(!showForm) showFormHandler(e) ;
+    //     if(!showForm) showFormHandler(e) ;
+    // }
+
+    const deleteRowUserHandler = async (id) => {
+
+        const userDoc = doc(db,"users", id)
+        await deleteDoc(userDoc)
+
     }
 
-    const deleteRowUserHandler = (index) => {
+    const submitUserHandler = () =>{
+        
+        getUsersToCompare()
 
-        setNameUser("");
-        setLastNameUser("");
-        setEmail("");
-        setPassword("");
-        setRole(null);
-
-        delete Users[index];
-
-        console.log(Users)
-    }
-
-    const submitUserHandler = (e) =>{
-        e.preventDefault()
         const user = {
             name: nameUser,
             lastName:lastNameUser,
@@ -127,7 +142,7 @@ const Forms = () => {
         
         if(Object.entries(validate).length === 0){
             Users.push(user);
-
+            addDoc(usersCollection,user)
             setNameUser("");
             setLastNameUser("");
             setEmail("");
@@ -184,17 +199,17 @@ const Forms = () => {
                     <th>Modificar</th>
                     <th>Eliminar</th>
                     <tbody ref={tBody}>
-                        {Users.map((item,index) =>
+                        {allUsers.map((item,index) =>
                         <tr key={index}>
                             <td >{item.name}</td>  
                             <td>{item.lastName}</td>          
                             <td>{item.email}</td>  
                             <td>{item.role}</td>  
                             <td>
-                                <Button onClick={(e)=>showDataFormHandler(e,index)}>Modificar</Button>
+                                <Button /*onClick={/*(e)=>showDataFormHandler(e,index)}*/>Modificar</Button>
                             </td>  
                             <td>
-                                <Button onClick={(e)=>deleteRowUserHandler(index)} variant='danger'>Eliminar</Button>
+                                <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
                             </td> 
                         </tr>
                         )}
