@@ -1,9 +1,12 @@
-
+import { useContext } from 'react';
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import LogoutButton from '../Buttons/LogOut';
+import AuthContext from "../../../contexts/authContext/authContext";
 
 const NavLayout = () => {
+  const {info} = useContext(AuthContext)
   return (
     <>
 
@@ -12,7 +15,7 @@ const NavLayout = () => {
         <Nav className="me-auto">
           <Nav.Link href="#home">---</Nav.Link>
           <Nav.Link href="#features">----</Nav.Link>
-          <Nav.Link href="#pricing"></Nav.Link>
+          {info.status && <LogoutButton/>}
         </Nav>
       </Navbar>
 
