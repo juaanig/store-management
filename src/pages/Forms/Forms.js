@@ -15,11 +15,11 @@ let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 // ============================================
 
 /* 
-    ########################################################
+    #############################################
 
-    TERMINAR FUNCIONALIDAD DE MODIFICAR Y ELEMINAR USUARIO
+    TERMINAR FUNCIONALIDAD DE MODIFICAR USUARIO
 
-    ########################################################
+    #############################################
 
 */
 const Forms = () => {
@@ -35,6 +35,7 @@ const Forms = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [role,setRole] = useState('');
+    const [currentId,setCurrentId] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
 
@@ -56,6 +57,7 @@ const Forms = () => {
             const data = await getList();
             setAllUsers(data)
         }
+        console.log("loop")
 
         getUsers();
         
@@ -129,6 +131,8 @@ const Forms = () => {
         setEmail(allUsers[index].email);
         setPassword(allUsers[index].password);
         setRole(allUsers[index].role);
+        setCurrentId(allUsers[index].id);
+        console.log(currentId)
 
         setShowForm(true);
         setSubmitButton(false);
@@ -163,8 +167,10 @@ const Forms = () => {
         }
     }
 
+    //Función para editar usuario 
     const editUserHandler = () => {
-        console.log("editando usuario")
+        deleteRowUserHandler(currentId)
+        submitUserHandler();
     }
 
     return (
@@ -217,19 +223,22 @@ const Forms = () => {
                     <th>Eliminar</th>
                     <tbody ref={tBody}>
                         {allUsers.map((item,index) =>
-                        <tr key={index}>
-                            <td >{item.name}</td>  
-                            <td>{item.lastName}</td>          
-                            <td>{item.email}</td>  
-                            <td>{item.role}</td>  
-                            <td>
-                                <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
-                            </td>  
-                            <td>
-                                <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
-                            </td> 
-                        </tr>
-                        )}
+                        {return( 
+                            item.role === 'admin' 
+                            ? null 
+                            : <tr key={index}>
+                                <td >{item.name}</td>  
+                                <td>{item.lastName}</td>          
+                                <td>{item.email}</td>  
+                                <td>{item.role}</td>  
+                                <td>
+                                    <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
+                                </td>  
+                                <td>
+                                    <Button onClick={(e)=>deleteRowUserHandler(index)} variant='danger'>Eliminar</Button>
+                                </td> 
+                            </tr>)
+                        })}
                     </tbody>
                 </TableUser>
             </div>
