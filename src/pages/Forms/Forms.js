@@ -50,7 +50,7 @@ const Forms = () => {
 
         getUsers();
         
-    },[getList])
+    },[])
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value));  
