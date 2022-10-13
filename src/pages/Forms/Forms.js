@@ -5,7 +5,7 @@ import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
-import { collection, addDoc,getDocs,doc, deleteDoc} from 'firebase/firestore' ;
+import { collection, addDoc,doc, deleteDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
 
@@ -38,7 +38,6 @@ const Forms = () => {
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
 
-
     const tBody = useRef()
     
     const usersCollection = collection(db, "users"); 
@@ -47,33 +46,34 @@ const Forms = () => {
     useEffect(() => {
         
         const getUsers = async() => {
-            
-            const data = await getDocs(usersCollection);
-            setAllUsers((data.docs.map( 
-                (doc) => ({...doc.data(),id:doc.id}) 
-            )))
+            const data = await getList();
+            setAllUsers(data)
         }
 
         getUsers();
         
-    },[getList])
+    },[])
+
+    const cleanInputs = () => { 
+        setNameUser('');
+        setLastNameUser('');
+        setEmail('');
+        setPassword('');
+        setRole('');
+    }
 
     // Handlers para captar todos los valores del los input
-    const nameHandler = (e) => setNameUser((e.target.value).trim());  
-    const lastNameHandler = (e) => setLastNameUser((e.target.value).trim()); 
-    const emailHandler = (e) => setEmail((e.target.value).trim()); 
-    const passwordHandler = (e) => setPassword((e.target.value).trim()); 
-    const roleHandler = (e) => setRole((e.target.value).trim())
+    const nameHandler = (e) => setNameUser((e.target.value));  
+    const lastNameHandler = (e) => setLastNameUser((e.target.value)); 
+    const emailHandler = (e) => setEmail((e.target.value)); 
+    const passwordHandler = (e) => setPassword((e.target.value)); 
+    const roleHandler = (e) => setRole((e.target.value))
     // ===================================================== 
 
     // Función para mostrar formulario
     const showFormHandler = (e) => {
         e.preventDefault();
-        setNameUser("");
-        setLastNameUser("");
-        setEmail("");
-        setPassword("");
-        setRole("");
+        cleanInputs();
         let aux = showForm ? false : true; 
         setShowForm(aux);
         setSubmitButton(true);
@@ -81,13 +81,13 @@ const Forms = () => {
     }
 
     // VALIDACION DE FORM 
-    const validateForm = (form) => {
+    const validateForm = async (form) => {
 
         let _errors = {}
-        
+
         if(form.name === ""){
             _errors.name  = 'Campo obligatorio.' ;
-        }else if(!regexName.test(nameUser)){
+        }else if(!regexName.test(form.name)){
             _errors.name  = "El campo nombre solo acepta letras y espacios ";
         }
         //====================================
@@ -102,7 +102,7 @@ const Forms = () => {
             _errors.email= 'Campo obligatorio.';
         }else if(!regexEmail.test(form.email)){
             _errors.email = "email incorrecto";
-        }
+        }else 
         //====================================
         if( form.password === '' ){
             _errors.pass = 'Campo obligatorio.';
@@ -113,7 +113,10 @@ const Forms = () => {
         if( form.role === null ){
             _errors.role = 'Campo obligatorio.';
         }
-
+        //====================================
+        if(! (await getUsersToCompare(form.email)).result){
+            _errors.user = "email ya registrado";
+        }
         return _errors;
     }
 
@@ -140,32 +143,31 @@ const Forms = () => {
 
     }
 
-    const submitUserHandler = () =>{
+    const submitUserHandler = async () =>{
 
         const user = {
-            name: nameUser,
-            lastName:lastNameUser,
-            email: email,
-            password: password,
+            name: nameUser.trim(),
+            lastName:lastNameUser.trim(),
+            email: email.trim(),
+            password: password.trim(),
             role: role
         };
         
-        let validate = validateForm(user)
+        let validate = await validateForm(user)
         setErrors(validate)
         
         if(Object.entries(validate).length === 0){
             Users.push(user);
             addDoc(usersCollection,user)
-            setNameUser("");
-            setLastNameUser("");
-            setEmail("");
-            setPassword("");
-            setRole("");
+            cleanInputs();
         }
     }
 
     const editUserHandler = () => {
-        //editar usuario
+        //editar usuario en la base de datos de firebase y actualizar la tabla de usuarios 
+
+
+
     }
 
     return (

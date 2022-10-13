@@ -10,13 +10,11 @@ const Tabla = ({products}) => {
             <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
                 <TableProducts striped hover >
                 <thead >
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Cantidad</th>
-                        <th>Fecha de ingreso</th>
-                        <th>Fecha de vencimiento</th>
-                        <th>Precio</th>
-                    </tr>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Fecha de ingreso</th>
+                    <th>Fecha de vencimiento</th>
+                    <th>Precio</th>
                 </thead>    
                 <tbody>
                     {products.map((item) =>
