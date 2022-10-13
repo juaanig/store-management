@@ -28,11 +28,12 @@ const Forms = () => {
     
     const [errors, setErrors] = useState({});
     const [showForm,setShowForm ] = useState(false);
+    const [editButton, setEditButton] = useState(false);
     const [nameUser,setNameUser] = useState('');
     const [lastNameUser,setLastNameUser] = useState('');    
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const [role,setRole] = useState(null);
+    const [role,setRole] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare} = useAuth()
 
@@ -53,7 +54,7 @@ const Forms = () => {
 
         getUsers();
         
-    },[allUsers,usersCollection])
+    },[])
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value).trim());  
@@ -68,6 +69,7 @@ const Forms = () => {
         e.preventDefault();
         let aux = showForm ? false : true; 
         setShowForm(aux);
+        setEditButton(false);
     }
 
     // VALIDACION DE FORM 
@@ -107,16 +109,22 @@ const Forms = () => {
         return _errors;
     }
 
-    // const showDataFormHandler = (e,index) => {
+    const modifyDataFormHandler = (index) => {
 
-    //     setNameUser(Users[index].name);
-    //     setLastNameUser(Users[index].lastName);
-    //     setEmail(Users[index].email);
-    //     setPassword(Users[index].password);
-    //     setRole(Users[index].role);
+        //llamar a la base de datos de firebase y colocar los datos en el formulario para que el usuario pueda modificarlos
+        console.log(allUsers[index])
+
+        setNameUser(allUsers[index].name);
+        setLastNameUser(allUsers[index].lastName);
+        setEmail(allUsers[index].email);
+        setPassword(allUsers[index].password);
+        setRole(allUsers[index].role);
+
+        setShowForm(true);
         
-    //     if(!showForm) showFormHandler(e) ;
-    // }
+        setEditButton(true)
+        
+    }
 
     const deleteRowUserHandler = async (id) => {
 
@@ -147,6 +155,10 @@ const Forms = () => {
             setPassword("");
             setRole("");
         }
+    }
+
+    const editUserHandler = () => {
+        //editar usuario
     }
 
     return (
@@ -183,7 +195,8 @@ const Forms = () => {
                             {errors.role && <p className="text-danger">{errors.role}</p>} 
                         </Form.Group>
                         <Form.Group>
-                            <Button type='button' variant='success' className='add-user' onClick={submitUserHandler}>Agregar operario</Button>
+                            <Button type='button' variant='success' className='add-user me-3' onClick={submitUserHandler}>Agregar operario</Button>
+                            { editButton && <Button type='button' variant='warning' className='add-user' onClick={editUserHandler}>Editar operario</Button>}
                         </Form.Group>
                     </Form>
                 }  
@@ -204,7 +217,7 @@ const Forms = () => {
                             <td>{item.email}</td>  
                             <td>{item.role}</td>  
                             <td>
-                                <Button /*onClick={/*(e)=>showDataFormHandler(e,index)}*/>Modificar</Button>
+                                <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
                             </td>  
                             <td>
                                 <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
