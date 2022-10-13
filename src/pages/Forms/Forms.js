@@ -163,8 +163,8 @@ const Forms = () => {
         if(Object.entries(validate).length === 0){
             Users.push(user);
             addDoc(usersCollection,user)
-            cleanInputs();
         }
+        cleanInputs();
     }
 
     //Función para editar usuario 
