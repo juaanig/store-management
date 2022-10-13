@@ -131,8 +131,8 @@ const Forms = () => {
         setEmail(allUsers[index].email);
         setPassword(allUsers[index].password);
         setRole(allUsers[index].role);
+        
         setCurrentId(allUsers[index].id);
-        console.log(currentId)
 
         setShowForm(true);
         setSubmitButton(false);
@@ -171,6 +171,8 @@ const Forms = () => {
     const editUserHandler = () => {
         deleteRowUserHandler(currentId)
         submitUserHandler();
+        setEditButton(false);
+        setSubmitButton(true);
     }
 
     return (
