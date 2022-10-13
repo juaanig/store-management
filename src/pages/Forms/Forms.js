@@ -41,7 +41,14 @@ const Forms = () => {
     const tBody = useRef()
     
     const usersCollection = collection(db, "users"); 
-    
+
+    const cleanInputs = () => { 
+        setNameUser('');
+        setLastNameUser('');
+        setEmail('');
+        setPassword('');
+        setRole('');
+    }
   
     useEffect(() => {
         
@@ -54,14 +61,6 @@ const Forms = () => {
         
     },[])
 
-    const cleanInputs = () => { 
-        setNameUser('');
-        setLastNameUser('');
-        setEmail('');
-        setPassword('');
-        setRole('');
-    }
-
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value));  
     const lastNameHandler = (e) => setLastNameUser((e.target.value)); 
@@ -73,9 +72,9 @@ const Forms = () => {
     // Función para mostrar formulario
     const showFormHandler = (e) => {
         e.preventDefault();
-        cleanInputs();
         let aux = showForm ? false : true; 
         setShowForm(aux);
+        cleanInputs();
         setSubmitButton(true);
         setEditButton(false);
     }
@@ -132,8 +131,9 @@ const Forms = () => {
         setRole(allUsers[index].role);
 
         setShowForm(true);
-        setSubmitButton(false);     
-        setEditButton(true);
+        setSubmitButton(false);
+        setEditButton(true)
+        
     }
 
     const deleteRowUserHandler = async (id) => {
@@ -164,10 +164,7 @@ const Forms = () => {
     }
 
     const editUserHandler = () => {
-        //editar usuario en la base de datos de firebase y actualizar la tabla de usuarios 
-
-
-
+        console.log("editando usuario")
     }
 
     return (

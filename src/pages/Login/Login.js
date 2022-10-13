@@ -61,8 +61,9 @@ const Login = () => {
     
     if(Object.entries(validate).length === 0){
 
-      let id = (await getUsersToCompare(form.email)).id
+      let id = (await getUsersToCompare(form.email)).uid
       let preDataUser = await getDoc(doc(db,"users",id))
+      console.log(preDataUser)
       let user = preDataUser.data() 
       setInfoHandler({...user,id:id})
       navigate("/general")

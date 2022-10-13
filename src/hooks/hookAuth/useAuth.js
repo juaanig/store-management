@@ -29,10 +29,11 @@ export const useAuth = () => {
         let docsUser = await getList()
         let aux = docsUser.filter((item) => item.email === email )
         let result = aux.length === 0 ? true : false
-      
+        let uid = result ? null : aux[0].id
+
         return{
             result,
-            //id: aux[0].id
+            uid
         } 
     }
 
