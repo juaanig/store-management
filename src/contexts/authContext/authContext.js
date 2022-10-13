@@ -1,22 +1,22 @@
 import { useState,createContext } from "react";
 
-const authContext = createContext();
+const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
 
-    const [data,setData] = useState({})
+    const [info,setInfo] = useState("hola")
+    console.log("info en auth context : ",info)
 
-    const tools = {
-        setData,
-        data
+    const setInfoHandler = (arg) => {
+       setInfo(arg)
     }
 
     return (
-        <authContext.Provider value={tools}>
+        <AuthContext.Provider value={{info,setInfoHandler}}>
             {children}
-        </authContext.Provider>
+        </AuthContext.Provider>
     )
 }
 
-export {authContext};
-export default AuthProvider;
+export {AuthProvider};
+export default AuthContext;

@@ -29,15 +29,17 @@ export const useAuth = () => {
         let docsUser = await getList()
         let aux = docsUser.filter((item) => item.email === email )
         let result = aux.length === 0 ? true : false
+      
         return{
             result,
-            id:aux[0].id
+            //id: aux[0].id
         } 
     }
 
     return {
         getUsersToCompare,
-        getPassToCompare
+        getPassToCompare,
+        getList
     }
         
 }

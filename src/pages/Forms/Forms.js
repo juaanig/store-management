@@ -5,7 +5,7 @@ import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
-import { collection, addDoc,getDocs,doc, deleteDoc} from 'firebase/firestore' ;
+import { collection, addDoc,doc, deleteDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
 
@@ -34,7 +34,7 @@ const Forms = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(null);
     const [allUsers,setAllUsers] = useState([])
-    const {getUsersToCompare} = useAuth()
+    const {getUsersToCompare,getList} = useAuth()
 
     const tBody = useRef()
     
@@ -44,16 +44,13 @@ const Forms = () => {
     useEffect(() => {
         
         const getUsers = async() => {
-            
-            const data = await getDocs(usersCollection);
-            setAllUsers((data.docs.map( 
-                (doc) => ({...doc.data(),id:doc.id}) 
-            )))
+            const data = await getList();
+            setAllUsers(data)
         }
 
         getUsers();
         
-    },[allUsers,usersCollection])
+    },[getList])
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value));  
