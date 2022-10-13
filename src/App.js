@@ -1,7 +1,7 @@
 import { Route,RouterProvider,createBrowserRouter,createRoutesFromElements,} from "react-router-dom";
 
 import './App.css';
-
+import {AuthProvider} from "./contexts/authContext/authContext";
 import Section from './pages/GeneralDisplay/Section/Section';
 import Layout from "./pages/Layout/Layout";
 import Forms from "./pages/Forms/Forms";
@@ -32,7 +32,16 @@ const router = createBrowserRouter(
 
 
 const App = () => {
-  return <RouterProvider router={router}/>
+
+  
+  
+  return(
+
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
+  
+  ) 
 }
 
 export default App;
