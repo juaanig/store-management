@@ -28,6 +28,7 @@ const Forms = () => {
     
     const [errors, setErrors] = useState({});
     const [showForm,setShowForm ] = useState(false);
+    const [submitButton, setSubmitButton] = useState(true);
     const [editButton, setEditButton] = useState(false);
     const [nameUser,setNameUser] = useState('');
     const [lastNameUser,setLastNameUser] = useState('');    
@@ -35,7 +36,8 @@ const Forms = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState('');
     const [allUsers,setAllUsers] = useState([])
-    const {getUsersToCompare} = useAuth()
+    const {getUsersToCompare,getList} = useAuth()
+
 
     const tBody = useRef()
     
@@ -54,7 +56,7 @@ const Forms = () => {
 
         getUsers();
         
-    },[])
+    },[getList])
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value).trim());  
@@ -67,8 +69,14 @@ const Forms = () => {
     // Función para mostrar formulario
     const showFormHandler = (e) => {
         e.preventDefault();
+        setNameUser("");
+        setLastNameUser("");
+        setEmail("");
+        setPassword("");
+        setRole("");
         let aux = showForm ? false : true; 
         setShowForm(aux);
+        setSubmitButton(true);
         setEditButton(false);
     }
 
@@ -121,9 +129,8 @@ const Forms = () => {
         setRole(allUsers[index].role);
 
         setShowForm(true);
-        
-        setEditButton(true)
-        
+        setSubmitButton(false);     
+        setEditButton(true);
     }
 
     const deleteRowUserHandler = async (id) => {
@@ -195,7 +202,7 @@ const Forms = () => {
                             {errors.role && <p className="text-danger">{errors.role}</p>} 
                         </Form.Group>
                         <Form.Group>
-                            <Button type='button' variant='success' className='add-user me-3' onClick={submitUserHandler}>Agregar operario</Button>
+                            { submitButton && <Button type='button' variant='success' className='add-user me-3' onClick={submitUserHandler}>Agregar operario</Button>}
                             { editButton && <Button type='button' variant='warning' className='add-user' onClick={editUserHandler}>Editar operario</Button>}
                         </Form.Group>
                     </Form>
