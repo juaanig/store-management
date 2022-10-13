@@ -65,7 +65,7 @@ const Login = () => {
       let preDataUser = await getDoc(doc(db,"users",id))
       console.log(preDataUser)
       let user = preDataUser.data() 
-      setInfoHandler({...user,id:id})
+      setInfoHandler({...user,id:id,status:true})
       navigate("/general")
     }
   }
