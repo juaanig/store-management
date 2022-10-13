@@ -28,18 +28,27 @@ const Forms = () => {
     
     const [errors, setErrors] = useState({});
     const [showForm,setShowForm ] = useState(false);
+    const [submitButton, setSubmitButton] = useState(true);
+    const [editButton, setEditButton] = useState(false);
     const [nameUser,setNameUser] = useState('');
     const [lastNameUser,setLastNameUser] = useState('');    
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const [role,setRole] = useState(null);
+    const [role,setRole] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
 
     const tBody = useRef()
     
     const usersCollection = collection(db, "users"); 
-    
+
+    const cleanInputs = () => { 
+        setNameUser('');
+        setLastNameUser('');
+        setEmail('');
+        setPassword('');
+        setRole('');
+    }
   
     useEffect(() => {
         
@@ -65,6 +74,9 @@ const Forms = () => {
         e.preventDefault();
         let aux = showForm ? false : true; 
         setShowForm(aux);
+        cleanInputs();
+        setSubmitButton(true);
+        setEditButton(false);
     }
 
     // VALIDACION DE FORM 
@@ -107,16 +119,22 @@ const Forms = () => {
         return _errors;
     }
 
-    // const showDataFormHandler = (e,index) => {
+    const modifyDataFormHandler = (index) => {
 
-    //     setNameUser(Users[index].name);
-    //     setLastNameUser(Users[index].lastName);
-    //     setEmail(Users[index].email);
-    //     setPassword(Users[index].password);
-    //     setRole(Users[index].role);
+        //llamar a la base de datos de firebase y colocar los datos en el formulario para que el usuario pueda modificarlos
+        console.log(allUsers[index])
+
+        setNameUser(allUsers[index].name);
+        setLastNameUser(allUsers[index].lastName);
+        setEmail(allUsers[index].email);
+        setPassword(allUsers[index].password);
+        setRole(allUsers[index].role);
+
+        setShowForm(true);
+        setSubmitButton(false);
+        setEditButton(true)
         
-    //     if(!showForm) showFormHandler(e) ;
-    // }
+    }
 
     const deleteRowUserHandler = async (id) => {
 
@@ -141,12 +159,12 @@ const Forms = () => {
         if(Object.entries(validate).length === 0){
             Users.push(user);
             addDoc(usersCollection,user)
-            setNameUser("");
-            setLastNameUser("");
-            setEmail("");
-            setPassword("");
-            setRole("");
+            cleanInputs();
         }
+    }
+
+    const editUserHandler = () => {
+        console.log("editando usuario")
     }
 
     return (
@@ -183,8 +201,8 @@ const Forms = () => {
                             {errors.role && <p className="text-danger">{errors.role}</p>} 
                         </Form.Group>
                         <Form.Group>
-                            <Button type='button' variant='success' className='add-user' onClick={submitUserHandler}>Agregar operario</Button>
-                            {errors.user && <p className="text-danger">{errors.user}</p>} 
+                            { submitButton && <Button type='button' variant='success' className='add-user me-3' onClick={submitUserHandler}>Agregar operario</Button>}
+                            { editButton && <Button type='button' variant='warning' className='add-user' onClick={editUserHandler}>Editar operario</Button>}
                         </Form.Group>
                     </Form>
                 }  
@@ -205,7 +223,7 @@ const Forms = () => {
                             <td>{item.email}</td>  
                             <td>{item.role}</td>  
                             <td>
-                                <Button /*onClick={/*(e)=>showDataFormHandler(e,index)}*/>Modificar</Button>
+                                <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
                             </td>  
                             <td>
                                 <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
