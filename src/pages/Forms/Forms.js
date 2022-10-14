@@ -27,6 +27,7 @@ const Forms = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [role,setRole] = useState('');
+    const [currentId,setCurrentId] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
 
@@ -48,6 +49,7 @@ const Forms = () => {
             const data = await getList();
             setAllUsers(data)
         }
+        console.log("loop")
 
         getUsers();
         
@@ -101,7 +103,7 @@ const Forms = () => {
             _errors.pass = "la contraseña debe contener más de 10 caracteres";
         }
         //====================================
-        if( form.role === null ){
+        if( form.role === '' ){
             _errors.role = 'Campo obligatorio.';
         }
         //====================================
@@ -114,13 +116,14 @@ const Forms = () => {
     const modifyDataFormHandler = (index) => {
 
         //llamar a la base de datos de firebase y colocar los datos en el formulario para que el usuario pueda modificarlos
-        console.log(allUsers[index])
 
         setNameUser(allUsers[index].name);
         setLastNameUser(allUsers[index].lastName);
         setEmail(allUsers[index].email);
         setPassword(allUsers[index].password);
         setRole(allUsers[index].role);
+
+        setCurrentId(allUsers[index].id);
 
         setShowForm(true);
         setSubmitButton(false);
@@ -155,8 +158,12 @@ const Forms = () => {
         }
     }
 
+    //Función para editar usuario 
     const editUserHandler = () => {
-        console.log("editando usuario")
+        submitUserHandler();
+        deleteRowUserHandler(currentId);
+        setEditButton(false);
+        setSubmitButton(true);
     }
 
     return (
@@ -209,19 +216,22 @@ const Forms = () => {
                     <th>Eliminar</th>
                     <tbody ref={tBody}>
                         {allUsers.map((item,index) =>
-                        <tr key={index}>
-                            <td >{item.name}</td>  
-                            <td>{item.lastName}</td>          
-                            <td>{item.email}</td>  
-                            <td>{item.role}</td>  
-                            <td>
-                                <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
-                            </td>  
-                            <td>
-                                <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
-                            </td> 
-                        </tr>
-                        )}
+                        {return( 
+                            item.role === 'admin' 
+                            ? null 
+                            : <tr key={index}>
+                                <td >{item.name}</td>  
+                                <td>{item.lastName}</td>          
+                                <td>{item.email}</td>  
+                                <td>{item.role}</td>  
+                                <td>
+                                    <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
+                                </td>  
+                                <td>
+                                    <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
+                                </td> 
+                            </tr>)
+                        })}
                     </tbody>
                 </TableUser>
             </div>
