@@ -2,21 +2,10 @@ import { Route,RouterProvider,createBrowserRouter,createRoutesFromElements,} fro
 
 import './App.css';
 import {AuthProvider} from "./contexts/authContext/authContext";
-import Section from './pages/GeneralDisplay/Section/Section';
+import Section from './pages/Section/Section';
 import Layout from "./pages/Layout/Layout";
 import Forms from "./pages/Forms/Forms";
-import Login from "./pages/Login/Login";
 
-/*
-auntentication context :
-
-value {
-  nameUser:
-  mail:
-}
-
-
-*/
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +13,6 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout/>} >
       <Route path="/general" element={<Section/>} />
       <Route path="/superUser" element={<Forms/>} />
-      <Route path="/login" element={<Login/>} />
     </Route>
   )
 

@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import LogoutButton from '../Buttons/LogOut';
-import AuthContext from "../../../contexts/authContext/authContext";
+import AuthContext from "../../contexts/authContext/authContext";
 
 const NavLayout = () => {
   const {info} = useContext(AuthContext)

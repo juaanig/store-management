@@ -63,10 +63,10 @@ const Login = () => {
 
       let id = (await getUsersToCompare(form.email)).uid
       let preDataUser = await getDoc(doc(db,"users",id))
-      console.log(preDataUser)
       let user = preDataUser.data() 
       setInfoHandler({...user,id:id,status:true})
-      navigate("/general")
+      user.role === "admin" ? navigate("/superUser") : navigate("/general");
+      
     }
   }
   

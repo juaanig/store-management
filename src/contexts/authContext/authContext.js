@@ -4,7 +4,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
 
-    const [info,setInfo] = useState("hola")
+    const [info,setInfo] = useState(false)
     console.log("info en auth context : ",info)
 
     const setInfoHandler = (arg) => {

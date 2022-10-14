@@ -23,7 +23,6 @@ export const useAuth = () => {
         return result;
     }
 
-
     const getUsersToCompare = async (email) => {
 
         let docsUser = await getList()
