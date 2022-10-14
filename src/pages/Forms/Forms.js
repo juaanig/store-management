@@ -77,7 +77,6 @@ const Forms = () => {
     const validateForm = async (form) => {
 
         let _errors = {}
-
         if(form.name === ""){
             _errors.name  = 'Campo obligatorio.' ;
         }else if(!regexName.test(form.name)){
@@ -192,7 +191,7 @@ const Forms = () => {
                         </Form.Group>
                         <Form.Group className='mb-3'>
                             <Form.Select value={role}  onChange={roleHandler} >
-                                <option >Seleccione un rol</option>
+                                <option value="" >Seleccione un rol</option>
                                 <option value="Vendedor">Vendedor</option>
                                 <option value="Comprador">Comprador</option>
                                 <option value="Deposito">Deposito</option>
@@ -201,6 +200,7 @@ const Forms = () => {
                         </Form.Group>
                         <Form.Group>
                             { submitButton && <Button type='button' variant='success' className='add-user me-3' onClick={submitUserHandler}>Agregar operario</Button>}
+                            {errors.user && <p className="text-danger">{errors.user}</p>}
                             { editButton && <Button type='button' variant='warning' className='add-user' onClick={editUserHandler}>Editar operario</Button>}
                         </Form.Group>
                     </Form>

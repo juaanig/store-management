@@ -65,7 +65,7 @@ const Login = () => {
       let preDataUser = await getDoc(doc(db,"users",id))
       let user = preDataUser.data() 
       setInfoHandler({...user,id:id,status:true})
-      user.role === "Deposito" ? navigate("/superUser") : navigate("/general");
+      user.role === "admin" ? navigate("/superUser") : navigate("/general");
       
     }
   }

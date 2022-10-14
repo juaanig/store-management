@@ -1,7 +1,7 @@
-import "./Section.css";
 
-import Table from '../Table/Table';
-import Dashboard from "../Dashboard&Buttons/Dashboard";
+
+import Table from '../../components/Table/Table';
+import Dashboard from '../../components/Dashboard&Buttons/Dashboard';
 
 const products = [
   {
