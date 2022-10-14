@@ -16,11 +16,8 @@ let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 
 /* 
     #############################################
-
     TERMINAR FUNCIONALIDAD DE MODIFICAR USUARIO
-
     #############################################
-
 */
 const Forms = () => {
 
@@ -111,7 +108,7 @@ const Forms = () => {
             _errors.pass = "la contraseña debe contener más de 10 caracteres";
         }
         //====================================
-        if( form.role === null ){
+        if( form.role === '' ){
             _errors.role = 'Campo obligatorio.';
         }
         //====================================
@@ -124,14 +121,13 @@ const Forms = () => {
     const modifyDataFormHandler = (index) => {
 
         //llamar a la base de datos de firebase y colocar los datos en el formulario para que el usuario pueda modificarlos
-        console.log(allUsers[index])
 
         setNameUser(allUsers[index].name);
         setLastNameUser(allUsers[index].lastName);
         setEmail(allUsers[index].email);
         setPassword(allUsers[index].password);
         setRole(allUsers[index].role);
-        
+
         setCurrentId(allUsers[index].id);
 
         setShowForm(true);
@@ -163,14 +159,14 @@ const Forms = () => {
         if(Object.entries(validate).length === 0){
             Users.push(user);
             addDoc(usersCollection,user)
+            cleanInputs();
         }
-        cleanInputs();
     }
 
     //Función para editar usuario 
     const editUserHandler = () => {
-        deleteRowUserHandler(currentId)
         submitUserHandler();
+        deleteRowUserHandler(currentId);
         setEditButton(false);
         setSubmitButton(true);
     }
@@ -237,7 +233,7 @@ const Forms = () => {
                                     <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
                                 </td>  
                                 <td>
-                                    <Button onClick={(e)=>deleteRowUserHandler(index)} variant='danger'>Eliminar</Button>
+                                    <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
                                 </td> 
                             </tr>)
                         })}
