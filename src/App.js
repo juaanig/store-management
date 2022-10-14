@@ -7,16 +7,6 @@ import Layout from "./pages/Layout/Layout";
 import Forms from "./pages/Forms/Forms";
 import Login from "./pages/Login/Login";
 
-/*
-auntentication context :
-
-value {
-  nameUser:
-  mail:
-}
-
-
-*/
 
 const router = createBrowserRouter(
   createRoutesFromElements(
