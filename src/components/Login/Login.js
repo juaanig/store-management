@@ -60,13 +60,13 @@ const Login = () => {
     setErrors(validate)
     
     if(Object.entries(validate).length === 0){
-
+      
       let id = (await getUsersToCompare(form.email)).uid
       let preDataUser = await getDoc(doc(db,"users",id))
       let user = preDataUser.data() 
       setInfoHandler({...user,id:id,status:true})
       user.role === "admin" ? navigate("/superUser") : navigate("/general");
-      
+      localStorage.setItem("USER",JSON.stringify(form))
     }
   }
   

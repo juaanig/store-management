@@ -7,6 +7,7 @@ import AuthContext from "../../contexts/authContext/authContext";
 
 const NavLayout = () => {
   const {info} = useContext(AuthContext)
+  let logUser = localStorage.getItem("USER")
   return (
     <>
 
@@ -15,7 +16,7 @@ const NavLayout = () => {
         <Nav className="me-auto">
           <Nav.Link href="#home">---</Nav.Link>
           <Nav.Link href="#features">----</Nav.Link>
-          {info.status && <LogoutButton/>}
+          {info.status||logUser ? <LogoutButton/> : <p>----</p>}
         </Nav>
       </Navbar>
 
