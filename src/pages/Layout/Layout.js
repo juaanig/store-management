@@ -5,21 +5,20 @@ import { useContext } from "react";
 import NavLayout from "../../components/Nav/NavLayout";
 import Login from "../../components/Login/Login";
 
-import AuthContext from "../../contexts/authContext/authContext";
+import AuthContext from "../../contexts/authContext/AuthContext";
 
 // Componente que contendra las demas rutas  
 
 
 const Layout = () => {
-    
-    const {info} = useContext(AuthContext)
-    let logUser = localStorage.getItem("USER")
+
+    const {user} = useContext(AuthContext)
 
     return (
         <>
             <NavLayout/>
             <main>
-                {info.status || logUser ? <Outlet/> : <Login/>}
+                {user ? <Outlet/> : <Login/>}
             </main>
             
         </>

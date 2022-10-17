@@ -6,7 +6,7 @@ import { Form, Button, Container, FloatingLabel  } from 'react-bootstrap';
 import { getDoc,doc } from "firebase/firestore";
 import { db } from '../../firebaseConfig/firebase' ;
 import { useAuth } from "../../hooks/hookAuth/useAuth";
-import  AuthContext  from "../../contexts/authContext/authContext";
+import  AuthContext  from "../../contexts/authContext/AuthContext";
 
 let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 
@@ -63,10 +63,10 @@ const Login = () => {
       
       let id = (await getUsersToCompare(form.email)).uid
       let preDataUser = await getDoc(doc(db,"users",id))
-      let user = preDataUser.data() 
-      setInfoHandler({...user,id:id,status:true})
-      user.role === "admin" ? navigate("/superUser") : navigate("/general");
-      localStorage.setItem("USER",JSON.stringify(form))
+      let auxUser = preDataUser.data() 
+      setInfoHandler({...auxUser,id:id,status:true})
+      auxUser.role === "admin" ? navigate("/superUser") : navigate("/general");
+      localStorage.setItem("USER",JSON.stringify(auxUser,delete auxUser.password))
     }
   }
   

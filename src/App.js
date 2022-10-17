@@ -1,7 +1,7 @@
 import { Route,RouterProvider,createBrowserRouter,createRoutesFromElements,} from "react-router-dom";
 
 import './App.css';
-import {AuthProvider} from "./contexts/authContext/authContext";
+import {AuthProvider} from "./contexts/authContext/AuthContext";
 import Section from './pages/Section/Section';
 import Layout from "./pages/Layout/Layout";
 import Forms from "./pages/Forms/Forms";

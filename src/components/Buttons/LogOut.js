@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../contexts/authContext/authContext";
+import AuthContext from "../../contexts/authContext/AuthContext";
 
 const LogoutButton = () => {
 
@@ -8,8 +8,9 @@ const LogoutButton = () => {
     const navigate = useNavigate()
     
     const logOutHandler = () => {
+        localStorage.removeItem("USER")
         setInfoHandler(false)
-        window.localStorage.removeItem("USER")
+        console.log("en logOut",localStorage.getItem("USER"))
         navigate("/")
     }
 

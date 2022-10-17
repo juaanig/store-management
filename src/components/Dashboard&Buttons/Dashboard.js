@@ -1,15 +1,15 @@
 import React,{useContext} from 'react'
 
-import  AuthContext  from '../../contexts/authContext/authContext';
+import  AuthContext  from '../../contexts/authContext/AuthContext';
 
 import Notes from '../Notes/Notes';
 import "./Dashboard.css";
 
 const Dashboard = () => {
 
-  const {info} = useContext(AuthContext)
+  const {user} = useContext(AuthContext)
 
-  console.log("info:", info )
+  console.log("info:", user )
 
   return (
     <>
