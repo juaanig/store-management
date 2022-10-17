@@ -131,7 +131,6 @@ const Forms = () => {
     }
 
     const deleteRowUserHandler = async (id) => {
-
         const userDoc = doc(db,"users", id)
         await deleteDoc(userDoc)
 
@@ -162,14 +161,14 @@ const Forms = () => {
 
     //Función para editar usuario 
     const editUserHandler = async () => {
-    
+        
         const oldUser = doc(db,"users",currentId)
         
         let validate = await validateForm(setUser())  
+        delete validate.user;
         setErrors(validate)
 
-        // TODO: VER MANERA QUE SE PUEDA DEJAR EL EMAIL IGUAL
-        if(Object.entries(validate).length <= 1){  
+        if(Object.entries(validate).length === 0){  
             await updateDoc(oldUser,setUser())
             cleanInputs();
             setSubmitButton(true);
