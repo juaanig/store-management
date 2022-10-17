@@ -1,22 +1,20 @@
 import React,{useContext} from 'react'
 
-import  AuthContext  from '../../contexts/authContext/authContext';
+import  AuthContext  from '../../contexts/authContext/AuthContext';
 
-import Buttons from '../Buttons/Buttons';
 import Notes from '../Notes/Notes';
 import "./Dashboard.css";
 
 const Dashboard = () => {
 
-  const {info} = useContext(AuthContext)
+  const {user} = useContext(AuthContext)
 
-  console.log("info:", info )
+  console.log("info:", user )
 
   return (
     <>
       <div className='container-db-btns'>
         <Notes/>
-        <Buttons/>
       </div>
     </>
   )

@@ -2,6 +2,8 @@
 
 import Table from '../../components/Table/Table';
 import Dashboard from '../../components/Dashboard&Buttons/Dashboard';
+import FormProducts from '../../components/FormProducts/FormProducts';
+import Buttons from '../../components/Buttons/Buttons';
 
 const products = [
   {
@@ -52,8 +54,18 @@ const Section = () => {
     
     return (
       <>
-        <Dashboard/>
-        <Table products={products}/>
+        <div className='row mt-4 m-1'>
+          <div className='col'>
+            <Dashboard/>
+          </div>
+          <div className='col-7'>
+            <Table products={products}/>
+          </div>
+          <div className='col'>
+            <Buttons/>
+            <FormProducts/>
+          </div>
+        </div>
       </>
     )
 }

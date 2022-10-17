@@ -1,17 +1,22 @@
+import { useContext } from "react";
+import AuthContext from "../../contexts/authContext/AuthContext";
+
 import "./Buttons.css"
 
 const Buttons = () => {
 
-  const role = "vendedor";
-
+  const {user} = useContext(AuthContext)
+  
+  let role = user.role
+  
   const roleButtonHandler = (role) => {
     
     switch (role) {
-      case "vendedor":
+      case "Vendedor":
         return ( <button className="common">Vender</button> );
-      case "comprador":
+      case "Comprador":
         return ( <button className="common">Comprar</button> );
-      case "deposito":
+      case "Deposito":
         return (<button className="common">Cargar</button>);
       default:
         return (<h2>Que haces acá master?</h2>);

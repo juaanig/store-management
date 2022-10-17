@@ -1,18 +1,22 @@
-import { useState,createContext } from "react";
+import { useState,createContext, useEffect } from "react";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
 
-    const [info,setInfo] = useState(false)
-    console.log("info en auth context : ",info)
+    const [user,setUser] = useState(null)
+
+    useEffect(()=>{
+        const userData = localStorage.getItem("USER")
+        setUser(userData)
+    },[])
 
     const setInfoHandler = (arg) => {
-       setInfo(arg)
+       setUser(arg)
     }
 
     return (
-        <AuthContext.Provider value={{info,setInfoHandler}}>
+        <AuthContext.Provider value={{setInfoHandler,user}}>
             {children}
         </AuthContext.Provider>
     )
