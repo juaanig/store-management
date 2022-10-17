@@ -2,6 +2,7 @@
 
 import Table from '../../components/Table/Table';
 import Dashboard from '../../components/Dashboard&Buttons/Dashboard';
+import FormProducts from '../../components/FormProducts/FormProducts';
 
 const products = [
   {
@@ -54,6 +55,7 @@ const Section = () => {
       <>
         <Dashboard/>
         <Table products={products}/>
+        <FormProducts/>
       </>
     )
 }
