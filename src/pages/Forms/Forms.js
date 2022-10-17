@@ -1,5 +1,6 @@
 import React,{useState,useRef,useEffect} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
+import bcrypt from 'bcryptjs';
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
@@ -9,7 +10,7 @@ import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore'
 import { db } from '../../firebaseConfig/firebase' ;
 
 
-//REGEXP PARA VALIDACIONES DE CAMPO NAME Y MAIL
+//REGEX PARA VALIDACIONES DE CAMPO NAME Y MAIL
 let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
 let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 // ============================================
@@ -55,12 +56,21 @@ const Forms = () => {
         
     },[])
 
+    //HASHEAR PASSWORD
+    const PasswordEncrypt = (password) => {
+        const hashedPassword = bcrypt.hashSync(password,10);
+        return(
+            hashedPassword
+        )
+    };
+
+
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value));  
     const lastNameHandler = (e) => setLastNameUser((e.target.value)); 
     const emailHandler = (e) => setEmail((e.target.value)); 
-    const passwordHandler = (e) => setPassword((e.target.value)); 
-    const roleHandler = (e) => setRole((e.target.value))
+    const roleHandler = (e) => setRole((e.target.value));
+    const passwordHandler = (e) => setPassword((e.target.value));
     // ===================================================== 
 
     // Función para mostrar formulario
@@ -101,6 +111,8 @@ const Forms = () => {
         }else if(form.password.length < 10){
             _errors.pass = "la contraseña debe contener más de 10 caracteres";
         }
+    
+        
         //====================================
         if( form.role === "" ){
             _errors.role = 'Campo obligatorio.';
@@ -142,8 +154,8 @@ const Forms = () => {
             lastName:lastNameUser.trim(),
             email: email.trim(),
             password: password.trim(),
-            role: role
-        };
+            role: role,
+            };
         return user;
     }
 
@@ -151,10 +163,13 @@ const Forms = () => {
         
         let validate = await validateForm(setUser())
         setErrors(validate)
+
         
         if(Object.entries(validate).length === 0){
             Users.push(setUser());
-            addDoc(usersCollection,setUser())
+
+            let aux = {...setUser(),password:PasswordEncrypt(setUser().password)}
+            addDoc(usersCollection,aux)
             cleanInputs();
         }
     }
@@ -198,7 +213,7 @@ const Forms = () => {
                             {errors.user && <p className="text-danger">{errors.user}</p>}
                         </Form.Group>
                         <Form.Group className='mb-2'>
-                            <Form.Control type="password" value={password}  placeholder='contraseña'  onChange={passwordHandler}/>
+                            <Form.Control type="password" value={password} placeholder='contraseña'  onChange={passwordHandler}/>
                             {errors.pass && <p className="text-danger">{errors.pass}</p>} 
                         </Form.Group>
                         <Form.Group className='mb-3'>
