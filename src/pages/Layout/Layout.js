@@ -13,12 +13,13 @@ import AuthContext from "../../contexts/authContext/authContext";
 const Layout = () => {
     
     const {info} = useContext(AuthContext)
+    let logUser = localStorage.getItem("USER")
 
     return (
         <>
             <NavLayout/>
             <main>
-                {info.status ? <Outlet/> : <Login/>}
+                {info.status ||logUser ? <Outlet/> : <Login/>}
             </main>
             
         </>

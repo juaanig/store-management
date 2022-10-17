@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/authContext/authContext";
-import Constants from "../../utils/Constants"
 
 const LogoutButton = () => {
 
@@ -10,9 +9,8 @@ const LogoutButton = () => {
     
     const logOutHandler = () => {
         setInfoHandler(false)
+        window.localStorage.removeItem("USER")
         navigate("/")
-        window.localStorage.removeItem(Constants.CURRENT_USER_STORAGE_KEY); 
-
     }
 
     return (

@@ -5,7 +5,7 @@ import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
-import { collection, addDoc,doc, deleteDoc} from 'firebase/firestore' ;
+import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
 
@@ -26,7 +26,7 @@ const Forms = () => {
     const [lastNameUser,setLastNameUser] = useState('');    
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const [role,setRole] = useState('');
+    const [role,setRole] = useState("");
     const [currentId,setCurrentId] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
@@ -102,7 +102,7 @@ const Forms = () => {
             _errors.pass = "la contraseña debe contener más de 10 caracteres";
         }
         //====================================
-        if( form.role === '' ){
+        if( form.role === "" ){
             _errors.role = 'Campo obligatorio.';
         }
         //====================================
@@ -131,14 +131,12 @@ const Forms = () => {
     }
 
     const deleteRowUserHandler = async (id) => {
-
         const userDoc = doc(db,"users", id)
         await deleteDoc(userDoc)
 
     }
 
-    const submitUserHandler = async () =>{
-
+    const setUser = () => {
         const user = {
             name: nameUser.trim(),
             lastName:lastNameUser.trim(),
@@ -146,23 +144,36 @@ const Forms = () => {
             password: password.trim(),
             role: role
         };
+        return user;
+    }
+
+    const submitUserHandler = async () =>{
         
-        let validate = await validateForm(user)
+        let validate = await validateForm(setUser())
         setErrors(validate)
         
         if(Object.entries(validate).length === 0){
-            Users.push(user);
-            addDoc(usersCollection,user)
+            Users.push(setUser());
+            addDoc(usersCollection,setUser())
             cleanInputs();
         }
     }
 
     //Función para editar usuario 
-    const editUserHandler = () => {
-        submitUserHandler();
-        deleteRowUserHandler(currentId);
-        setEditButton(false);
-        setSubmitButton(true);
+    const editUserHandler = async () => {
+        
+        const oldUser = doc(db,"users",currentId)
+        
+        let validate = await validateForm(setUser())  
+        delete validate.user;
+        setErrors(validate)
+
+        if(Object.entries(validate).length === 0){  
+            await updateDoc(oldUser,setUser())
+            cleanInputs();
+            setSubmitButton(true);
+            setEditButton(false);
+        }
     }
 
     return (
@@ -184,6 +195,7 @@ const Forms = () => {
                         <Form.Group className='mb-2'>
                             <Form.Control type="text" value={email} placeholder='e-mail'  onChange={emailHandler}/>
                             {errors.email && <p className="text-danger">{errors.email}</p>} 
+                            {errors.user && <p className="text-danger">{errors.user}</p>}
                         </Form.Group>
                         <Form.Group className='mb-2'>
                             <Form.Control type="password" value={password}  placeholder='contraseña'  onChange={passwordHandler}/>
@@ -200,7 +212,6 @@ const Forms = () => {
                         </Form.Group>
                         <Form.Group>
                             { submitButton && <Button type='button' variant='success' className='add-user me-3' onClick={submitUserHandler}>Agregar operario</Button>}
-                            {errors.user && <p className="text-danger">{errors.user}</p>}
                             { editButton && <Button type='button' variant='warning' className='add-user' onClick={editUserHandler}>Editar operario</Button>}
                         </Form.Group>
                     </Form>
