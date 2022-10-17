@@ -7,8 +7,7 @@ const FormProducts = () => {
 
     return (
         <>
-        <div className='container mb-5' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
-            <hr></hr>
+        <div className='container mb-5' >
             <Form>
                 <Form.Group className='mb-2'>
                     <Form.Control type="text" placeholder='Nombre del producto' />

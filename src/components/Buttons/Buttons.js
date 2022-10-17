@@ -2,7 +2,7 @@ import "./Buttons.css"
 
 const Buttons = () => {
 
-  const role = "vendedor";
+  const role = "deposito";
 
   const roleButtonHandler = (role) => {
     

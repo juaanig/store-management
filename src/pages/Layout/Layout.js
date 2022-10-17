@@ -19,7 +19,7 @@ const Layout = () => {
         <>
             <NavLayout/>
             <main>
-                {info.status ||logUser ? <Outlet/> : <Login/>}
+                {info.status || logUser ? <Outlet/> : <Login/>}
             </main>
             
         </>
