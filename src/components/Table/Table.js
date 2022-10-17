@@ -7,8 +7,8 @@ const Tabla = ({products}) => {
     
     return (
         <>
-            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
-                <TableProducts striped hover >
+            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered>
+                <TableProducts striped hover>
                 <thead >
                     <th>Nombre</th>
                     <th>Cantidad</th>

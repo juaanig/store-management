@@ -18,9 +18,14 @@ const Layout = () => {
         <>
             <NavLayout/>
             <main>
+<<<<<<< HEAD
                 {user ? <Outlet/> : <Login/>}
             </main>
             
+=======
+                {info.status ||logUser ? <Outlet/> : <Login/>}
+            </main>    
+>>>>>>> 3508731 (Password hashed, navbar finish)
         </>
     )
 

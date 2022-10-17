@@ -21,8 +21,6 @@ const router = createBrowserRouter(
 
 const App = () => {
 
-  
-  
   return(
 
     <AuthProvider>

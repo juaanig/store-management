@@ -15,7 +15,7 @@ const LogoutButton = () => {
     }
 
     return (
-        <button
+        <button className="btn btn-danger"
             onClick={logOutHandler}>
             Cerrar sessión
         </button>
