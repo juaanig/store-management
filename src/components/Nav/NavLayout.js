@@ -14,9 +14,7 @@ const NavLayout = () => {
       <Navbar className="p-2" expand="lg"  bg="primary" variant="primary">
         <Navbar.Brand href="#home" >STORE MANAGMENT</Navbar.Brand>
         <Nav className="ms-auto">
-          <Nav.Link href="#home">---</Nav.Link>
-          <Nav.Link href="#features">----</Nav.Link>
-          {info.status||logUser ? <LogoutButton/> : <p>----</p>}
+          {info.status||logUser ? <LogoutButton/> : <p></p>}
         </Nav>
       </Navbar>
 
