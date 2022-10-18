@@ -6,6 +6,7 @@ import NavLayout from "../../components/Nav/NavLayout";
 import Login from "../../components/Login/Login";
 
 import AuthContext from "../../contexts/authContext/AuthContext";
+import Footer from "../../components/Footer/Footer";
 
 // Componente que contendra las demas rutas  
 
@@ -20,7 +21,7 @@ const Layout = () => {
             <main>
                 {user ? <Outlet/> : <Login/>}
             </main>
-            
+            <Footer/>
         </>
     )
 
