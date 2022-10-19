@@ -1,5 +1,6 @@
-import React,{useState,useRef,useEffect} from 'react'
+import React,{useState,useRef,useEffect, useContext} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
+import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
@@ -30,6 +31,7 @@ const Forms = () => {
     const [currentId,setCurrentId] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
+    const {theme} = useContext(ThemeContext)
 
     const tBody = useRef()
     
