@@ -18,13 +18,13 @@ const Layout = () => {
     const {theme} = useContext(ThemeContext)
 
     return (
-        <body className={"body-"+theme}>
+        <>
             <NavLayout/>
             <main>
                 {user ? <Outlet/> : <Login/>}
             </main>
             <Footer/>
-        </body>
+        </>
     )
 
 }
