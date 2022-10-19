@@ -12,7 +12,7 @@ const NavLayout = () => {
   return (
     <>
       <Navbar className="p-2" expand="lg"  bg="primary" variant="primary">
-        <Navbar.Brand href="#home" >STORE MANAGMENT</Navbar.Brand>
+        <Navbar.Brand href="#home" className='h1 ms-auto '>STORE MANAGMENT</Navbar.Brand>
         <Nav className="ms-auto">
           {user && <LogoutButton/>}
         </Nav>
