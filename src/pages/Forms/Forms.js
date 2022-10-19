@@ -1,6 +1,5 @@
 import React,{useState,useRef,useEffect} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
-import bcrypt from 'bcryptjs';
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
@@ -55,15 +54,6 @@ const Forms = () => {
         getUsers();
         
     },[])
-
-    //HASHEAR PASSWORD
-    const PasswordEncrypt = (password) => {
-        const hashedPassword = bcrypt.hashSync(password,10);
-        return(
-            hashedPassword
-        )
-    };
-
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value));  
@@ -167,9 +157,7 @@ const Forms = () => {
         
         if(Object.entries(validate).length === 0){
             Users.push(setUser());
-
-            let aux = {...setUser(),password:PasswordEncrypt(setUser().password)}
-            addDoc(usersCollection,aux)
+            addDoc(usersCollection,setUser())
             cleanInputs();
         }
     }
