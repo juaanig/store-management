@@ -17,14 +17,15 @@ const Layout = () => {
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
 
+    //TODO FIX THE DOUBLE FOOTER 
     return (
-        <>
+        <body className={'body-'+theme}>
             <NavLayout/>
             <main>
                 {user ? <Outlet/> : <Login/>}
             </main>
             <Footer/>
-        </>
+        </body>
     )
 
 }

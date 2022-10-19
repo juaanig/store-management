@@ -1,22 +1,30 @@
 import React from 'react'
-import {useContext} from 'react'
+import {useContext, useState} from 'react'
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
-import {Container, Form} from "react-bootstrap"
+import {Button} from "react-bootstrap"
 
 const ThemeButton = () => {
 
-    const {theme,setThemeHandler} = useContext(ThemeContext)
+    const {theme, setThemeHandler} = useContext(ThemeContext)
+    const [themeButton, setThemeButton] = useState("dark")
 
     const changeThemeHandler = () => {
-        theme === "light" ? setThemeHandler("dark") : setThemeHandler("light")
+      if (theme === "light") {
+        setThemeHandler("dark")
+        setThemeButton("light")
+      } else {
+        setThemeHandler("light")
+        setThemeButton("dark")
+      } 
     }
 
   return (
-    <Container className='m-auto'>
-        <Form.Group className='mt-2'>
-            <Form.Check className='form-check form-check-inline form-switch' type='checkbox' onClick={changeThemeHandler} size="sm"/>
-        </Form.Group>
-    </Container>
+    <>
+      <Button className={"me-2 btn btn-"+themeButton} xs={8}
+        onClick={changeThemeHandler}>
+        {themeButton}
+      </Button>
+    </>
   )
 }
 
