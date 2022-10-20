@@ -19,13 +19,15 @@ const Layout = () => {
 
     //TODO FIX THE DOUBLE FOOTER 
     return (
-        <body className={'body-'+theme}>
-            <NavLayout/>
-            <main>
-                {user ? <Outlet/> : <Login/>}
-            </main>
-            <Footer/>
-        </body>
+        <>
+            <div className={'main body-'+theme}>
+                <NavLayout/>
+                <main>
+                    {user ? <Outlet/> : <Login/>}
+                </main>
+                <Footer/>
+            </div>
+        </>
     )
 
 }
