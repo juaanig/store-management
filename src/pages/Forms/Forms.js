@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
+import UserTable from '../../components/UserTable/UserTable';
 
 
 //REGEX PARA VALIDACIONES DE CAMPO NAME Y MAIL
@@ -135,7 +136,7 @@ const Forms = () => {
     const deleteRowUserHandler = async (id) => {
         const userDoc = doc(db,"users", id)
         await deleteDoc(userDoc)
-
+        setAllUsers(await getList())
     }
 
     const setUser = () => {
@@ -159,6 +160,7 @@ const Forms = () => {
             Users.push(setUser());
             addDoc(usersCollection,setUser())
             cleanInputs();
+            setAllUsers(await getList())
         }
     }
 
@@ -176,6 +178,7 @@ const Forms = () => {
             cleanInputs();
             setSubmitButton(true);
             setEditButton(false);
+            setAllUsers(await getList())
         }
     }
 
@@ -229,23 +232,11 @@ const Forms = () => {
                     <th>Modificar</th>
                     <th>Eliminar</th>
                     <tbody ref={tBody}>
-                        {allUsers.map((item,index) =>
-                        {return( 
-                            item.role === 'admin' 
-                            ? null 
-                            : <tr key={index}>
-                                <td >{item.name}</td>  
-                                <td>{item.lastName}</td>          
-                                <td>{item.email}</td>  
-                                <td>{item.role}</td>  
-                                <td>
-                                    <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
-                                </td>  
-                                <td>
-                                    <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
-                                </td> 
-                            </tr>)
-                        })}
+                        <UserTable 
+                        users={allUsers} 
+                        modifyDataFormHandler={modifyDataFormHandler} 
+                        deleteRowUserHandler={deleteRowUserHandler}
+                        />
                     </tbody>
                 </TableUser>
             </div>
