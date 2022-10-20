@@ -1,7 +1,7 @@
 import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Form, Button, Container, FloatingLabel  } from 'react-bootstrap';
+import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 
 import { getDoc,doc } from "firebase/firestore";
 import { db } from '../../firebaseConfig/firebase' ;
@@ -18,6 +18,8 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
+  const [visiblePassword, setVisiblePassword] = useState("password");
+  const [icon, setIcon] = useState("img/normaleye.png");
   
   const {setInfoHandler} = useContext(AuthContext);
 
@@ -69,21 +71,27 @@ const Login = () => {
       localStorage.setItem("USER",JSON.stringify(auxUser,delete auxUser.password))
     }
   }
+
+  const showPasswordHandler = () => {
+    let aux = visiblePassword === "password" ? "text" : "password";
+    let auxIcon = icon === "img/normaleye.png" ? "img/slasheye.png" : "img/normaleye.png";
+    setVisiblePassword(aux);
+    setIcon(auxIcon);
+  }
   
   return (    
     <Container className="mt-5">
-      <Form className="mx-auto" >
+      <Form className="mx-auto">
         <h1 className="mb-3">Iniciar sesion</h1>
         <Form.Group className='mb-2'>
-          <FloatingLabel label="Correo electrónico" className="mb-2">
-            <Form.Control type="email" placeholder="a" onChange={mailChangeHandler} value={mail}/>
-          </FloatingLabel>
+          <Form.Control type="email" placeholder="Ingrese su correo electrónico" onChange={mailChangeHandler} value={mail}/>
           {errors.email && <p className="text-danger">{errors.email}</p>}
         </Form.Group>
         <Form.Group className='mb-2'>
-          <FloatingLabel label="Contraseña" className="mb-2">
-            <Form.Control type="password" placeholder="Ingrese contraseña" onChange={passwordChangeHandler} value={password}/>
-          </FloatingLabel>
+          <InputGroup>
+            <Form.Control type={visiblePassword} placeholder="Ingrese contraseña" onChange={passwordChangeHandler} value={password}/>
+            <Button variant="outline-secondary" id="button-addon2" onClick={showPasswordHandler}><img src={process.env.PUBLIC_URL+icon} alt={"EyeImage"} style={{ width: "20px" }}></img></Button>
+          </InputGroup>
           {errors.pass && <p className="text-danger">{errors.pass}</p>}
         </Form.Group>
         <Form.Group>
