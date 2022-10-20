@@ -3,12 +3,14 @@
 }
 body {
   margin: 0;
-  position: relative;
   min-height: 100vh;
-  padding-bottom: 200px;
 }
-#footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+.positions {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+.addUsers {
+  flex-grow: 2;
 }

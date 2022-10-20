@@ -1,6 +1,7 @@
 import React,{useState,useRef,useEffect, useContext} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
+import {useNavigate} from 'react-router-dom'
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
@@ -8,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 
 import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
+import UserTable from '../../components/UserTable/UserTable';
 
 
 //REGEX PARA VALIDACIONES DE CAMPO NAME Y MAIL
@@ -32,6 +34,7 @@ const Forms = () => {
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
     const {theme} = useContext(ThemeContext)
+    const navigate = useNavigate();
 
     const tBody = useRef()
     
@@ -137,7 +140,7 @@ const Forms = () => {
     const deleteRowUserHandler = async (id) => {
         const userDoc = doc(db,"users", id)
         await deleteDoc(userDoc)
-
+        setAllUsers(await getList())
     }
 
     const setUser = () => {
@@ -159,8 +162,9 @@ const Forms = () => {
         
         if(Object.entries(validate).length === 0){
             Users.push(setUser());
-            addDoc(usersCollection,setUser())
+            await addDoc(usersCollection,setUser())
             cleanInputs();
+            setAllUsers(await getList())
         }
     }
 
@@ -178,6 +182,7 @@ const Forms = () => {
             cleanInputs();
             setSubmitButton(true);
             setEditButton(false);
+            setAllUsers(await getList())
         }
     }
 
@@ -222,32 +227,20 @@ const Forms = () => {
                     </Form>
                 }  
             </div>
-            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
-                <TableUser striped>
+            <div className={'container'} breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
+                <TableUser striped variant={theme} className="text-center">
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
                     <th>Rol</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
-                    <tbody ref={tBody}>
-                        {allUsers.map((item,index) =>
-                        {return( 
-                            item.role === 'admin' 
-                            ? null 
-                            : <tr key={index}>
-                                <td >{item.name}</td>  
-                                <td>{item.lastName}</td>          
-                                <td>{item.email}</td>  
-                                <td>{item.role}</td>  
-                                <td>
-                                    <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
-                                </td>  
-                                <td>
-                                    <Button onClick={(e)=>deleteRowUserHandler(item.id)} variant='danger'>Eliminar</Button>
-                                </td> 
-                            </tr>)
-                        })}
+                    <tbody ref={tBody} className="mt-3">
+                        <UserTable 
+                        users={allUsers} 
+                        modifyDataFormHandler={modifyDataFormHandler} 
+                        deleteRowUserHandler={deleteRowUserHandler}
+                        />
                     </tbody>
                 </TableUser>
             </div>
