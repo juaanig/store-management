@@ -1,14 +1,18 @@
 import React from 'react'
 
 import  TableProducts from 'react-bootstrap/Table';
+import { useContext } from 'react';
+import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 
 
 const Tabla = ({products}) => {
+
+    const {theme} = useContext(ThemeContext)
     
     return (
         <>
-            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered>
-                <TableProducts striped hover>
+            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered >
+                <TableProducts striped hover variant={theme} className='text-center'>
                 <thead >
                     <th>Nombre</th>
                     <th>Cantidad</th>

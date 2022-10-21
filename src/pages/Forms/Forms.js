@@ -1,5 +1,7 @@
-import React,{useState,useRef,useEffect} from 'react'
+import React,{useState,useRef,useEffect, useContext} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
+import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
+import {useNavigate} from 'react-router-dom'
 
 import  TableUser  from 'react-bootstrap/Table';
 import { Form } from 'react-bootstrap';
@@ -31,6 +33,8 @@ const Forms = () => {
     const [currentId,setCurrentId] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
+    const {theme} = useContext(ThemeContext)
+    const navigate = useNavigate();
 
     const tBody = useRef()
     
@@ -158,7 +162,7 @@ const Forms = () => {
         
         if(Object.entries(validate).length === 0){
             Users.push(setUser());
-            addDoc(usersCollection,setUser())
+            await addDoc(usersCollection,setUser())
             cleanInputs();
             setAllUsers(await getList())
         }
@@ -223,15 +227,15 @@ const Forms = () => {
                     </Form>
                 }  
             </div>
-            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
-                <TableUser striped>
+            <div className={'container'} breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
+                <TableUser striped variant={theme} className="text-center">
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
                     <th>Rol</th>
                     <th>Modificar</th>
                     <th>Eliminar</th>
-                    <tbody ref={tBody}>
+                    <tbody ref={tBody} className="mt-3">
                         <UserTable 
                         users={allUsers} 
                         modifyDataFormHandler={modifyDataFormHandler} 

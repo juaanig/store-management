@@ -2,6 +2,7 @@ import { Route,RouterProvider,createBrowserRouter,createRoutesFromElements,} fro
 
 import './App.css';
 import {AuthProvider} from "./contexts/authContext/AuthContext";
+import {ThemeProvider} from "./contexts/ThemeContext/ThemeContext";
 import Section from './pages/Section/Section';
 import Layout from "./pages/Layout/Layout";
 import Forms from "./pages/Forms/Forms";
@@ -24,7 +25,9 @@ const App = () => {
   return(
 
     <AuthProvider>
-      <RouterProvider router={router}/>
+      <ThemeProvider>
+        <RouterProvider router={router}/>
+      </ThemeProvider>
     </AuthProvider>
   
   ) 
