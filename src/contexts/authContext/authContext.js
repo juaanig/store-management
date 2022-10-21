@@ -15,8 +15,18 @@ const AuthProvider = ({children}) => {
        setUser(arg)
     }
 
+    const [visiblePassword, setVisiblePassword] = useState("password");
+    const [icon, setIcon] = useState("img/normaleye.png");
+
+    const showPasswordHandler = () => {
+        let aux = visiblePassword === "password" ? "text" : "password";
+        let auxIcon = icon === "img/normaleye.png" ? "img/slasheye.png" : "img/normaleye.png";
+        setVisiblePassword(aux);
+        setIcon(auxIcon);
+    }
+
     return (
-        <AuthContext.Provider value={{setInfoHandler,user}}>
+        <AuthContext.Provider value={{setInfoHandler,user, showPasswordHandler, visiblePassword, icon}}>
             {children}
         </AuthContext.Provider>
     )
