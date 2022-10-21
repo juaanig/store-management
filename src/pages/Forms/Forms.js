@@ -1,11 +1,10 @@
 import React,{useState,useRef,useEffect, useContext} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
-import {useNavigate} from 'react-router-dom'
+import AuthContext from '../../contexts/authContext/AuthContext'
 
-import  TableUser  from 'react-bootstrap/Table';
-import { Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import { Form, InputGroup, Button } from 'react-bootstrap';
+import TableUser from 'react-bootstrap/Table';
 
 import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
@@ -34,7 +33,7 @@ const Forms = () => {
     const [allUsers,setAllUsers] = useState([])
     const {getUsersToCompare,getList} = useAuth()
     const {theme} = useContext(ThemeContext)
-    const navigate = useNavigate();
+    const { visiblePassword, showPasswordHandler, icon } = useContext(AuthContext)
 
     const tBody = useRef()
     
@@ -208,9 +207,13 @@ const Forms = () => {
                             {errors.user && <p className="text-danger">{errors.user}</p>}
                         </Form.Group>
                         <Form.Group className='mb-2'>
-                            <Form.Control type="password" value={password} placeholder='contraseña'  onChange={passwordHandler}/>
-                            {errors.pass && <p className="text-danger">{errors.pass}</p>} 
+                            <InputGroup>
+                                <Form.Control type={visiblePassword} placeholder="Ingrese contraseña" onChange={passwordHandler} value={password}/>
+                                <Button variant="outline-secondary" className='bg-light' onClick={showPasswordHandler}><img src={process.env.PUBLIC_URL+icon} alt={"EyeImage"} style={{ width: "20px" }}></img></Button>
+                                {errors.pass && <p className="text-danger">{errors.pass}</p>}
+                            </InputGroup>
                         </Form.Group>
+                        
                         <Form.Group className='mb-3'>
                             <Form.Select value={role}  onChange={roleHandler} >
                                 <option value="" >Seleccione un rol</option>

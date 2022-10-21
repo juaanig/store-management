@@ -27,8 +27,7 @@ const Footer = () => {
         </Container>
         <div className="text-center p-3 bg-dark">
             © 2022 Copyright:
-            <a className="text-white" href="#!"> Mulé Garnero Butto & Co.</a>
-            <a className="text-dark" href="https://github.com/MaxiPepa" target={"_blank"} rel="noreferrer">a</a>
+            <a className="text-info" href="https://github.com/juaanig/store-management" target={"_blank"} rel="noreferrer"> Mulé Garnero Butto & Co.</a>
         </div>
     </Card.Footer>
   );

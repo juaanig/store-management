@@ -18,10 +18,8 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
-  const [visiblePassword, setVisiblePassword] = useState("password");
-  const [icon, setIcon] = useState("img/normaleye.png");
   
-  const {setInfoHandler} = useContext(AuthContext);
+  const {setInfoHandler, icon, showPasswordHandler, visiblePassword} = useContext(AuthContext);
 
   const {getUsersToCompare,getPassToCompare} = useAuth();  
   
@@ -71,13 +69,6 @@ const Login = () => {
       localStorage.setItem("USER",JSON.stringify(auxUser,delete auxUser.password))
     }
   }
-
-  const showPasswordHandler = () => {
-    let aux = visiblePassword === "password" ? "text" : "password";
-    let auxIcon = icon === "img/normaleye.png" ? "img/slasheye.png" : "img/normaleye.png";
-    setVisiblePassword(aux);
-    setIcon(auxIcon);
-  }
   
   return (    
     <Container className="mt-5">
@@ -90,7 +81,7 @@ const Login = () => {
         <Form.Group className='mb-2'>
           <InputGroup>
             <Form.Control type={visiblePassword} placeholder="Ingrese contraseña" onChange={passwordChangeHandler} value={password}/>
-            <Button variant="outline-secondary" id="button-addon2" onClick={showPasswordHandler}><img src={process.env.PUBLIC_URL+icon} alt={"EyeImage"} style={{ width: "20px" }}></img></Button>
+            <Button variant="outline-secondary" className='bg-light' onClick={showPasswordHandler}><img src={process.env.PUBLIC_URL+icon} alt={"EyeImage"} style={{ width: "20px" }}></img></Button>
           </InputGroup>
           {errors.pass && <p className="text-danger">{errors.pass}</p>}
         </Form.Group>
