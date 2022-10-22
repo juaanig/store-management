@@ -12,8 +12,6 @@ export const useAuth = () => {
             (doc) => ({...doc.data(),id:doc.id}) 
         ))
 
-        console.log(dataParsed)
-
         return dataParsed;
     }
 
