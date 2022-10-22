@@ -5,15 +5,14 @@ import {AuthProvider} from "./contexts/authContext/AuthContext";
 import {ThemeProvider} from "./contexts/ThemeContext/ThemeContext";
 import Section from './pages/Section/Section';
 import Layout from "./pages/Layout/Layout";
-import Forms from "./pages/Forms/Forms";
-
+import DashboardSU from "./pages/DashBoardSU/DashboardSU";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     
     <Route path="/" element={<Layout/>} >
       <Route path="/general" element={<Section/>} />
-      <Route path="/superUser" element={<Forms/>} />
+      <Route path="/superUser" element={<DashboardSU/>} />
     </Route>
   )
 
