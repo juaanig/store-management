@@ -9,8 +9,6 @@ const Dashboard = () => {
 
   const {user} = useContext(AuthContext)
 
-  console.log("info:", user )
-
   return (
     <>
       <div className='container-db-btns'>
