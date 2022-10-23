@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import NavLayout from "../../components/Nav/NavLayout";
 import Login from "../../components/Login/Login";
@@ -16,6 +17,11 @@ const Layout = () => {
 
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        user && navigate("/general")
+    },[user,navigate])
 
     //TODO FIX THE DOUBLE FOOTER 
     return (

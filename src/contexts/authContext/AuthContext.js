@@ -7,7 +7,7 @@ const AuthProvider = ({children}) => {
     const [user,setUser] = useState(null)
 
     useEffect(()=>{
-        const userData = localStorage.getItem("USER")
+        const userData = JSON.parse(localStorage.getItem("USER"))
         setUser(userData)
     },[])
 

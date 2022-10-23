@@ -1,5 +1,3 @@
-
-
 import Table from '../../components/Table/Table';
 import FormProducts from '../../components/FormProducts/FormProducts';
 import Notes from '../../components/Notes/Notes';

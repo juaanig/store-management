@@ -17,8 +17,10 @@ const FormProducts = () => {
                 return "Vender Producto"
             case "Comprador":
                 return "Comprar Producto"
-            default:
+            case "Deposito":
                 return "Deposito"
+            default:
+                return "Error"
         }
     }
     
