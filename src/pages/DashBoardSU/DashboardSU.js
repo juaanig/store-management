@@ -28,7 +28,7 @@ const DashboardSU = () => {
     const {getList} = useAuth()
     const {validateForm} = useValidate();
     const {theme} = useContext(ThemeContext)
-    const { visiblePassword, showPasswordHandler, icon, showLoader, setShowLoader } = useContext(AuthContext)
+    const { showLoader, setShowLoader } = useContext(AuthContext)
 
     const tBody = useRef()
     
@@ -160,9 +160,6 @@ const DashboardSU = () => {
                 editUserHandler={editUserHandler}
                 user={setUser()}
                 errors={errors}
-                visiblePassword={visiblePassword}
-                showPasswordHandler={showPasswordHandler}
-                icon={icon}
             />
             {showLoader && <Loader/>}
             <UserTable 

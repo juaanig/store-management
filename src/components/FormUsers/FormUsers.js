@@ -1,7 +1,12 @@
 import React from 'react'
+import { useContext } from "react";
+import AuthContext from '../../contexts/authContext/AuthContext';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 
-const FormUsers = ({showForm, showFormHandler, errors, visiblePassword, showPasswordHandler, icon, submitButton, submitUserHandler, editButton, editUserHandler, user, nameHandler, lastNameHandler, emailHandler, roleHandler, passwordHandler}) => {
+const FormUsers = ({showForm, showFormHandler, errors, submitButton, submitUserHandler, editButton, editUserHandler, user, nameHandler, lastNameHandler, emailHandler, roleHandler, passwordHandler}) => {
+
+    const { visiblePassword, showPasswordHandler, icon} = useContext(AuthContext)
+
   return (
     <div className='container mb-5' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs">
                 <div className='container mt-3 mb-3'>
