@@ -5,7 +5,7 @@ export const Validate = () => {
     let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
     let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
 
-    const {getUsersToCompare} = useAuth()
+    const {getUsersToCompare, getPassToCompare} = useAuth()
 
     const validateForm = async (form) => {
         console.log(form)
@@ -46,7 +46,31 @@ export const Validate = () => {
         return _errors;
     }
 
+    const validateLogin = async (form) => {
+
+        let _errors = {}
+    
+        //====================================
+        if(form.email === ''){
+          _errors.email= 'Campo obligatorio.';
+        }else if(!regexEmail.test(form.email)){
+          _errors.email = "email incorrecto";
+        }else if((await getUsersToCompare(form.email)).result){
+          _errors.email = "email no registrado";
+    
+        }
+        //====================================
+        if( form.password === '' ){
+            _errors.pass = 'Campo obligatorio.';
+        }else if(await getPassToCompare(form.password)){
+            _errors.pass = "contraseña incorrecta";
+        }
+    
+        return _errors;
+      }
+
     return {
-        validateForm
+        validateForm,
+        validateLogin
     }
 }

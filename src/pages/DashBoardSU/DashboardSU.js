@@ -1,6 +1,6 @@
 import React,{useState,useRef,useEffect, useContext} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
-import { Validate } from '../../hooks/Validate/Validate';
+import { Validate } from '../../hooks/hookValidate/Validate';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
 import AuthContext from '../../contexts/authContext/AuthContext'
 
@@ -8,6 +8,7 @@ import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore'
 import { db } from '../../firebaseConfig/firebase' ;
 import UserTable from '../../components/UserTable/UserTable';
 import FormUsers from '../../components/FormUsers/FormUsers';
+import Loader from '../../components/Loader/Loader';
 
 const DashboardSU = () => {
 
@@ -27,7 +28,7 @@ const DashboardSU = () => {
     const {getList} = useAuth()
     const {validateForm} = Validate();
     const {theme} = useContext(ThemeContext)
-    const { visiblePassword, showPasswordHandler, icon } = useContext(AuthContext)
+    const { visiblePassword, showPasswordHandler, icon, showLoader, setShowLoader } = useContext(AuthContext)
 
     const tBody = useRef()
     
@@ -88,9 +89,11 @@ const DashboardSU = () => {
 
     // Función para eliminar un usuario
     const deleteRowUserHandler = async (id) => {
+        setShowLoader(true)
         const userDoc = doc(db,"users", id)
         await deleteDoc(userDoc)
         setAllUsers(await getList())
+        setShowLoader(false)
     }
 
     // Funcion setear los valores del formulario en un objeto
@@ -107,7 +110,7 @@ const DashboardSU = () => {
 
     // Función para enviar los datos del formulario a la base de datos
     const submitUserHandler = async () =>{
-        
+        setShowLoader(true)
         let validate = await validateForm(setUser())
         setErrors(validate)
 
@@ -117,11 +120,13 @@ const DashboardSU = () => {
             cleanInputs();
             setAllUsers(await getList())
         }
+        setShowLoader(false)
     }
 
     //Función para editar usuario 
     const editUserHandler = async () => {
         
+        setShowLoader(true)
         const oldUser = doc(db,"users",currentId)
         
         let validate = await validateForm(setUser())  
@@ -134,6 +139,7 @@ const DashboardSU = () => {
             setSubmitButton(true);
             setEditButton(false);
             setAllUsers(await getList())
+            setShowLoader(false)
         }
     }
 
@@ -157,6 +163,7 @@ const DashboardSU = () => {
                 showPasswordHandler={showPasswordHandler}
                 icon={icon}
             />
+            {showLoader && <Loader/>}
             <UserTable 
                 theme={theme}
                 tBody={tBody}
