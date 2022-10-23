@@ -2,7 +2,6 @@
 
 import Table from '../../components/Table/Table';
 import FormProducts from '../../components/FormProducts/FormProducts';
-import Buttons from '../../components/Buttons/Buttons';
 import Notes from '../../components/Notes/Notes';
 
 const products = [
@@ -64,7 +63,6 @@ const Section = () => {
             <Table products={products}/>
           </div>
           <div className='col'>
-            <Buttons/>
             <FormProducts/>
           </div>
         </div>
