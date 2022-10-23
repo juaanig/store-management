@@ -1,6 +1,6 @@
 import { useAuth } from "../hookAuth/useAuth";
 
-export const Validate = () => {
+export const useValidate = () => {
 
     let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
     let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;

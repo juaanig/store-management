@@ -14,3 +14,16 @@ body {
 .addUsers {
   flex-grow: 2;
 }
+.section {
+  height: 70vh;
+  overflow: auto;
+  display: flex;
+}
+
+.section::-webkit-scrollbar {
+  width: 0.5rem;
+}
+.section::-webkit-scrollbar-thumb {
+  background-color: #755800;
+  border-radius: 0.5rem;
+}

@@ -6,7 +6,7 @@ import { Form, Button, Container, InputGroup } from 'react-bootstrap';
 import { getDoc,doc } from "firebase/firestore";
 import { db } from '../../firebaseConfig/firebase' ;
 import { useAuth } from "../../hooks/hookAuth/useAuth";
-import { Validate } from "../../hooks/hookValidate/Validate";
+import { useValidate } from "../../hooks/hookValidate/useValidate";
 import  AuthContext  from "../../contexts/authContext/AuthContext";
 
 import Loader from '../Loader/Loader';
@@ -22,7 +22,7 @@ const Login = () => {
   const {setInfoHandler, icon, showPasswordHandler, visiblePassword, showLoader, setShowLoader} = useContext(AuthContext);
 
   const {getUsersToCompare} = useAuth();
-  const {validateLogin} = Validate();  
+  const {validateLogin} = useValidate();  
   
   const mailChangeHandler = (e) => setMail(e.target.value);
   const passwordChangeHandler = (e) => setPassword(e.target.value);

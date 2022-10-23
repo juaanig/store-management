@@ -1,6 +1,6 @@
 import React,{useState,useRef,useEffect, useContext} from 'react'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
-import { Validate } from '../../hooks/hookValidate/Validate';
+import { useValidate } from '../../hooks/hookValidate/useValidate';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
 import AuthContext from '../../contexts/authContext/AuthContext'
 
@@ -26,7 +26,7 @@ const DashboardSU = () => {
     const [currentId,setCurrentId] = useState('');
     const [allUsers,setAllUsers] = useState([])
     const {getList} = useAuth()
-    const {validateForm} = Validate();
+    const {validateForm} = useValidate();
     const {theme} = useContext(ThemeContext)
     const { visiblePassword, showPasswordHandler, icon, showLoader, setShowLoader } = useContext(AuthContext)
 
@@ -68,6 +68,7 @@ const DashboardSU = () => {
         let aux = showForm ? false : true; 
         setShowForm(aux);
         cleanInputs();
+        setErrors({});
         setSubmitButton(true);
         setEditButton(false);
     }
@@ -139,8 +140,8 @@ const DashboardSU = () => {
             setSubmitButton(true);
             setEditButton(false);
             setAllUsers(await getList())
-            setShowLoader(false)
         }
+        setShowLoader(false)
     }
 
     return (
