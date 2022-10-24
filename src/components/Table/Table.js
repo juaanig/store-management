@@ -1,10 +1,22 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
-import  TableProducts from 'react-bootstrap/Table';
+import TableProducts from 'react-bootstrap/Table';
 
+import {useProduct} from '../../hooks/hookProduct/useProduct'; 
 
 const Tabla = ({products}) => {
-    
+
+    const {getListProducts} = useProduct() ;
+
+    useEffect(()=>{
+        const listProduct = async()=>{
+            console.log(await getListProducts())
+        }
+
+        listProduct()
+    },[])
+
+
     return (
         <>
             <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered>
