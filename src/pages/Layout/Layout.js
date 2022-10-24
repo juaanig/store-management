@@ -20,10 +20,14 @@ const Layout = () => {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        user && navigate("/general")
+
+        const getRole = async() => {
+            (await user.role) === "admin" ?  navigate("/superUser") : navigate("/general");
+        }
+        getRole()
+
     },[user,navigate])
 
-    //TODO FIX THE DOUBLE FOOTER 
     return (
         <>
             <div className={'positions body-'+theme}>
