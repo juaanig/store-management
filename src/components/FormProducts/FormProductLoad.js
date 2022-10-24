@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { db } from '../../firebaseConfig/firebase' ;
 import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
 
-const FormProductBuy = () => {
+const FormProductLoad = () => {
 
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
@@ -15,7 +15,7 @@ const FormProductBuy = () => {
     const [elaborationDate, setElaborationDate] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
 
-    const productsCollection = collection(db, "users");
+    const productsCollection = collection(db, "products");
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -46,8 +46,8 @@ const FormProductBuy = () => {
     }
 
     //Funcion para agregar un producto a la base de datos
-    const submitButton = () => {
-        console.log(setProduct())
+    const submitButton = async () => {
+        await addDoc(productsCollection,setProduct())
         cleanInputs();
     }
 
@@ -79,4 +79,4 @@ const FormProductBuy = () => {
   )
 }
 
-export default FormProductBuy
+export default FormProductLoad
