@@ -1,11 +1,10 @@
 import React from 'react'
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useProduct } from '../../hooks/hookProduct/useProduct';
 
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
-import { db } from '../../firebaseConfig/firebase' ;
-import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
 
 const FormProductLoad = () => {
 
@@ -15,7 +14,7 @@ const FormProductLoad = () => {
     const [elaborationDate, setElaborationDate] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
 
-    const productsCollection = collection(db, "products");
+    const {loadProduct} = useProduct();
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -33,8 +32,9 @@ const FormProductLoad = () => {
     const elaborationDateHandler = (e) => setElaborationDate((e.target.value));
     const expirationDateHandler = (e) => setExpirationDate((e.target.value));
 
-    //Funcion para crear un objeto del producto
-    const setProduct = () => {
+    //Funcion para agregar un producto a la base de datos
+    const submitButton = async () => {
+
         const product = {
             productName: productName.trim(),
             price: "u$d "+ price.trim(),
@@ -42,13 +42,10 @@ const FormProductLoad = () => {
             elaborationDate: elaborationDate.trim(),
             expirationDate: expirationDate.trim(), 
         }
-        return product;
-    }
 
-    //Funcion para agregar un producto a la base de datos
-    const submitButton = async () => {
-        await addDoc(productsCollection,setProduct())
+        loadProduct(product)
         cleanInputs();
+
     }
 
   return (
