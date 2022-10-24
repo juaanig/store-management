@@ -8,7 +8,7 @@ const Footer = () => {
     <Card.Footer className="bg-dark text-center text-white" id="footer">
         <Container className="p-4 pb-0">
             <section className="mb-4">
-            
+
                 <a className="btn btn-outline-light btn-floating m-1" href="https://github.com/juaanig" role="button" target={"_blank"} rel="noreferrer">
                     <FontAwesomeIcon icon={faGithub} />
                     Juani
@@ -18,7 +18,7 @@ const Footer = () => {
                     <FontAwesomeIcon icon={faGithub} />
                     Lucas
                 </a>
-                
+
                 <a className="btn btn-outline-light btn-floating m-1" href="https://github.com/franmux01" role="button" target={"_blank"} rel="noreferrer">
                     <FontAwesomeIcon icon={faGithub} />
                     Fran
