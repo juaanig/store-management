@@ -1,34 +1,54 @@
 import React from 'react'
+import { useContext, useState } from "react";
+import AuthContext from "../../contexts/authContext/AuthContext";
+import FormProductBuy from './FormProductBuy';
+import FormProductSell from './FormProductSell';
 
-import { Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 
 const FormProducts = () => {
 
+    const {user} = useContext(AuthContext)
+    const [showForm, setShowForm] = useState(false)
+
+    const buttonName = () => {
+        switch (user.role) {
+            case "Vendedor":
+                return "Vender Producto"
+            case "Comprador":
+                return "Comprar Producto"
+            case "Deposito":
+                return "Deposito"
+            default:
+                return "Error"
+        }
+    }
+    
+    const formDisplayHandler = () => {
+        switch (user.role) {
+            case "Vendedor":
+                return ( <FormProductSell/> );
+            case "Comprador":
+                return ( <FormProductBuy/> );
+            case "Deposito":
+                return (<h1>Deposito</h1>);
+            default:
+                return (<></>)
+        }
+    }
+
+    const showFormHandler = () => {
+        setShowForm(!showForm)
+    }
+
     return (
         <>
-        <div className='container mb-5' >
-            <Form>
-                <Form.Group className='mb-2'>
-                    <Form.Control type="text" placeholder='Nombre del producto' />
-                </Form.Group>
-                <Form.Group className='mb-2'>
-                    <Form.Control type="number" placeholder='Precio' />
-                </Form.Group>
-                <Form.Group className='mb-2'>
-                    <Form.Control type="number" placeholder='Cantidad' />
-                </Form.Group>
-                <Form.Group className='mb-3'>
-                    <Form.Control type="date"/>
-                </Form.Group>
-                <Form.Group className='mb-3'>
-                    <Form.Control type="date"/>
-                </Form.Group>
-                <Form.Group>
-                    <Button type='button' variant='success' className='add-user me-3'>Agregar Producto</Button>
-                </Form.Group>
-            </Form>
-        </div>
+            <div className='container mb-5 text-center' >
+                { showForm ? <Button onClick={showFormHandler} variant='danger'>cancelar</Button> : <Button variant='warning' onClick={showFormHandler} >{buttonName()}</Button>}    
+            </div>
+            <div>
+                {showForm && formDisplayHandler()}
+            </div>
         </>
     )
 
