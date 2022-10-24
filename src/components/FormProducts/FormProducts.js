@@ -1,7 +1,7 @@
 import React from 'react'
 import { useContext, useState } from "react";
 import AuthContext from "../../contexts/authContext/AuthContext";
-import FormProductBuy from './FormProductBuy';
+import FormProductLoad from './FormProductLoad';
 import FormProductSell from './FormProductSell';
 
 import { Button } from 'react-bootstrap';
@@ -29,9 +29,9 @@ const FormProducts = () => {
             case "Vendedor":
                 return ( <FormProductSell/> );
             case "Comprador":
-                return ( <FormProductBuy/> );
+                return ( <h1>Comprador</h1> );
             case "Deposito":
-                return (<h1>Deposito</h1>);
+                return (<FormProductLoad/>);
             default:
                 return (<></>)
         }
