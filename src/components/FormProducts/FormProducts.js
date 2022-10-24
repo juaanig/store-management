@@ -15,10 +15,10 @@ const FormProducts = () => {
         switch (user.role) {
             case "Vendedor":
                 return "Vender Producto"
-            case "Comprador":
-                return "Comprar Producto"
             case "Deposito":
-                return "Deposito"
+                return "Cargar Producto"
+            case "Comprador":
+                return "Comprador"
             default:
                 return "Error"
         }

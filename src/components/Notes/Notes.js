@@ -1,13 +1,13 @@
 import "./Notes.css";
 
-const Notes = ({notes}) => {
+const Notes = () => {
 
   return (
     <div className='container'>
        <div className='notepad'>
             <p className='notes-title'>NOTAS</p>
             <div className='notes-area'>
-              {notes.length === 0 
+              {/*notes.length === 0 
               ? (<div className='notes'>No hay notas</div>) 
               : notes.map((note, index) => {
                 return (
@@ -15,7 +15,7 @@ const Notes = ({notes}) => {
                     {note}
                   </div>
                 )
-              })} 
+              })*/} 
             </div>
        </div>
     </div>

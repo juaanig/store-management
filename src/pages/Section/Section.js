@@ -44,18 +44,13 @@ const products = [
     price: 61300
   }
 ]
-
-const note = "nombre y apellido vendió 500 motos de la marca yamaha por un total de $ 2895000 nombre y apellido vendió 500 motos de la marca yamaha por un total de $ 2895000nombre y apellido vendió 500 motos de la marca yamaha por un total de $ 2895000"
-
-const notes =[note,note,note,note,note,note,note,note,note,note]
-
 const Section = () => {
     
     return (
       <>
         <div className='row mt-4 m-1'>
           <div className='col bg-warning rounded-3 section'>
-            <Notes notes={notes}/>
+            <Notes/>
           </div>
           <div className='col-7'>
             <Table products={products}/>
