@@ -16,9 +16,9 @@ const Tabla = () => {
         const listProduct = async()=>{
             setProducts(await getListProducts())
         }
-
+        console.log("loop")
         listProduct()
-    },[getListProducts])
+    },[])
 
 
     const {theme} = useContext(ThemeContext)
