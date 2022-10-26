@@ -4,19 +4,19 @@ import  TableProducts from 'react-bootstrap/Table';
 import { useContext } from 'react';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 
-import {useProduct} from '../../hooks/hookProduct/useProduct'; 
+// import {useProduct} from '../../hooks/hookProduct/useProduct'; 
 
 const Tabla = ({products}) => {
 
-    const {getListProducts} = useProduct() ;
+    // const {getListProducts} = useProduct() ;
 
-    useEffect(()=>{
-        const listProduct = async()=>{
-            console.log(await getListProducts())
-        }
+    // useEffect(()=>{
+    //     const listProduct = async()=>{
+    //         console.log(await getListProducts())
+    //     }
 
-        listProduct()
-    },[])
+    //     listProduct()
+    // },[])
 
 
     const {theme} = useContext(ThemeContext)

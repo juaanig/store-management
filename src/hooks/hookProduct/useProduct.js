@@ -1,4 +1,4 @@
-import { collection, getDocs} from 'firebase/firestore' ;
+import { collection,addDoc, getDocs} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
 export const useProduct = () => {
@@ -17,7 +17,18 @@ export const useProduct = () => {
     
     /* TERMINAR ALTA , BAJA Y  MODIFICACIÓN */
 
-    /* 
+    const loadProduct = async (obj) => {
+
+        let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
+    
+        if (aux.length === 0 ){
+            await addDoc(productCollection,obj)
+        }else{
+            alert("producto ya cargado")
+        }
+    }
+    
+    /*
         PARA LA ALTA DE PRODUCTO EL HOOK RECIBE DATOS 
         - NOMBRE
         - CANTIDAD
@@ -36,6 +47,6 @@ export const useProduct = () => {
     */
 
 
-    return {getListProducts}
+    return {getListProducts,loadProduct}
 }    
 
