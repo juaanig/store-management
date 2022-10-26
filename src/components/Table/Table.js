@@ -1,22 +1,24 @@
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 
 import  TableProducts from 'react-bootstrap/Table';
 import { useContext } from 'react';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 
-// import {useProduct} from '../../hooks/hookProduct/useProduct'; 
+import {useProduct} from '../../hooks/hookProduct/useProduct'; 
 
-const Tabla = ({products}) => {
+const Tabla = () => {
 
-    // const {getListProducts} = useProduct() ;
+    const [products,setProducts] = useState([])
+    const {getListProducts} = useProduct() ;
 
-    // useEffect(()=>{
-    //     const listProduct = async()=>{
-    //         console.log(await getListProducts())
-    //     }
+    useEffect(()=>{
 
-    //     listProduct()
-    // },[])
+        const listProduct = async()=>{
+            setProducts(await getListProducts())
+        }
+
+        listProduct()
+    },[])
 
 
     const {theme} = useContext(ThemeContext)
@@ -35,11 +37,11 @@ const Tabla = ({products}) => {
                 <tbody>
                     {products.map((item) =>
                     <tr key={item.id}  >
-                        <td>{item.nombre}</td>  
-                        <td>{item.cantidad}</td>          
-                        <td>{item.fi}</td>  
-                        <td>{item.fv}</td>  
-                        <td>u$d {item.price}</td>  
+                        <td>{item.productName}</td>  
+                        <td>{item.amount}</td>          
+                        <td>{item.elaborationDate}</td>  
+                        <td>{item.expirationDate}</td>  
+                        <td>{item.price}</td>  
                     </tr>
                     )}
                 </tbody>
@@ -50,6 +52,3 @@ const Tabla = ({products}) => {
 }
 
 export default Tabla;
-
-
-// EN ESTE COMPONENTE SE RENDERIZARA LOS PRODUCTOS CON SUS RESPECTIVAS CARACTERISTICAS.
