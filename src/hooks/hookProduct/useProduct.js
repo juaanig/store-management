@@ -15,12 +15,13 @@ export const useProduct = () => {
         return dataParsed;
     }
     
-    /* TERMINAR ALTA , BAJA Y  MODIFICACIÓN */
 
     const loadProduct = async (obj) => {
 
         let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
-    
+
+        //Guardar productos en mayuscula para que no haya comflictos a la hora de buscar. 
+
         if (aux.length === 0 ){
             await addDoc(productCollection,obj)
         }else{
