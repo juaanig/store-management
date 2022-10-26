@@ -48,23 +48,28 @@ const FormProductLoad = () => {
 
     }
 
-  return (
+    return (
     <>
         <div className='container mb-5' >
             <Form>
                 <Form.Group className='mb-2'>
+                    <Form.Label>Nombre del producto</Form.Label>
                     <Form.Control type="text" placeholder='Nombre del producto' onChange={nameHandler} value={productName}/>
                 </Form.Group>
                 <Form.Group className='mb-2'>
+                    <Form.Label>Precio</Form.Label>
                     <Form.Control type="number" placeholder='Precio' onChange={priceHandler} value={price}/>
                 </Form.Group>
                 <Form.Group className='mb-2'>
+                    <Form.Label>Cantidad</Form.Label>
                     <Form.Control type="number" placeholder='Cantidad' onChange={amountHandler} value={amount}/>
                 </Form.Group>
                 <Form.Group className='mb-3'>
+                    <Form.Label>Fecha de ingreso o elaboración</Form.Label>
                     <Form.Control type="date" onChange={elaborationDateHandler} value={elaborationDate}/>
                 </Form.Group>
                 <Form.Group className='mb-3'>
+                    <Form.Label>Fecha de vencimiento</Form.Label>
                     <Form.Control type="date" onChange={expirationDateHandler} value={expirationDate}/>
                 </Form.Group>
                 <Form.Group>
@@ -73,7 +78,7 @@ const FormProductLoad = () => {
             </Form>
         </div>
     </>
-  )
+    )
 }
 
 export default FormProductLoad

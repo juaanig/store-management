@@ -18,7 +18,7 @@ const Tabla = () => {
         }
 
         listProduct()
-    },[])
+    },[getListProducts])
 
 
     const {theme} = useContext(ThemeContext)
