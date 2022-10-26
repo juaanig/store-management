@@ -6,15 +6,15 @@ import {Button} from "react-bootstrap"
 const ThemeButton = () => {
 
     const {theme, setThemeHandler} = useContext(ThemeContext)
-    const [themeButton, setThemeButton] = useState("dark")
+    const [themeButton, setThemeButton] = useState("dark theme")
 
     const changeThemeHandler = () => {
-      if (theme === "light") {
-        setThemeHandler("dark")
-        setThemeButton("light")
+      if (theme === "light theme") {
+        setThemeHandler("dark theme")
+        setThemeButton("light theme")
       } else {
-        setThemeHandler("light")
-        setThemeButton("dark")
+        setThemeHandler("light theme")
+        setThemeButton("dark theme")
       } 
     }
 
