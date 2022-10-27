@@ -38,14 +38,4 @@
     margin: 5px;
     border: 2px solid black;
     border-radius: 5px;
-    text-align: justify;
-}
-
-.empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    font-size: 20px;
-    font-weight: bold;
 }

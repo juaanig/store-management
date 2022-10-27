@@ -1,6 +1,7 @@
 import React from 'react'
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../contexts/authContext/AuthContext";
+import {useProduct} from '../../hooks/hookProduct/useProduct'
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
@@ -8,15 +9,22 @@ import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore'
 import { db } from '../../firebaseConfig/firebase' ;
 
 const FormProductSell = () => {
-    const products = [
-        {
-            name:"HONDA cbr 1000 ",
-            price:"u$d 10000",
-            amount: 100,
-            elaborationDate:"2021-01-01",
-            expirationDate:"2050-01-01",
+
+    const {getListProducts} = useProduct();
+    const [products,setProducts] = useState([]);
+    
+    useEffect(() => {
+        
+        const getProducts = async() => {
+            const data = await getListProducts();
+            setProducts(data)
         }
-    ]
+        console.log("loop")
+
+        getProducts();
+        
+    },[])
+    console.log(products)
 
     const [productName, setProductName] = useState('');
     const [sellAmount, setSellAmount] = useState('');
@@ -54,8 +62,8 @@ const FormProductSell = () => {
                     <Form.Label>Nombre del producto</Form.Label>
                     <Form.Select value={productName} onChange={productNameHandler}>
                         <option value="" >Seleccione un producto</option>
-                        {products.map((product) => (
-                            <option value={product.name}>{product.name}</option>
+                        {products.map((item) => (
+                            <option value={item.productName}>{item.productName}</option>
                         ))}
                     </Form.Select>
                 </Form.Group>
