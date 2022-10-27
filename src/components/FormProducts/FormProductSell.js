@@ -35,8 +35,12 @@ const FormProductSell = () => {
     const sellProductHandler = async () => {
         //const product = products.find(product => product.name === productName);
         const actualtime = new Date();
-        const note = {note: actualtime.toLocaleString()+ ": "+ user.name + " " + user.lastName + " vendio " + sellAmount + " unidades de " + productName + " el dia " + sellDate, 
-                    date: actualtime.toISOString()};
+        const actualtimeSort = actualtime.toISOString();
+        const actualtimeNotes = actualtime.toLocaleString();
+        
+        const sellNote= `${actualtimeNotes}: ${user.name} ${user.lastName} vendió ${sellAmount} unidades de ${productName}.`
+        
+        const note = {note: sellNote, date: actualtimeSort};
         
         await addDoc(notesCollection,note)
     }
