@@ -1,9 +1,12 @@
 import { collection,addDoc, getDocs,doc,updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
+import { useNotes } from '../hookNotes/useNotes';
+
 export const useProduct = () => {
 
     const productCollection = collection(db, "products");
+    const {noteHandler} = useNotes()
 
     const getListProducts = async () => {
 
@@ -58,6 +61,7 @@ export const useProduct = () => {
 
         if (aux.length === 0 ){
             await addDoc(productCollection,obj)
+            noteHandler(null, null, obj)
         }else{
             const oldProduct = doc(db,"products",aux[0].id)
             await updateDoc(oldProduct,{...obj,amount:(Number(aux[0].amount) + Number(obj.amount))})
