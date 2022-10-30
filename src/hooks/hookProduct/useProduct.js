@@ -1,4 +1,4 @@
-import { collection,addDoc, getDocs} from 'firebase/firestore' ;
+import { collection,addDoc, getDocs,doc,updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
 export const useProduct = () => {
@@ -15,39 +15,55 @@ export const useProduct = () => {
         return dataParsed;
     }
     
+    const validateFormProduct = (form) => {
+
+        console.log(typeof form.price)
+        console.log(typeof form.amount)
+        let _errors = {}
+        if(form.productName === ""){
+            _errors.productName  = 'Campo obligatorio.' ;
+        }
+        //====================================
+        if(form.price === ''){
+            _errors.price = 'Campo obligatorio.';
+        }else if(Number(form.price)<0){
+            _errors.price = 'ingrese un valor superior a cero.';
+        }
+        //====================================
+        if(form.amount === ''){
+            _errors.amount = 'Campo obligatorio.';
+        }else if(Number(form.amount)<0){
+            _errors.amount = 'ingrese un monto superior a cero.';
+        }
+        //====================================
+        if(form.elaborationDate === '' ){
+            _errors.elabDate = 'Campo obligatorio.';
+        }
+        //====================================
+        if (form.expiration){
+            if(form.expirationDate === "" ){
+                _errors.expDate = 'Campo obligatorio.';
+            }else if(Date.parse(form.expirationDate) < Date.parse(form.elaborationDate)){
+                _errors.expDate = 'la fecha de vencimiento no puede ser menor a la de elaboración.';
+            }
+        }
+        //====================================
+
+        return _errors;
+    }
 
     const loadProduct = async (obj) => {
 
         let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
 
-        //Guardar productos en mayuscula para que no haya comflictos a la hora de buscar. 
-
         if (aux.length === 0 ){
             await addDoc(productCollection,obj)
         }else{
-            alert("producto ya cargado")
+            const oldProduct = doc(db,"products",aux[0].id)
+            await updateDoc(oldProduct,{...obj,amount:(Number(aux[0].amount) + Number(obj.amount))})
         }
     }
-    
-    /*
-        PARA LA ALTA DE PRODUCTO EL HOOK RECIBE DATOS 
-        - NOMBRE
-        - CANTIDAD
-        - F.VENCIMIENTO
-        - F.INGRESO
-        - PRECIO
 
-        NOTA: SI EL PRODUCTO YA EXISTE SOLO AUMENTA CANTIDAD Y FECHA DE INGRESO
-
-    */
-
-    /*
-        PARA LA MODIFICACIÓN:
-        SE EJECUTA CON ID 
-        Y LA CANTIDAD QUE SE QUIERE VENDER 
-    */
-
-
-    return {getListProducts,loadProduct}
+    return {getListProducts,loadProduct,validateFormProduct}
 }    
 

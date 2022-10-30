@@ -13,8 +13,10 @@ const FormProductLoad = () => {
     const [amount, setAmount] = useState('');
     const [elaborationDate, setElaborationDate] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
+    const [expiration, setExpiration] = useState(false);
+    const [errors,setErrors] = useState('');
 
-    const {loadProduct} = useProduct();
+    const {loadProduct,validateFormProduct} = useProduct();
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -31,20 +33,27 @@ const FormProductLoad = () => {
     const amountHandler = (e) => setAmount((e.target.value)); 
     const elaborationDateHandler = (e) => setElaborationDate((e.target.value));
     const expirationDateHandler = (e) => setExpirationDate((e.target.value));
+    const expirationHandler = (e) => setExpiration((e.target.checked));
 
     //Funcion para agregar un producto a la base de datos
     const submitButton = async () => {
 
         const product = {
             productName: productName.trim(),
-            price: "u$d "+ price.trim(),
+            price: price.trim(),
             amount: amount.trim(),
             elaborationDate: elaborationDate.trim(),
-            expirationDate: expirationDate.trim(), 
+            expirationDate: expiration ? expirationDate.trim() : '',
+            expiration: expiration 
         }
 
-        loadProduct(product)
-        cleanInputs();
+        let validate = await validateFormProduct(product)
+        setErrors(validate)
+
+        if(Object.entries(validate).length === 0){
+            loadProduct(product)
+            cleanInputs();
+        }
 
     }
 
@@ -55,22 +64,33 @@ const FormProductLoad = () => {
                 <Form.Group className='mb-2'>
                     <Form.Label>Nombre del producto</Form.Label>
                     <Form.Control type="text" placeholder='Nombre del producto' onChange={nameHandler} value={productName}/>
+                    {errors.productName && <p className="text-danger">{errors.productName}</p>}
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Form.Label>Precio</Form.Label>
                     <Form.Control type="number" placeholder='Precio' onChange={priceHandler} value={price}/>
+                    {errors.price && <p className="text-danger">{errors.price}</p>}
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Form.Label>Cantidad</Form.Label>
                     <Form.Control type="number" placeholder='Cantidad' onChange={amountHandler} value={amount}/>
+                    {errors.amount && <p className="text-danger">{errors.amount}</p>}
                 </Form.Group>
                 <Form.Group className='mb-3'>
                     <Form.Label>Fecha de ingreso o elaboración</Form.Label>
                     <Form.Control type="date" onChange={elaborationDateHandler} value={elaborationDate}/>
+                    {errors.elabDate && <p className="text-danger">{errors.elabDate}</p>}
                 </Form.Group>
                 <Form.Group className='mb-3'>
-                    <Form.Label>Fecha de vencimiento</Form.Label>
-                    <Form.Control type="date" onChange={expirationDateHandler} value={expirationDate}/>
+                    { expiration && 
+                        <>
+                            <Form.Label>Fecha de vencimiento</Form.Label>
+                            <Form.Control type="date" onChange={expirationDateHandler} value={expirationDate}/>
+                        </>
+                    }
+                    <Form.Label>¿contiene vencimiento?</Form.Label>
+                    <input type="checkbox" className="m-2" onChange={expirationHandler} value={expirationDate}/>
+                    {errors.expDate && <p className="text-danger">{errors.expDate}</p>}
                 </Form.Group>
                 <Form.Group>
                     <Button type='button' variant='success' className='add-user me-3' onClick={submitButton}>Agregar Producto</Button>
