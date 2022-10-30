@@ -13,8 +13,9 @@ const FormProductLoad = () => {
     const [amount, setAmount] = useState('');
     const [elaborationDate, setElaborationDate] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
+    const [errors,setErrors] = useState('');
 
-    const {loadProduct} = useProduct();
+    const {loadProduct,validateFormProduct} = useProduct();
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -37,14 +38,19 @@ const FormProductLoad = () => {
 
         const product = {
             productName: productName.trim(),
-            price: "u$d "+ price.trim(),
+            price: price.trim(),
             amount: amount.trim(),
             elaborationDate: elaborationDate.trim(),
             expirationDate: expirationDate.trim(), 
         }
 
-        loadProduct(product)
-        cleanInputs();
+        let validate = await validateFormProduct(product)
+        setErrors(validate)
+
+        if(Object.entries(validate).length === 0){
+            loadProduct(product)
+            cleanInputs();
+        }
 
     }
 
@@ -55,22 +61,27 @@ const FormProductLoad = () => {
                 <Form.Group className='mb-2'>
                     <Form.Label>Nombre del producto</Form.Label>
                     <Form.Control type="text" placeholder='Nombre del producto' onChange={nameHandler} value={productName}/>
+                    {errors.productName && <p className="text-danger">{errors.productName}</p>}
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Form.Label>Precio</Form.Label>
                     <Form.Control type="number" placeholder='Precio' onChange={priceHandler} value={price}/>
+                    {errors.price && <p className="text-danger">{errors.price}</p>}
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Form.Label>Cantidad</Form.Label>
                     <Form.Control type="number" placeholder='Cantidad' onChange={amountHandler} value={amount}/>
+                    {errors.amount && <p className="text-danger">{errors.amount}</p>}
                 </Form.Group>
                 <Form.Group className='mb-3'>
                     <Form.Label>Fecha de ingreso o elaboración</Form.Label>
                     <Form.Control type="date" onChange={elaborationDateHandler} value={elaborationDate}/>
+                    {errors.elabDate && <p className="text-danger">{errors.elabDate}</p>}
                 </Form.Group>
                 <Form.Group className='mb-3'>
                     <Form.Label>Fecha de vencimiento</Form.Label>
                     <Form.Control type="date" onChange={expirationDateHandler} value={expirationDate}/>
+                    {errors.expDate && <p className="text-danger">{errors.expDate}</p>}
                 </Form.Group>
                 <Form.Group>
                     <Button type='button' variant='success' className='add-user me-3' onClick={submitButton}>Agregar Producto</Button>

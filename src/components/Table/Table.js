@@ -41,7 +41,7 @@ const Tabla = () => {
                         <td>{item.amount}</td>          
                         <td>{item.elaborationDate}</td>  
                         <td>{item.expirationDate}</td>  
-                        <td>{item.price}</td>  
+                        <td>usd {item.price}</td>  
                     </tr>
                     )}
                 </tbody>

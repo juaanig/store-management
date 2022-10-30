@@ -8,7 +8,7 @@ export const useValidate = () => {
     const {getUsersToCompare, getPassToCompare} = useAuth()
 
     const validateForm = async (form) => {
-        console.log(form)
+
         let _errors = {}
         if(form.name === ""){
             _errors.name  = 'Campo obligatorio.' ;
@@ -42,7 +42,7 @@ export const useValidate = () => {
         if(!(await getUsersToCompare(form.email)).result){
             _errors.user = "email ya registrado";
         }
-        console.log(_errors)
+
         return _errors;
     }
 

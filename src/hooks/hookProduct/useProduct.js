@@ -15,6 +15,32 @@ export const useProduct = () => {
         return dataParsed;
     }
     
+    const validateFormProduct = (form) => {
+
+        let _errors = {}
+        if(form.productName === ""){
+            _errors.productName  = 'Campo obligatorio.' ;
+        }
+        //====================================
+        if(form.price === ''){
+            _errors.price = 'Campo obligatorio.';
+        }
+        //====================================
+        if(form.amount === ''){
+            _errors.amount = 'Campo obligatorio.';
+        }
+        //====================================
+        if(form.elaborationDate === '' ){
+            _errors.elabDate = 'Campo obligatorio.';
+        }
+        //====================================
+        if(form.expirationDate === "" ){
+            _errors.expDate = 'Campo obligatorio.';
+        }
+        //====================================
+
+        return _errors;
+    }
 
     const loadProduct = async (obj) => {
 
@@ -48,6 +74,6 @@ export const useProduct = () => {
     */
 
 
-    return {getListProducts,loadProduct}
+    return {getListProducts,loadProduct,validateFormProduct}
 }    
 
