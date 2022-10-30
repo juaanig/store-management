@@ -13,6 +13,7 @@ const FormProductLoad = () => {
     const [amount, setAmount] = useState('');
     const [elaborationDate, setElaborationDate] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
+    const [expiration, setExpiration] = useState(false);
     const [errors,setErrors] = useState('');
 
     const {loadProduct,validateFormProduct} = useProduct();
@@ -32,6 +33,7 @@ const FormProductLoad = () => {
     const amountHandler = (e) => setAmount((e.target.value)); 
     const elaborationDateHandler = (e) => setElaborationDate((e.target.value));
     const expirationDateHandler = (e) => setExpirationDate((e.target.value));
+    const expirationHandler = (e) => setExpiration((e.target.checked));
 
     //Funcion para agregar un producto a la base de datos
     const submitButton = async () => {
@@ -41,7 +43,8 @@ const FormProductLoad = () => {
             price: price.trim(),
             amount: amount.trim(),
             elaborationDate: elaborationDate.trim(),
-            expirationDate: expirationDate.trim(), 
+            expirationDate: expiration ? expirationDate.trim() : '',
+            expiration: expiration 
         }
 
         let validate = await validateFormProduct(product)
@@ -79,8 +82,14 @@ const FormProductLoad = () => {
                     {errors.elabDate && <p className="text-danger">{errors.elabDate}</p>}
                 </Form.Group>
                 <Form.Group className='mb-3'>
-                    <Form.Label>Fecha de vencimiento</Form.Label>
-                    <Form.Control type="date" onChange={expirationDateHandler} value={expirationDate}/>
+                    { expiration && 
+                        <>
+                            <Form.Label>Fecha de vencimiento</Form.Label>
+                            <Form.Control type="date" onChange={expirationDateHandler} value={expirationDate}/>
+                        </>
+                    }
+                    <Form.Label>¿contiene vencimiento?</Form.Label>
+                    <input type="checkbox" className="m-2" onChange={expirationHandler} value={expirationDate}/>
                     {errors.expDate && <p className="text-danger">{errors.expDate}</p>}
                 </Form.Group>
                 <Form.Group>
