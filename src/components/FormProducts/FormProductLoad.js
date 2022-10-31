@@ -18,8 +18,7 @@ const FormProductLoad = () => {
     const [expiration, setExpiration] = useState(false);
     const [errors,setErrors] = useState('');
 
-    const {loadProduct,validateFormProduct} = useProduct();
-    const {noteHandler} = useNotes();
+    const {loadProduct,validateFormProduct, setProductsHandler} = useProduct();
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {

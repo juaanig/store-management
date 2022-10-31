@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 const FormProductSell = () => {
 
     const {getListProducts} = useProduct();
-    const {sellNoteHandler} = useNotes();
+    const {noteHandler} = useNotes();
     const [products,setProducts] = useState([]);
     
     useEffect(() => {
@@ -39,7 +39,7 @@ const FormProductSell = () => {
             sellAmount: sellAmount.trim()
         }
 
-        await sellNoteHandler(product)
+        await noteHandler(product)
     }
 
 

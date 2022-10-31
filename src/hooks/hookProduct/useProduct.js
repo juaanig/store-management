@@ -10,7 +10,6 @@ export const useProduct = () => {
     const {noteHandler} = useNotes()
     const [products, setProducts] = useState([])
     
-    
     const getListProducts = async () => {
         
         const data = await getDocs(productCollection);
