@@ -1,12 +1,14 @@
-import React from 'react'
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { useProduct } from '../../hooks/hookProduct/useProduct';
 import { useNotes } from '../../hooks/hookNotes/useNotes';
+import ProductContext from '../../contexts/productsContext/ProductContext';
 
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
 const FormProductLoad = () => {
+
+    const {setUpdate} = useContext(ProductContext)
 
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
@@ -54,6 +56,7 @@ const FormProductLoad = () => {
         if(Object.entries(validate).length === 0){
             loadProduct(product)
             cleanInputs();
+            setUpdate(true);
         }
 
     }
