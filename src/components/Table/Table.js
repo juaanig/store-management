@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 import {useProduct} from '../../hooks/hookProduct/useProduct'; 
 import AuthContext from '../../contexts/authContext/AuthContext';
+import ProductContext from '../../contexts/productsContext/ProductContext';
 
 const Tabla = () => {
 
