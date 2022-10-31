@@ -6,10 +6,11 @@ import {Button} from 'react-bootstrap'
 import { useContext } from 'react';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 import {useProduct} from '../../hooks/hookProduct/useProduct'; 
-import ProductContext from '../../contexts/productsContext/ProductContext';
+import AuthContext from '../../contexts/authContext/AuthContext';
 
 const Tabla = () => {
 
+    const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
     const {update,setUpdate} = useContext(ProductContext)
     const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
@@ -42,32 +43,59 @@ const Tabla = () => {
         <>
             <div className='container section' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered >
                 <TableProducts striped hover variant={theme} className='text-center'>
-                <thead >
-                    <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Fecha de ingreso</th>
-                    <th>Fecha de vencimiento</th>
-                    <th>Modificar</th>
-                    <th>Eliminar</th>
-                </thead>    
-                <tbody>
-                    {products.map((item, index) =>
-                    <tr key={item.id}  >
-                        <td>{item.productName}</td>  
-                        <td>{item.amount}</td>          
-                        <td>usd {item.price}</td>  
-                        <td>{item.elaborationDate}</td>  
-                        <td>{item.expirationDate}</td>  
-                        <td>
-                            <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
-                        </td>  
-                        <td>
-                            <Button onClick={()=>deleteRowProductHandler(item.id)} variant='danger'>Eliminar</Button>
-                        </td>
-                    </tr>
-                    )}
-                </tbody>
+                {user.role !== 'Deposito' ?
+                <>
+                    <thead >
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha de ingreso</th>
+                        <th>Fecha de vencimiento</th>
+                        
+                    </thead>    
+                    <tbody>
+                        {products.map((item, index) =>
+                        <tr key={item.id}  >
+                            <td>{item.productName}</td>  
+                            <td>{item.amount}</td>          
+                            <td>usd {item.price}</td>  
+                            <td>{item.elaborationDate}</td>  
+                            <td>{item.expirationDate}</td>
+                        </tr>
+                        )}
+                    </tbody>
+                </>
+                :
+                <>
+                    <thead >
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha de ingreso</th>
+                        <th>Fecha de vencimiento</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                        
+                    </thead>    
+                    <tbody>
+                        {products.map((item, index) =>
+                        <tr key={item.id}  >
+                            <td>{item.productName}</td>  
+                            <td>{item.amount}</td>          
+                            <td>usd {item.price}</td>  
+                            <td>{item.elaborationDate}</td>  
+                            <td>{item.expirationDate}</td>
+                            <td>
+                                <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
+                            </td>  
+                            <td>
+                                <Button onClick={()=>deleteRowProductHandler(item.id)} variant='danger'>Eliminar</Button>
+                            </td>
+                        </tr>
+                        )}
+                    </tbody>
+                </>}    
+                            
                 </TableProducts>
             </div>
         </>
