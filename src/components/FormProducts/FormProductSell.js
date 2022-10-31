@@ -33,7 +33,13 @@ const FormProductSell = () => {
 
 
     const sellProductHandler = async () => {
-        await sellNoteHandler(sellAmount, productName, null)
+
+        const product = {
+            productName: productName.trim(),
+            sellAmount: sellAmount.trim()
+        }
+
+        await sellNoteHandler(product)
     }
 
 

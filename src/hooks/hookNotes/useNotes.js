@@ -1,4 +1,4 @@
-import { collection, getDocs, addDoc} from 'firebase/firestore' ;
+import { collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
 import AuthContext from '../../contexts/authContext/AuthContext';
@@ -24,13 +24,22 @@ export const useNotes = () => {
         return dataSorted;
     }
 
-    const noteHandler = async (sellAmount, productName, obj) => {
+    const deleteExtraNotes = async () => {
+        const notes = await getListNotes();
+        if(notes.length > 10){
+            console.log("mas de 10")
+            const lastNote = doc(db, "notes", notes[10].id);
+            await deleteDoc(lastNote);
+        }
+    }
+
+    const noteHandler = async (obj) => {
         const actualtime = new Date();
         const actualtimeSort = actualtime.toISOString();
         const actualtimeNotes = actualtime.toLocaleString();
         
         if(user.role === "Vendedor"){
-            const sellNote= `${actualtimeNotes}: ${user.name} ${user.lastName} vendió ${sellAmount} unidades de ${productName}.`
+            const sellNote= `${actualtimeNotes}: ${user.name} ${user.lastName} vendió ${obj.sellAmount} unidades de ${obj.productName}.`
             const note = {note: sellNote, date: actualtimeSort};
             await addDoc(notesCollection,note)
         } else{
@@ -38,6 +47,7 @@ export const useNotes = () => {
             const note = {note: loadNote, date: actualtimeSort};
             await addDoc(notesCollection,note)
         }
+        deleteExtraNotes()
     }
 
     return {

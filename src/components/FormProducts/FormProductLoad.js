@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState } from "react";
 import { useProduct } from '../../hooks/hookProduct/useProduct';
+import { useNotes } from '../../hooks/hookNotes/useNotes';
 
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-
 
 const FormProductLoad = () => {
 
@@ -17,6 +17,7 @@ const FormProductLoad = () => {
     const [errors,setErrors] = useState('');
 
     const {loadProduct,validateFormProduct} = useProduct();
+    const {noteHandler} = useNotes();
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -36,7 +37,7 @@ const FormProductLoad = () => {
     const expirationHandler = (e) => setExpiration((e.target.checked));
 
     //Funcion para agregar un producto a la base de datos
-    const submitButton = async () => {
+    const submitButton = () => {
 
         const product = {
             productName: productName.trim(),
@@ -47,7 +48,7 @@ const FormProductLoad = () => {
             expiration: expiration 
         }
 
-        let validate = await validateFormProduct(product)
+        let validate = validateFormProduct(product)
         setErrors(validate)
 
         if(Object.entries(validate).length === 0){
