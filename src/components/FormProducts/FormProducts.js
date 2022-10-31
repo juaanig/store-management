@@ -43,7 +43,7 @@ const FormProducts = () => {
 
     return (
         <>
-            <div className='container mb-5 text-center' >
+            <div className='container mb-3 text-center' >
                 { showForm ? <Button onClick={showFormHandler} variant='danger'>cancelar</Button> : <Button variant='warning' onClick={showFormHandler} >{buttonName()}</Button>}    
             </div>
             <div>

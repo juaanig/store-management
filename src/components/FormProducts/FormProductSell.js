@@ -1,44 +1,45 @@
 import React from 'react'
-import { useContext, useState } from "react";
-import AuthContext from "../../contexts/authContext/AuthContext";
+import { useState, useEffect } from "react";
+import {useProduct} from '../../hooks/hookProduct/useProduct'
+import { useNotes } from '../../hooks/hookNotes/useNotes';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
-import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
-import { db } from '../../firebaseConfig/firebase' ;
-
 const FormProductSell = () => {
-    const products = [
-        {
-            name:"HONDA cbr 1000 ",
-            price:"u$d 10000",
-            amount: 100,
-            elaborationDate:"2021-01-01",
-            expirationDate:"2050-01-01",
+
+    const {getListProducts} = useProduct();
+    const {sellNoteHandler} = useNotes();
+    const [products,setProducts] = useState([]);
+    
+    useEffect(() => {
+        
+        const getProducts = async() => {
+            const data = await getListProducts();
+            setProducts(data)
         }
-    ]
+        console.log("loop")
+
+        getProducts();
+        
+    },[])
+    console.log(products)
 
     const [productName, setProductName] = useState('');
     const [sellAmount, setSellAmount] = useState('');
-    const [sellDate, setSellDate] = useState('');
-
-    const {user} = useContext(AuthContext)
-
-    const notesCollection = collection(db, "notes");
 
     //Captacion de los valores de los inputs
     const productNameHandler = (e) => setProductName((e.target.value));
     const sellAmountHandler = (e) => setSellAmount((e.target.value));
-    const sellDateHandler = (e) => setSellDate((e.target.value));
 
 
     const sellProductHandler = async () => {
-        //const product = products.find(product => product.name === productName);
-        const actualtime = new Date();
-        const note = {note: actualtime.toLocaleString()+ ": "+ user.name + " " + user.lastName + " vendio " + sellAmount + " unidades de " + productName + " el dia " + sellDate, 
-                    date: actualtime.toISOString()};
-        
-        await addDoc(notesCollection,note)
+
+        const product = {
+            productName: productName.trim(),
+            sellAmount: sellAmount.trim()
+        }
+
+        await sellNoteHandler(product)
     }
 
 
@@ -50,8 +51,8 @@ const FormProductSell = () => {
                     <Form.Label>Nombre del producto</Form.Label>
                     <Form.Select value={productName} onChange={productNameHandler}>
                         <option value="" >Seleccione un producto</option>
-                        {products.map((product) => (
-                            <option value={product.name}>{product.name}</option>
+                        {products.map((item) => (
+                            <option value={item.productName}>{item.productName}</option>
                         ))}
                     </Form.Select>
                 </Form.Group>
@@ -59,11 +60,7 @@ const FormProductSell = () => {
                     <Form.Label>Cantidad a vender:</Form.Label>
                     <Form.Control type="number" min={1} placeholder='Ingrese cantidad a vender' value={sellAmount} onChange={sellAmountHandler}/>
                 </Form.Group>
-                <Form.Group className='mb-3'>
-                    <Form.Label>Fecha de venta:</Form.Label>
-                    <Form.Control type="date" value={sellDate} onChange={sellDateHandler}/>
-                </Form.Group>
-                <Form.Group>
+                <Form.Group className='mb-2'>
                     <Button type='button' variant='success' className='add-user me-3' placeholder='Fecha de venta' onClick={sellProductHandler}>Vender Producto</Button>
                 </Form.Group>
             </Form>

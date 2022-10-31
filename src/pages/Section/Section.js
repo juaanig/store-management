@@ -6,9 +6,9 @@ import Notes from '../../components/Notes/Notes';
 const Section = () => {
     
     return (
-      <>
-        <div className='row mt-4 m-1'>
-          <div className='col bg-warning rounded-3 section'>
+      <div>
+        <div className='row mt-4 m-1 '>
+          <div className='col '>
             <Notes/>
           </div>
           <div className='col-7'>
@@ -18,7 +18,7 @@ const Section = () => {
             <FormProducts/>
           </div>
         </div>
-      </>
+      </div>
     )
 }
 

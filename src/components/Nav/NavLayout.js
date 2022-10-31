@@ -7,9 +7,11 @@ import AuthContext from "../../contexts/authContext/AuthContext";
 import ThemeButton from "../Buttons/ThemeButton";
 
 import Dropdown from "react-bootstrap/Dropdown";
+import ThemeContext from "../../contexts/ThemeContext/ThemeContext";
 
 const NavLayout = () => {
   const { user } = useContext(AuthContext);
+  const {theme} =useContext(ThemeContext)
 
   return (
     <>
@@ -19,13 +21,13 @@ const NavLayout = () => {
         </Navbar.Brand>
         <Nav className="ms-auto">
 
-          <Dropdown >
+          <Dropdown>
 
             <Dropdown.Toggle className="me-5" variant="success" id="dropdown-basic">
               OPCIONES
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu  variant={theme}>
 
               <Dropdown.Item key="action-1">
                 <ThemeButton />

@@ -1,47 +1,62 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect} from 'react'
 
 import  TableProducts from 'react-bootstrap/Table';
+import {Button} from 'react-bootstrap'
+
 import { useContext } from 'react';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
-
 import {useProduct} from '../../hooks/hookProduct/useProduct'; 
 
 const Tabla = () => {
 
-    const [products,setProducts] = useState([])
-    const {getListProducts} = useProduct() ;
+    const {theme} = useContext(ThemeContext)
+    const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
 
     useEffect(()=>{
 
         const listProduct = async()=>{
-            setProducts(await getListProducts())
+            setProductsHandler(await getListProducts())
         }
         console.log("loop")
         listProduct()
     },[])
 
+    //TODO HACER LOGICA MODIFICAR PRODUCTO
+    const modifyDataFormHandler = () => {
+        console.log("modificado")
+    }
 
-    const {theme} = useContext(ThemeContext)
+    const deleteRowProductHandler = (id) => {
+        deleteProductHandler(id)
+    }
     
     return (
         <>
-            <div className='container' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered >
+            <div className='container section' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered >
                 <TableProducts striped hover variant={theme} className='text-center'>
                 <thead >
                     <th>Nombre</th>
                     <th>Cantidad</th>
+                    <th>Precio</th>
                     <th>Fecha de ingreso</th>
                     <th>Fecha de vencimiento</th>
-                    <th>Precio</th>
+                    <th>Modificar</th>
+                    <th>Eliminar</th>
                 </thead>    
                 <tbody>
-                    {products.map((item) =>
+                    {products.map((item, index) =>
                     <tr key={item.id}  >
                         <td>{item.productName}</td>  
                         <td>{item.amount}</td>          
+                        <td>usd {item.price}</td>  
                         <td>{item.elaborationDate}</td>  
                         <td>{item.expirationDate}</td>  
-                        <td>usd {item.price}</td>  
+                        <td>
+                            <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
+                        </td>  
+                        <td>
+                            <Button onClick={()=>deleteRowProductHandler(item.id)} variant='danger'>Eliminar</Button>
+                        </td>
                     </tr>
                     )}
                 </tbody>

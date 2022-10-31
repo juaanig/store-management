@@ -17,18 +17,17 @@ const Notes = () => {
     getNotes();
     
   },[])
-
-  console.log(notes)
   
   return (  
-    <div className='container'>
-       <div className='notepad'>
-            <p className='notes-title'>NOTAS</p>
-            <div className='notes-area'>
-              {notes && notes.map((note, index) => (<div className='notes text-dark' key={index}>{note.note}</div> ))}
-            </div>
-       </div>
+    <div className='container bg-secondary rounded-3 py-2 px-3 section'>
+      <div className="pb-3">
+        <p className='text-dark fw-bold text-center'>NOTAS</p>
+          <div className=''>
+            {notes && notes.map((note, index) => (<div className='bg-light mb-2 rounded-2 p-1 text-dark' key={index}>{note.note}</div> ))}
+          </div>
+      </div>
     </div>
+    
   )
 }
 
