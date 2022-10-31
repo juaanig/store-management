@@ -19,9 +19,9 @@ const Tabla = () => {
     }
 
     useEffect(()=>{ 
-        console.log("loop")
         listProduct()
     },[])
+
 
     if(update){
         listProduct();
@@ -35,6 +35,7 @@ const Tabla = () => {
 
     const deleteRowProductHandler = (id) => {
         deleteProductHandler(id)
+        setUpdate(true)
     }
     
     return (

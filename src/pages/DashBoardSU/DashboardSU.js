@@ -11,8 +11,6 @@ import FormUsers from '../../components/FormUsers/FormUsers';
 import Loader from '../../components/Loader/Loader';
 
 const DashboardSU = () => {
-
-    let Users = [];
     
     const [errors, setErrors] = useState({});
     const [showForm,setShowForm ] = useState(false);
@@ -116,7 +114,6 @@ const DashboardSU = () => {
         setErrors(validate)
 
         if(Object.entries(validate).length === 0){
-            Users.push(setUser());
             await addDoc(usersCollection,setUser())
             cleanInputs();
             setAllUsers(await getList())
