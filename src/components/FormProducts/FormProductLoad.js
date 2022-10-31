@@ -18,7 +18,7 @@ const FormProductLoad = () => {
     const [expiration, setExpiration] = useState(false);
     const [errors,setErrors] = useState('');
 
-    const {loadProduct,validateFormProduct, setProductsHandler} = useProduct();
+    const {loadProduct,validateLoadFormProduct} = useProduct();
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -49,7 +49,7 @@ const FormProductLoad = () => {
             expiration: expiration 
         }
 
-        let validate = validateFormProduct(product)
+        let validate = validateLoadFormProduct(product)
         setErrors(validate)
 
         if(Object.entries(validate).length === 0){

@@ -24,7 +24,7 @@ export const useProduct = () => {
         setProducts(await getListProducts())
     }
     
-    const validateFormProduct = (form) => {
+    const validateLoadFormProduct = (form) => {
         
         console.log(typeof form.price)
         console.log(typeof form.amount)
@@ -45,20 +45,39 @@ export const useProduct = () => {
             _errors.amount = 'ingrese un monto superior a cero.';
         }
         //====================================
-    if(form.elaborationDate === '' ){
-        _errors.elabDate = 'Campo obligatorio.';
-    }
-    //====================================
-    if (form.expiration){
-        if(form.expirationDate === "" ){
-            _errors.expDate = 'Campo obligatorio.';
-        }else if(Date.parse(form.expirationDate) < Date.parse(form.elaborationDate)){
-            _errors.expDate = 'la fecha de vencimiento no puede ser menor a la de elaboración.';
+        if(form.elaborationDate === '' ){
+            _errors.elabDate = 'Campo obligatorio.';
         }
+        //====================================
+        if (form.expiration){
+            if(form.expirationDate === "" ){
+                _errors.expDate = 'Campo obligatorio.';
+            }else if(Date.parse(form.expirationDate) < Date.parse(form.elaborationDate)){
+                _errors.expDate = 'la fecha de vencimiento no puede ser menor a la de elaboración.';
+            }
+        }
+        //====================================
+        
+        return _errors;
     }
-    //====================================
-    
-    return _errors;
+
+    const validateSellFormProduct = async (form) => {
+        let _errors = {}
+        let aux = (await getListProducts()).filter((item)=> item.productName === form.productName.trim())
+        if(form.productName === ""){
+            _errors.productName  = 'Campo obligatorio.' ;
+        }
+        //====================================
+        if(form.sellAmount === ''){
+            _errors.sellAmount = 'Campo obligatorio.';
+        }else if(Number(form.sellAmount)<0){
+            _errors.sellAmount = 'Ingrese un monto superior a cero.';
+        }else if (Number(form.sellAmount) > Number(aux[0].amount)){
+            _errors.sellAmount = 'No hay suficientes unidades disponibles.';
+        }
+        //====================================
+        
+        return _errors;
     }
     
 
@@ -76,11 +95,23 @@ export const useProduct = () => {
         setProducts(await getListProducts())
     }
 
+    const sellProduct = async (obj) => {
+        let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
+        const oldProduct = doc(db,"products",aux[0].id)
+        if (Number(obj.sellAmount) < Number(aux[0].amount)) {
+            await updateDoc(oldProduct,{...obj,amount:(Number(aux[0].amount) - Number(obj.sellAmount))})
+        }else {
+            await deleteDoc(oldProduct)
+        }
+        noteHandler(obj)
+        setProducts(await getListProducts())
+    }
+
     const deleteProductHandler = async (id) => {
         const ProductDoc = doc(db,"products", id)
         await deleteDoc(ProductDoc)
     }
 
-    return {getListProducts,loadProduct,validateFormProduct, setProductsHandler, products, deleteProductHandler}
+    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct}
 }    
 

@@ -1,4 +1,3 @@
-import "./Notes.css";
 import { useEffect, useState } from "react";
 import {useNotes} from '../../hooks/hookNotes/useNotes'
 
