@@ -6,20 +6,27 @@ import {Button} from 'react-bootstrap'
 import { useContext } from 'react';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 import {useProduct} from '../../hooks/hookProduct/useProduct'; 
+import ProductContext from '../../contexts/productsContext/ProductContext';
 
 const Tabla = () => {
 
     const {theme} = useContext(ThemeContext)
+    const {update,setUpdate} = useContext(ProductContext)
     const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
 
-    useEffect(()=>{
+    const listProduct = async()=>{
+        setProductsHandler(await getListProducts())
+    }
 
-        const listProduct = async()=>{
-            setProductsHandler(await getListProducts())
-        }
+    useEffect(()=>{ 
         console.log("loop")
         listProduct()
     },[])
+
+    if(update){
+        listProduct();
+        setUpdate(false)
+    }
 
     //TODO HACER LOGICA MODIFICAR PRODUCTO
     const modifyDataFormHandler = () => {

@@ -1,12 +1,13 @@
 import Table from '../../components/Table/Table';
 import FormProducts from '../../components/FormProducts/FormProducts';
 import Notes from '../../components/Notes/Notes';
-
+import { ProductProvider } from '../../contexts/productsContext/ProductContext';
 
 const Section = () => {
     
-    return (
-      <div>
+  return (
+    <>
+      <ProductProvider>
         <div className='row mt-4 m-1 '>
           <div className='col '>
             <Notes/>
@@ -18,8 +19,9 @@ const Section = () => {
             <FormProducts/>
           </div>
         </div>
-      </div>
-    )
+      </ProductProvider>
+    </>
+  )
 }
 
 export default Section;
