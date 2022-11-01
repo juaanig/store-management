@@ -2,6 +2,7 @@ import { collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore' 
 import { db } from '../../firebaseConfig/firebase' ;
 
 import AuthContext from '../../contexts/authContext/AuthContext';
+import ProductContext from '../../contexts/productsContext/ProductContext';
 import { useContext, useState } from 'react';
 
 export const useNotes = () => {
@@ -9,6 +10,7 @@ export const useNotes = () => {
     const notesCollection = collection(db, "notes");
 
     const {user} = useContext(AuthContext)
+    const {setUpdateNotes} = useContext(ProductContext)
 
     const [notes,setNotes] = useState([]);
 
@@ -26,6 +28,10 @@ export const useNotes = () => {
         return dataSorted;
     }
 
+    const setNotesHandler = async () => {
+        setNotes(await getListNotes())
+    }
+
     const deleteExtraNotes = async () => {
         const notes = await getListNotes();
         if(notes.length > 10){
@@ -33,7 +39,6 @@ export const useNotes = () => {
             const lastNote = doc(db, "notes", notes[10].id);
             await deleteDoc(lastNote);
         }
-        setNotes(await getListNotes())
     }
 
     const noteHandler = async (obj) => {
@@ -52,12 +57,13 @@ export const useNotes = () => {
         }
         deleteExtraNotes()
         setNotes(await getListNotes())
+        setUpdateNotes(true)
     }
 
     return {
         getListNotes,
         noteHandler,
-        setNotes,
+        setNotesHandler,
         notes
     }
         

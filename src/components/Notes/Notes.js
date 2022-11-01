@@ -4,20 +4,20 @@ import ProductContext from '../../contexts/productsContext/ProductContext';
 
 const Notes = () => {
 
-  const {getListNotes} = useNotes();
-  const {update} = useContext(ProductContext)
-  const [notes, setNotes] = useState();
+  const {getListNotes, setNotesHandler, notes} = useNotes();
+  const {updateNotes, setUpdateNotes} = useContext(ProductContext)
 
   const listNotes = async () => {
-    setNotes(await getListNotes());
+    setNotesHandler(await getListNotes());
   }
 
   useEffect(() => {
     listNotes()
   },[])
 
-  if (update){
+  if (updateNotes){
     listNotes()
+    setUpdateNotes(false)
   }
   
   return (  

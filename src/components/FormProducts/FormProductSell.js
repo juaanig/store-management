@@ -11,7 +11,7 @@ const FormProductSell = () => {
     const [products,setProducts] = useState([]);
     const [errors,setErrors] = useState({});
 
-    const {setUpdate} = useContext(ProductContext)
+    const {setUpdateProducts} = useContext(ProductContext)
     
     useEffect(() => {
         
@@ -51,7 +51,7 @@ const FormProductSell = () => {
         if(Object.entries(validate).length === 0){
             sellProduct(product)
             cleanInputs();
-            setUpdate(true);
+            setUpdateProducts(true);
         }
     }
 

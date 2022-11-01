@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 const FormProductLoad = () => {
 
-    const {setUpdate} = useContext(ProductContext)
+    const {setUpdateProducts} = useContext(ProductContext)
 
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
@@ -54,7 +54,7 @@ const FormProductLoad = () => {
         if(Object.entries(validate).length === 0){
             loadProduct(product)
             cleanInputs();
-            setUpdate(true);
+            setUpdateProducts(true);
         }
 
     }
