@@ -1,9 +1,14 @@
 import Table from '../../components/Table/Table';
 import FormProducts from '../../components/FormProducts/FormProducts';
 import Notes from '../../components/Notes/Notes';
+import Loader from '../../components/Loader/Loader';
 import { ProductProvider } from '../../contexts/productsContext/ProductContext';
+import AuthContext from '../../contexts/authContext/AuthContext';
+import { useContext } from 'react';
 
 const Section = () => {
+
+  const {showLoader} = useContext(AuthContext)
     
   return (
     <>
@@ -17,6 +22,7 @@ const Section = () => {
           </div>
           <div className='col'>
             <FormProducts/>
+            {showLoader && <Loader />}
           </div>
         </div>
       </ProductProvider>

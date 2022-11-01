@@ -1,14 +1,15 @@
 import { useState,useContext } from "react";
 import { useProduct } from '../../hooks/hookProduct/useProduct';
-import { useNotes } from '../../hooks/hookNotes/useNotes';
 import ProductContext from '../../contexts/productsContext/ProductContext';
 
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import AuthContext from "../../contexts/authContext/AuthContext";
 
 const FormProductLoad = () => {
 
-    const {setUpdate} = useContext(ProductContext)
+    const {setUpdateProducts} = useContext(ProductContext)
+    const {setShowLoader} = useContext(AuthContext)
 
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
@@ -18,8 +19,7 @@ const FormProductLoad = () => {
     const [expiration, setExpiration] = useState(false);
     const [errors,setErrors] = useState('');
 
-    const {loadProduct,validateFormProduct} = useProduct();
-    const {noteHandler} = useNotes();
+    const {loadProduct,validateLoadFormProduct} = useProduct();
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -40,7 +40,7 @@ const FormProductLoad = () => {
 
     //Funcion para agregar un producto a la base de datos
     const submitButton = () => {
-
+        setShowLoader(true)
         const product = {
             productName: productName.trim(),
             price: price.trim(),
@@ -50,13 +50,14 @@ const FormProductLoad = () => {
             expiration: expiration 
         }
 
-        let validate = validateFormProduct(product)
+        let validate = validateLoadFormProduct(product)
         setErrors(validate)
 
         if(Object.entries(validate).length === 0){
             loadProduct(product)
             cleanInputs();
-            setUpdate(true);
+            setUpdateProducts(true);
+            setShowLoader(false)
         }
 
     }

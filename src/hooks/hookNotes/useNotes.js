@@ -2,13 +2,17 @@ import { collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore' 
 import { db } from '../../firebaseConfig/firebase' ;
 
 import AuthContext from '../../contexts/authContext/AuthContext';
-import { useContext } from 'react';
+import ProductContext from '../../contexts/productsContext/ProductContext';
+import { useContext, useState } from 'react';
 
 export const useNotes = () => {
 
     const notesCollection = collection(db, "notes");
 
     const {user} = useContext(AuthContext)
+    const {setUpdateNotes} = useContext(ProductContext)
+
+    const [notes,setNotes] = useState([]);
 
     const getListNotes = async () => {
 
@@ -22,6 +26,10 @@ export const useNotes = () => {
         })
 
         return dataSorted;
+    }
+
+    const setNotesHandler = async () => {
+        setNotes(await getListNotes())
     }
 
     const deleteExtraNotes = async () => {
@@ -48,11 +56,15 @@ export const useNotes = () => {
             await addDoc(notesCollection,note)
         }
         deleteExtraNotes()
+        setNotes(await getListNotes())
+        setUpdateNotes(true)
     }
 
     return {
         getListNotes,
-        noteHandler
+        noteHandler,
+        setNotesHandler,
+        notes
     }
         
 }
