@@ -27,8 +27,7 @@ export const useProduct = () => {
     
     const validateFormProduct = (form) => {
         
-        console.log(typeof form.price)
-        console.log(typeof form.amount)
+
         let _errors = {}
         if(form.productName === ""){
             _errors.productName  = 'Campo obligatorio.' ;
