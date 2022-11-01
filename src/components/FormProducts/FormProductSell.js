@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect, useContext } from "react";
 import {useProduct} from '../../hooks/hookProduct/useProduct'
 import ProductContext from '../../contexts/productsContext/ProductContext';
+import AuthContext from '../../contexts/authContext/AuthContext';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
@@ -12,6 +13,7 @@ const FormProductSell = () => {
     const [errors,setErrors] = useState({});
 
     const {setUpdateProducts} = useContext(ProductContext)
+    const {setShowLoader} =useContext(AuthContext)
     
     useEffect(() => {
         
@@ -39,7 +41,7 @@ const FormProductSell = () => {
 
 
     const sellProductHandler = async () => {
-
+        setShowLoader(true)
         const product = {
             productName: productName.trim(),
             sellAmount: sellAmount.trim()
@@ -52,6 +54,7 @@ const FormProductSell = () => {
             sellProduct(product)
             cleanInputs();
             setUpdateProducts(true);
+            setShowLoader(false)
         }
     }
 

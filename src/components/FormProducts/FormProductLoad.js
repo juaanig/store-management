@@ -4,10 +4,12 @@ import ProductContext from '../../contexts/productsContext/ProductContext';
 
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import AuthContext from "../../contexts/authContext/AuthContext";
 
 const FormProductLoad = () => {
 
     const {setUpdateProducts} = useContext(ProductContext)
+    const {setShowLoader} = useContext(AuthContext)
 
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
@@ -38,7 +40,7 @@ const FormProductLoad = () => {
 
     //Funcion para agregar un producto a la base de datos
     const submitButton = () => {
-
+        setShowLoader(true)
         const product = {
             productName: productName.trim(),
             price: price.trim(),
@@ -55,6 +57,7 @@ const FormProductLoad = () => {
             loadProduct(product)
             cleanInputs();
             setUpdateProducts(true);
+            setShowLoader(false)
         }
 
     }
