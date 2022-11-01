@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import {useNotes} from '../../hooks/hookNotes/useNotes'
+import ProductContext from '../../contexts/productsContext/ProductContext';
 
 const Notes = () => {
 
   const {getListNotes} = useNotes();
-  const [notes,setNotes] = useState([]);
+  const {update} = useContext(ProductContext)
+  const [notes, setNotes] = useState();
+
+  const listNotes = async () => {
+    setNotes(await getListNotes());
+  }
 
   useEffect(() => {
-        
-    const getNotes = async() => {
-        const data = await getListNotes();
-        setNotes(data)
-    }
-    
-    getNotes();
-    
+    listNotes()
   },[])
+
+  if (update){
+    listNotes()
+  }
   
   return (  
     <div className='container bg-secondary rounded-3 py-2 px-3 section'>

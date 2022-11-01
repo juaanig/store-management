@@ -1,6 +1,5 @@
 import { useState,useContext } from "react";
 import { useProduct } from '../../hooks/hookProduct/useProduct';
-import { useNotes } from '../../hooks/hookNotes/useNotes';
 import ProductContext from '../../contexts/productsContext/ProductContext';
 
 import { Form } from 'react-bootstrap';

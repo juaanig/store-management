@@ -47,7 +47,6 @@ const FormProductSell = () => {
 
         let validate = await validateSellFormProduct(product)
         setErrors(validate)
-        console.log(errors)
 
         if(Object.entries(validate).length === 0){
             sellProduct(product)
