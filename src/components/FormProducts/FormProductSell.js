@@ -1,15 +1,17 @@
 import React from 'react'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {useProduct} from '../../hooks/hookProduct/useProduct'
-import { useNotes } from '../../hooks/hookNotes/useNotes';
+import ProductContext from '../../contexts/productsContext/ProductContext';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
 const FormProductSell = () => {
 
-    const {getListProducts} = useProduct();
-    const {sellNoteHandler} = useNotes();
+    const {getListProducts, validateSellFormProduct, sellProduct} = useProduct();
     const [products,setProducts] = useState([]);
+    const [errors,setErrors] = useState({});
+
+    const {setUpdateProducts} = useContext(ProductContext)
     
     useEffect(() => {
         
@@ -22,10 +24,14 @@ const FormProductSell = () => {
         getProducts();
         
     },[])
-    console.log(products)
 
     const [productName, setProductName] = useState('');
     const [sellAmount, setSellAmount] = useState('');
+
+    const cleanInputs = () => {
+        setProductName('');
+        setSellAmount('');
+    }
 
     //Captacion de los valores de los inputs
     const productNameHandler = (e) => setProductName((e.target.value));
@@ -39,7 +45,14 @@ const FormProductSell = () => {
             sellAmount: sellAmount.trim()
         }
 
-        await sellNoteHandler(product)
+        let validate = await validateSellFormProduct(product)
+        setErrors(validate)
+
+        if(Object.entries(validate).length === 0){
+            sellProduct(product)
+            cleanInputs();
+            setUpdateProducts(true);
+        }
     }
 
 
@@ -55,10 +68,12 @@ const FormProductSell = () => {
                             <option value={item.productName}>{item.productName}</option>
                         ))}
                     </Form.Select>
+                    {errors.productName && <p className="text-danger">{errors.productName}</p>}
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Form.Label>Cantidad a vender:</Form.Label>
                     <Form.Control type="number" min={1} placeholder='Ingrese cantidad a vender' value={sellAmount} onChange={sellAmountHandler}/>
+                    {errors.sellAmount && <p className="text-danger">{errors.sellAmount}</p>}
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Button type='button' variant='success' className='add-user me-3' placeholder='Fecha de venta' onClick={sellProductHandler}>Vender Producto</Button>
