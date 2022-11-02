@@ -20,12 +20,12 @@ const Section = () => {
           <div className='col-7'>
             <Table/>
           </div>
-          {user.role !== 'Comprador' ?
+          {user.role !== 'Comprador' &&
           <div className='col-2'>
             <FormProducts/>
             {showLoader && <Loader />}
           </div>
-          : null}
+          }
         </div>
       </ProductProvider>
     </>
