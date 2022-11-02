@@ -14,14 +14,14 @@ const Section = () => {
     <>
       <ProductProvider>
         <div className='row mt-4 m-1 '>
-          <div className='col '>
+          <div className='col-3'>
             <Notes/>
           </div>
           <div className='col-7'>
             <Table/>
           </div>
           {user.role !== 'Comprador' ?
-          <div className='col'>
+          <div className='col-2'>
             <FormProducts/>
             {showLoader && <Loader />}
           </div>
