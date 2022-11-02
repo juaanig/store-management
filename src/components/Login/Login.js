@@ -55,6 +55,8 @@ const Login = () => {
   
   return (    
     <>
+     <div className='row mt-4 m-1 justify-content-md-center '>
+      <div className="col-3">
       <Container className="mt-5">
         <Form className="mx-auto">
           <h1 className="mb-3">Iniciar sesion</h1>
@@ -75,6 +77,8 @@ const Login = () => {
         </Form>
       </Container>
       {showLoader && <Loader/>}
+      </div>
+     </div>
     </>
   )
 }
