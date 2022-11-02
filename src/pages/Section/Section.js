@@ -8,7 +8,7 @@ import { useContext } from 'react';
 
 const Section = () => {
 
-  const {showLoader} = useContext(AuthContext)
+  const {showLoader, user} = useContext(AuthContext)
     
   return (
     <>
@@ -20,10 +20,12 @@ const Section = () => {
           <div className='col-7'>
             <Table/>
           </div>
+          {user.role !== 'Comprador' ?
           <div className='col'>
             <FormProducts/>
             {showLoader && <Loader />}
           </div>
+          : null}
         </div>
       </ProductProvider>
     </>
