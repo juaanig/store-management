@@ -3,16 +3,26 @@ import { useState,createContext} from "react";
 const ThemeContext = createContext();
 
 const ThemeProvider = ({children}) => {
+
+    const localTheme = () => {
+        let localThemeStorage = localStorage.getItem("THEME");
+        if (localThemeStorage === null) {
+          localStorage.setItem("THEME", "light theme");
+          return "light theme";
+        } else {
+          return localThemeStorage;
+        }
+    };
     
-    const [theme,setTheme] = useState("light theme")
+    const [theme,setTheme] = useState(localTheme())
 
     const setThemeHandler = (arg) => {
+        localStorage.setItem("THEME",arg)
         setTheme(arg)
-        console.log(theme)
     }
 
     return (
-        <ThemeContext.Provider value={{setThemeHandler,theme}}>
+        <ThemeContext.Provider value={{setThemeHandler,theme, localTheme}}>
             {children}
         </ThemeContext.Provider>
     )
