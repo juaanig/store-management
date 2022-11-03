@@ -22,7 +22,9 @@ const Layout = () => {
     useEffect(()=>{
         
         const getRole = async() => {
-            (await user).role === "admin" ?  navigate("/superUser") : navigate("/general");
+            if((await user).role !== null){
+                (await user).role === "admin" ?  navigate("/superUser") : navigate("/general");
+            }
         }
         getRole()
 
