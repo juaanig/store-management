@@ -17,19 +17,13 @@ const Layout = () => {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        
-        const getRole = async() => {
 
-            if((await user).role === ""){
-                navigate("/")
-            }else if ((await user).role === "admin" ){
-                navigate("/superUser")
-            }else {
-                navigate("/general");
-            }
-                
+        try{
+            const getRole = async() =>  (await user).role === "admin" ? navigate("/superUser") : navigate("/general");
+            getRole()
+        }catch(e){
+            console.log(e)
         }
-        getRole()
 
     },[user,navigate])
 
