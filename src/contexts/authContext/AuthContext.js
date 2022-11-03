@@ -11,6 +11,7 @@ const AuthProvider = ({children}) => {
         if (userData !== null){
             setUser(userData)
         }
+        
     },[])
 
     const setInfoHandler = (arg) => {
