@@ -19,7 +19,7 @@ const NavLayout = () => {
         <Nav className="ms-auto">
           <div>
             <ThemeButton />
-            {user && <LogoutButton />}
+            {/*user && <LogoutButton />*/}
           </div>
         </Nav>
       </Navbar>
