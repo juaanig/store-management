@@ -14,7 +14,7 @@ const Tabla = () => {
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
     const {updateProducts,setUpdateProducts} = useContext(ProductContext)
-    const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
+    const {setProductsHandler, products, getListProducts, deleteProductHandler, modifyproductHandler} = useProduct() ;
 
     const listProduct = async()=> setProductsHandler(await getListProducts()) ;
 
@@ -28,8 +28,9 @@ const Tabla = () => {
     }
 
     //TODO HACER LOGICA MODIFICAR PRODUCTO
-    const modifyDataFormHandler = () => {
-        console.log("modificado")
+    const modifyDataFormHandler = (id) => {
+        const obj = products.find(product => product.id === id)
+        modifyproductHandler(obj)  
     }
 
     const deleteRowProductHandler = (id) => {
@@ -55,7 +56,7 @@ const Tabla = () => {
                         }
                     </thead>    
                     <tbody>
-                        {products.map((item, index) =>
+                        {products.map((item) =>
                         <tr key={item.id}  >
                             <td>{item.productName}</td>  
                             <td>{item.amount}</td>          
@@ -65,7 +66,7 @@ const Tabla = () => {
                             {   user.role === 'Deposito' &&
                                 <>
                                     <td>
-                                        <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
+                                        <Button onClick={()=>modifyDataFormHandler(item.id)}>Modificar</Button>
                                     </td>  
                                     <td>
                                         <Button onClick={()=>deleteRowProductHandler(item.id)} variant='danger'>Eliminar</Button>

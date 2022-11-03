@@ -7,7 +7,7 @@ import { useNotes } from '../hookNotes/useNotes';
 export const useProduct = () => {
     
     const productCollection = collection(db, "products");
-    const {noteHandler} = useNotes()
+    const {noteHandler, deleteProductNote, modifyProductNote} = useNotes()
     const [products, setProducts] = useState([])
     
     const getListProducts = async () => {
@@ -107,10 +107,16 @@ export const useProduct = () => {
     }
 
     const deleteProductHandler = async (id) => {
+        let aux = (await getListProducts()).filter((item)=> item.id === id)
         const ProductDoc = doc(db,"products", id)
         await deleteDoc(ProductDoc)
+        deleteProductNote(aux)
     }
 
-    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct}
+    const modifyproductHandler = async (obj) => {
+        modifyProductNote(obj)
+    }
+
+    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyproductHandler}
 }    
 
