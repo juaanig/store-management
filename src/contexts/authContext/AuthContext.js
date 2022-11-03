@@ -4,7 +4,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
 
-    const [user,setUser] = useState({})
+    const [user,setUser] = useState({role:""})
 
     useEffect(()=>{
         const userData = JSON.parse(localStorage.getItem("USER"))

@@ -10,9 +10,6 @@ import AuthContext from "../../contexts/authContext/AuthContext";
 import ThemeContext from "../../contexts/ThemeContext/ThemeContext";
 import Footer from "../../components/Footer/Footer";
 
-// Componente que contendra las demas rutas  
-
-
 const Layout = () => {
 
     const {user} = useContext(AuthContext)
@@ -22,9 +19,15 @@ const Layout = () => {
     useEffect(()=>{
         
         const getRole = async() => {
-            if((await user).role !== null){
-                (await user).role === "admin" ?  navigate("/superUser") : navigate("/general");
+
+            if((await user).role === ""){
+                navigate("/")
+            }else if ((await user).role === "admin" ){
+                navigate("/superUser")
+            }else {
+                navigate("/general");
             }
+                
         }
         getRole()
 
