@@ -7,8 +7,12 @@ const AuthProvider = ({children}) => {
     const [user,setUser] = useState({})
 
     useEffect(()=>{
+        
         const userData = JSON.parse(localStorage.getItem("USER"))
-        setUser(userData)
+        if (userData !== null){
+            setUser(userData)
+        }
+        
     },[])
 
     const setInfoHandler = (arg) => {

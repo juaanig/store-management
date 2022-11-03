@@ -9,9 +9,8 @@ const LogoutButton = () => {
     
     const logOutHandler = () => {
         localStorage.removeItem("USER")
-        setInfoHandler(false)
-        console.log("en logOut",localStorage.getItem("USER"))
-        navigate("/")
+        setInfoHandler(null)
+        navigate("/login")
     }
 
     return (

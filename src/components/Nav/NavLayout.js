@@ -13,6 +13,8 @@ const NavLayout = () => {
   const { user } = useContext(AuthContext);
   const {theme} =useContext(ThemeContext)
 
+  console.log(user)
+
   return (
     <>
       <Navbar className="p-2" expand="lg" bg="primary" variant="primary">
@@ -27,11 +29,11 @@ const NavLayout = () => {
               OPCIONES
             </Dropdown.Toggle>
 
-            <Dropdown.Menu  variant={theme}>
+            <Dropdown.Menu variant={theme}>
 
               <Dropdown.Item key="action-1">
                 <ThemeButton />
-              </Dropdown.Item>
+              </Dropdown.Item> 
 
               <Dropdown.Item key="action-2">
                 {user && <LogoutButton />}
