@@ -4,11 +4,13 @@ const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
 
-    const [user,setUser] = useState({role:""})
+    const [user,setUser] = useState({})
 
     useEffect(()=>{
         const userData = JSON.parse(localStorage.getItem("USER"))
-        setUser(userData === null ? {role:""} : userData)
+        if (userData !== null){
+            setUser(userData)
+        }
     },[])
 
     const setInfoHandler = (arg) => {
