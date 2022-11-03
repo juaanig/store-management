@@ -6,7 +6,9 @@ const AuthProvider = ({children}) => {
 
     const [user,setUser] = useState({})
 
+    console.log("en auth context",user)
     useEffect(()=>{
+        
         const userData = JSON.parse(localStorage.getItem("USER"))
         if (userData !== null){
             setUser(userData)

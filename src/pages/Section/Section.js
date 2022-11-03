@@ -4,12 +4,28 @@ import Notes from '../../components/Notes/Notes';
 import Loader from '../../components/Loader/Loader';
 import { ProductProvider } from '../../contexts/productsContext/ProductContext';
 import AuthContext from '../../contexts/authContext/AuthContext';
-import { useContext } from 'react';
+import { useContext,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Section = () => {
 
   const {showLoader, user} = useContext(AuthContext)
-    
+  const navigate = useNavigate()
+  
+  useEffect(()=>{
+  
+    const getUser = async() =>{
+
+      let user1 = await user 
+
+      if(user1 === null || Object.keys(user1).length === 0 ) navigate("/login") ;
+      
+    }  
+    getUser()
+
+
+  },[user,navigate])
+
   return (
     <>
       <ProductProvider>
