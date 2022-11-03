@@ -22,7 +22,7 @@ const ThemeProvider = ({children}) => {
     }
 
     return (
-        <ThemeContext.Provider value={{setThemeHandler,theme, localTheme}}>
+        <ThemeContext.Provider value={{setThemeHandler,theme}}>
             {children}
         </ThemeContext.Provider>
     )

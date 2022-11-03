@@ -4,14 +4,14 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import LogoutButton from "../Buttons/LogOut";
 import AuthContext from "../../contexts/authContext/AuthContext";
-// import ThemeButton from "../Buttons/ThemeButton";
+import ThemeButton from "../Buttons/ThemeButton";
 
 import Dropdown from "react-bootstrap/Dropdown";
-// import ThemeContext from "../../contexts/ThemeContext/ThemeContext";
+import ThemeContext from "../../contexts/ThemeContext/ThemeContext";
 
 const NavLayout = () => {
   const { user } = useContext(AuthContext);
-  // const {theme} =useContext(ThemeContext)
+  const {theme} =useContext(ThemeContext)
 
   console.log(user)
 
@@ -29,11 +29,11 @@ const NavLayout = () => {
               OPCIONES
             </Dropdown.Toggle>
 
-            <Dropdown.Menu >
+            <Dropdown.Menu variant={theme}>
 
-              {/* <Dropdown.Item key="action-1">
+              <Dropdown.Item key="action-1">
                 <ThemeButton />
-              </Dropdown.Item> */}
+              </Dropdown.Item> 
 
               <Dropdown.Item key="action-2">
                 {user && <LogoutButton />}
