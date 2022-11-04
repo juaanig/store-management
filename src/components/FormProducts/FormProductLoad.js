@@ -1,4 +1,4 @@
-import { useState,useContext } from "react";
+import { useState,useContext, useEffect } from "react";
 import { useProduct } from '../../hooks/hookProduct/useProduct';
 import ProductContext from '../../contexts/productsContext/ProductContext';
 
@@ -19,8 +19,9 @@ const FormProductLoad = () => {
     const [expiration, setExpiration] = useState(false);
     const [errors,setErrors] = useState('');
 
-    const {loadProduct,validateLoadFormProduct} = useProduct();
+    const {loadProduct,validateLoadFormProduct, loadButton, modifyButton, setShowForm, products, modifyProduct} = useProduct();
 
+    
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
         setProductName('');
@@ -29,7 +30,7 @@ const FormProductLoad = () => {
         setElaborationDate('');
         setExpirationDate('');
     }
-
+    
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setProductName((e.target.value));  
     const priceHandler = (e) => setPrice((e.target.value)); 
@@ -37,9 +38,10 @@ const FormProductLoad = () => {
     const elaborationDateHandler = (e) => setElaborationDate((e.target.value));
     const expirationDateHandler = (e) => setExpirationDate((e.target.value));
     const expirationHandler = (e) => setExpiration((e.target.checked));
-
+    
+    
     //Funcion para agregar un producto a la base de datos
-    const submitButton = () => {
+    const submitButtonHandler = () => {
         setShowLoader(true)
         const product = {
             productName: productName.trim(),
@@ -49,18 +51,49 @@ const FormProductLoad = () => {
             expirationDate: expiration ? expirationDate.trim() : '',
             expiration: expiration 
         }
-
+        
         let validate = validateLoadFormProduct(product)
         setErrors(validate)
-
+        
         if(Object.entries(validate).length === 0){
             loadProduct(product)
             cleanInputs();
             setUpdateProducts(true);
             setShowLoader(false)
         }
-
+        
     }
+    //=========================================================================================================================================================================
+    //Effect producto modificado desde el form NO FUNCIONAAAAAAAAAAAAAAAAAAA
+    useEffect(()=>{ 
+        const modifyInputs = () =>{
+            setProductName(modifyProduct.productName)
+            setPrice(modifyProduct.price)
+            setAmount(modifyProduct.amount)
+            setElaborationDate(modifyProduct.elaborationDate)
+            setExpiration(modifyProduct.expiration)
+            setExpirationDate(modifyProduct.expirationDate)
+        }
+        modifyInputs()
+    },[modifyProduct])
+
+    //Funcion para modificar producto en la base de datos ESTE SERIA LA FUNCION DEL BOTON QUE SE RENDERIZARIA AL TOCAR EL MODIFICAR
+    const modifyButtonHandler = () => {
+        console.log("modificado")
+    }
+
+    //ESTO DEBERIA ABRIR EL FORMULARIO Y SETEAR LOS DATOS DE LA TABLA EN LOS INPUTS DEL FORM
+    const modifyDataFormHandler =(obj) =>{
+        setShowForm(true)
+        console.log(obj)
+        /*setProductName(products[index].productName)
+        setPrice(products[index].price)
+        setAmount(products[index].amount)
+        setElaborationDate(products[index].elaborationDate)
+        setExpiration(products[index].expiration)
+        setExpirationDate(products[index].expirationDate)*/
+    }
+    //=========================================================================================================================================================================
 
     return (
     <>
@@ -98,7 +131,8 @@ const FormProductLoad = () => {
                     {errors.expDate && <p className="text-danger">{errors.expDate}</p>}
                 </Form.Group>
                 <Form.Group>
-                    <Button type='button' variant='success' className='add-user me-3' onClick={submitButton}>Agregar Producto</Button>
+                    {loadButton && <Button type='button' variant='success' className='add-user me-3' onClick={submitButtonHandler}>Agregar Producto</Button>}
+                    {modifyButton && <Button type='button' variant='warning' className='add-user me-3' onClick={modifyButtonHandler}>Agregar Producto</Button>}
                 </Form.Group>
             </Form>
         </div>

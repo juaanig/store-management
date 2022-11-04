@@ -19,14 +19,14 @@ export const useProduct = () => {
             
         return dataParsed;
     }
-        
+    
     const setProductsHandler = async () => {
         setProducts(await getListProducts())
     }
     
     const validateLoadFormProduct = (form) => {
         
-
+        
         let _errors = {}
         if(form.productName === ""){
             _errors.productName  = 'Campo obligatorio.' ;
@@ -59,7 +59,7 @@ export const useProduct = () => {
         
         return _errors;
     }
-
+    
     const validateSellFormProduct = async (form) => {
         let _errors = {}
         let aux = (await getListProducts()).filter((item)=> item.productName === form.productName.trim())
@@ -78,8 +78,6 @@ export const useProduct = () => {
         
         return _errors;
     }
-    
-
     const loadProduct = async (obj) => {
         
         let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
@@ -93,7 +91,7 @@ export const useProduct = () => {
         noteHandler(obj)
         setProducts(await getListProducts())
     }
-
+    
     const sellProduct = async (obj) => {
         let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
         const oldProduct = doc(db,"products",aux[0].id)
@@ -105,18 +103,32 @@ export const useProduct = () => {
         noteHandler(obj)
         setProducts(await getListProducts())
     }
-
+    
     const deleteProductHandler = async (id) => {
         let aux = (await getListProducts()).filter((item)=> item.id === id)
         const ProductDoc = doc(db,"products", id)
         await deleteDoc(ProductDoc)
         deleteProductNote(aux)
     }
-
-    const modifyproductHandler = async (obj) => {
-        modifyProductNote(obj)
+    //=========================================================================================================================================================================
+    const [showForm, setShowForm] = useState(false)
+    
+    const showFormHandler = () => {
+        setShowForm(!showForm)
     }
-
-    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyproductHandler}
+    
+    const [loadButton, setLoadButton] = useState(true)
+    const [modifyButton, setModifyButton] = useState(false)
+    
+    const [modifyProduct, setModifyProduct] =useState({});
+    
+    const modifyproductHandler = (obj) => {
+        setModifyProduct(obj)
+        console.log(modifyProduct)
+        //modifyProductNote(obj)
+    }
+    //=========================================================================================================================================================================
+    
+    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyproductHandler, showFormHandler, showForm, setShowForm, loadButton, setLoadButton, modifyButton, setModifyButton, modifyProduct}
 }    
 

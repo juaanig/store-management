@@ -1,16 +1,16 @@
 import React from 'react'
 import { useContext, useState } from "react";
 import AuthContext from "../../contexts/authContext/AuthContext";
+import { useProduct } from '../../hooks/hookProduct/useProduct';
 import FormProductLoad from './FormProductLoad';
 import FormProductSell from './FormProductSell';
 
 import { Button } from 'react-bootstrap';
 
-const FormProducts = () => {
+const FormProducts = ({modifyDataFormHandler}) => {
 
     const {user} = useContext(AuthContext)
-    const [showForm, setShowForm] = useState(false)
-    
+    const {showForm, showFormHandler } = useProduct()
 
     const buttonName = () => {
         switch (user.role) {
@@ -36,10 +36,6 @@ const FormProducts = () => {
             default:
                 return (<></>)
         }
-    }
-
-    const showFormHandler = () => {
-        setShowForm(!showForm)
     }
 
     return (

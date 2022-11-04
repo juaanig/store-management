@@ -6,7 +6,7 @@ import {Button} from "react-bootstrap"
 const ThemeButton = () => {
 
   const {setThemeHandler,theme} = useContext(ThemeContext)
-  const [themeButton, setThemeButton] = useState(theme === "light theme" ? "dark" : "light")
+  const [themeButton, setThemeButton] = useState(theme === "light theme" ? "dark theme" : "light theme")
 
 
   const changeThemeHandler = () => {
@@ -24,7 +24,7 @@ const ThemeButton = () => {
     <>
       <Button className={"me-2 btn btn-"+themeButton} xs={8}
         onClick={changeThemeHandler}>
-        {theme === "light theme" ? "dark" : "light"}
+        {theme === "light theme" ? "dark theme" : "light theme"}
       </Button>
     </>
   )
