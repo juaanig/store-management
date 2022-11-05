@@ -13,8 +13,8 @@ const Tabla = () => {
 
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
-    const {updateProducts,setUpdateProducts} = useContext(ProductContext)
-    const {setProductsHandler, products, getListProducts, deleteProductHandler, modifyproductHandler} = useProduct() ;
+    const {updateProducts,setUpdateProducts, setModifyButton, setLoadButton, setShowForm, setClean, setModifyProduct} = useContext(ProductContext)
+    const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
 
     const listProduct = async()=> setProductsHandler(await getListProducts()) ;
 
@@ -26,7 +26,6 @@ const Tabla = () => {
         listProduct();
         setUpdateProducts(false)
     }
-
     
     const deleteRowProductHandler = (id) => {
         deleteProductHandler(id)
@@ -35,8 +34,12 @@ const Tabla = () => {
     //=========================================================================================================================================================================
     //TODO HACER LOGICA MODIFICAR PRODUCTO
     const modifyDataFormHandler = (id) => {
+        setShowForm(true)
+        setClean(false)
+        setModifyButton(true)
+        setLoadButton(false)
         const obj = products.find(product => product.id === id)
-        modifyproductHandler(obj)  
+        setModifyProduct(obj)  
     }
     //=========================================================================================================================================================================
     return (

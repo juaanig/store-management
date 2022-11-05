@@ -1,5 +1,6 @@
 import { collection, addDoc, deleteDoc, getDocs, doc, updateDoc} from 'firebase/firestore' ;
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import ProductContext from '../../contexts/productsContext/ProductContext';
 import { db } from '../../firebaseConfig/firebase' ;
 
 import { useNotes } from '../hookNotes/useNotes';
@@ -9,6 +10,7 @@ export const useProduct = () => {
     const productCollection = collection(db, "products");
     const {noteHandler, deleteProductNote, modifyProductNote} = useNotes()
     const [products, setProducts] = useState([])
+    const {setModifyProduct, showForm, setShowForm} = useContext(ProductContext)
     
     const getListProducts = async () => {
         
@@ -111,24 +113,18 @@ export const useProduct = () => {
         deleteProductNote(aux)
     }
     //=========================================================================================================================================================================
-    const [showForm, setShowForm] = useState(false)
     
-    const showFormHandler = () => {
-        setShowForm(!showForm)
-    }
-    
-    const [loadButton, setLoadButton] = useState(true)
-    const [modifyButton, setModifyButton] = useState(false)
-    
-    const [modifyProduct, setModifyProduct] =useState({});
-    
-    const modifyproductHandler = (obj) => {
-        setModifyProduct(obj)
-        console.log(modifyProduct)
+    const modifyProductHandler = async (obj) => {
+        let aux = (await getListProducts()).filter((item)=> item.id === obj.id)
+        console.log(aux)
+        console.log("id en modify",aux[0].id)
+        const oldProduct = doc(db,"products",aux[0].id)
+        await updateDoc(oldProduct,obj)
         //modifyProductNote(obj)
     }
+
     //=========================================================================================================================================================================
     
-    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyproductHandler, showFormHandler, showForm, setShowForm, loadButton, setLoadButton, modifyButton, setModifyButton, modifyProduct}
+    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyProductHandler, showForm, setShowForm}
 }    
 

@@ -17,11 +17,12 @@ const FormProductLoad = () => {
     const [elaborationDate, setElaborationDate] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
     const [expiration, setExpiration] = useState(false);
+    const [id, setId] = useState('');
     const [errors,setErrors] = useState('');
 
-    const {loadProduct,validateLoadFormProduct, loadButton, modifyButton, setShowForm, products, modifyProduct} = useProduct();
+    const {loadProduct,validateLoadFormProduct, modifyProductHandler} = useProduct();
+    const {modifyProduct, modifyButton, loadButton, setModifyButton, setLoadButton, clean} = useContext(ProductContext)
 
-    
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
         setProductName('');
@@ -30,7 +31,7 @@ const FormProductLoad = () => {
         setElaborationDate('');
         setExpirationDate('');
     }
-    
+
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setProductName((e.target.value));  
     const priceHandler = (e) => setPrice((e.target.value)); 
@@ -39,24 +40,30 @@ const FormProductLoad = () => {
     const expirationDateHandler = (e) => setExpirationDate((e.target.value));
     const expirationHandler = (e) => setExpiration((e.target.checked));
     
+    //Funcion setear producto
+    const setProductValidated = () => {
+        const product = {
+            productName: productName.trim(),
+            price: price.trim(),
+            amount: amount,
+            elaborationDate: elaborationDate.trim(),
+            expiration: expiration, 
+            expirationDate: expiration ? expirationDate.trim() : ''
+        }
+
+        let validate = validateLoadFormProduct(product)
+        setErrors(validate)
+        console.log("en validacion cheta", product)
+        return product;
+    }
     
     //Funcion para agregar un producto a la base de datos
     const submitButtonHandler = () => {
         setShowLoader(true)
-        const product = {
-            productName: productName.trim(),
-            price: price.trim(),
-            amount: amount.trim(),
-            elaborationDate: elaborationDate.trim(),
-            expirationDate: expiration ? expirationDate.trim() : '',
-            expiration: expiration 
-        }
+        const validatedProduct = setProductValidated();
         
-        let validate = validateLoadFormProduct(product)
-        setErrors(validate)
-        
-        if(Object.entries(validate).length === 0){
-            loadProduct(product)
+        if(Object.entries(errors).length === 0){
+            loadProduct(validatedProduct)
             cleanInputs();
             setUpdateProducts(true);
             setShowLoader(false)
@@ -73,25 +80,31 @@ const FormProductLoad = () => {
             setElaborationDate(modifyProduct.elaborationDate)
             setExpiration(modifyProduct.expiration)
             setExpirationDate(modifyProduct.expirationDate)
+            setId(modifyProduct.id)
         }
-        modifyInputs()
-    },[modifyProduct])
+        if(clean){
+            cleanInputs()
+            setModifyButton(false)
+            setLoadButton(true)
+            console.log("Entré masters")
+        }else {
+            modifyInputs()
+        }
+        console.log(clean, "en effect")
+    },[modifyProduct, clean])
 
     //Funcion para modificar producto en la base de datos ESTE SERIA LA FUNCION DEL BOTON QUE SE RENDERIZARIA AL TOCAR EL MODIFICAR
     const modifyButtonHandler = () => {
-        console.log("modificado")
-    }
+        const validatedProduct = setProductValidated();
 
-    //ESTO DEBERIA ABRIR EL FORMULARIO Y SETEAR LOS DATOS DE LA TABLA EN LOS INPUTS DEL FORM
-    const modifyDataFormHandler =(obj) =>{
-        setShowForm(true)
-        console.log(obj)
-        /*setProductName(products[index].productName)
-        setPrice(products[index].price)
-        setAmount(products[index].amount)
-        setElaborationDate(products[index].elaborationDate)
-        setExpiration(products[index].expiration)
-        setExpirationDate(products[index].expirationDate)*/
+        if(Object.entries(errors).length === 0){
+            modifyProductHandler({...validatedProduct,id:id})
+            cleanInputs();
+            setUpdateProducts(true);
+            setModifyButton(false)
+            setLoadButton(true)
+            setShowLoader(false)
+        }
     }
     //=========================================================================================================================================================================
 
@@ -132,7 +145,7 @@ const FormProductLoad = () => {
                 </Form.Group>
                 <Form.Group>
                     {loadButton && <Button type='button' variant='success' className='add-user me-3' onClick={submitButtonHandler}>Agregar Producto</Button>}
-                    {modifyButton && <Button type='button' variant='warning' className='add-user me-3' onClick={modifyButtonHandler}>Agregar Producto</Button>}
+                    {modifyButton && <Button type='button' variant='warning' className='add-user me-3' onClick={modifyButtonHandler}>Modificar Producto</Button>}
                 </Form.Group>
             </Form>
         </div>
