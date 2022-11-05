@@ -13,12 +13,10 @@ const NavLayout = () => {
   const { user } = useContext(AuthContext);
   const {theme} =useContext(ThemeContext)
 
-  console.log(user)
-
   return (
     <>
       <Navbar className="p-2" expand="lg" bg="primary" variant="primary">
-        <Navbar.Brand href="#home" className="h1">
+        <Navbar.Brand className={`h1 text-${theme === "light theme" ? "dark" : "light"}`}>
           STORE MANAGMENT
         </Navbar.Brand>
         <Nav className="ms-auto">

@@ -34,8 +34,7 @@ export const useNotes = () => {
 
     const deleteExtraNotes = async () => {
         const notes = await getListNotes();
-        if(notes.length > 10){
-            console.log("mas de 10")
+        if(notes.length > 20){
             const lastNote = doc(db, "notes", notes[10].id);
             await deleteDoc(lastNote);
         }
@@ -48,11 +47,11 @@ export const useNotes = () => {
         
         if(user.role === "Vendedor"){
             const sellNote= `${actualtimeNotes}: ${user.name} ${user.lastName} vendió ${obj.sellAmount} unidades de ${obj.productName}.`
-            const note = {note: sellNote, date: actualtimeSort};
+            const note = {note: sellNote, date: actualtimeSort, variant:"light"};
             await addDoc(notesCollection,note)
         } else{
             const loadNote=`${actualtimeNotes}: ${user.name} ${user.lastName} recibió ${obj.amount} unidades de ${obj.productName}`
-            const note = {note: loadNote, date: actualtimeSort};
+            const note = {note: loadNote, date: actualtimeSort, variant:"light"};
             await addDoc(notesCollection,note)
         }
         deleteExtraNotes()
@@ -60,10 +59,36 @@ export const useNotes = () => {
         setUpdateNotes(true)
     }
 
+    const deleteProductNote = async (obj)=>{
+        const actualtime = new Date();
+        const actualtimeSort = actualtime.toISOString();
+        const actualtimeNotes = actualtime.toLocaleString();
+        const deleteNote = `${actualtimeNotes}: ${user.name} ${user.lastName} eliminó ${obj[0].productName} de la base de datos.`
+        const note = {note: deleteNote, date: actualtimeSort, variant:"danger"};
+        await addDoc(notesCollection,note)
+        deleteExtraNotes()
+        setNotes(await getListNotes())
+        setUpdateNotes(true)
+    }
+    
+    const modifyProductNote = async (obj)=>{
+        const actualtime = new Date();
+        const actualtimeSort = actualtime.toISOString();
+        const actualtimeNotes = actualtime.toLocaleString();
+        const modifyNote = `${actualtimeNotes}: ${user.name} ${user.lastName} modificó ${obj.productName} de la base de datos.`
+        const note = {note: modifyNote, date: actualtimeSort, variant:"warning"};
+        await addDoc(notesCollection,note)
+        deleteExtraNotes()
+        setNotes(await getListNotes())
+        setUpdateNotes(true)
+    }
+    
     return {
         getListNotes,
         noteHandler,
         setNotesHandler,
+        deleteProductNote,
+        modifyProductNote,
         notes
     }
         

@@ -1,6 +1,7 @@
 import React from 'react'
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import AuthContext from "../../contexts/authContext/AuthContext";
+import ProductContext from '../../contexts/productsContext/ProductContext';
 import FormProductLoad from './FormProductLoad';
 import FormProductSell from './FormProductSell';
 
@@ -9,8 +10,7 @@ import { Button } from 'react-bootstrap';
 const FormProducts = () => {
 
     const {user} = useContext(AuthContext)
-    const [showForm, setShowForm] = useState(false)
-    
+    const {showForm, setClean, clean, setShowForm } = useContext(ProductContext)
 
     const buttonName = () => {
         switch (user.role) {
@@ -39,13 +39,18 @@ const FormProducts = () => {
     }
 
     const showFormHandler = () => {
-        setShowForm(!showForm)
+        setShowForm(true)
+    }
+
+    const cancelButtonHandler = () => {
+        setShowForm(false)
+        setClean(true)
     }
 
     return (
         <>
             <div className='container mb-3 text-center' >
-                { showForm ? <Button onClick={showFormHandler} variant='danger'>cancelar</Button> : <Button variant='warning' onClick={showFormHandler} >{buttonName()}</Button>}    
+                { showForm ? <Button onClick={cancelButtonHandler} variant='danger'>cancelar</Button> : <Button variant='warning' onClick={showFormHandler} >{buttonName()}</Button>}    
             </div>
             <div>
                 {showForm && formDisplayHandler()}

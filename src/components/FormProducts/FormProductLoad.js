@@ -1,4 +1,4 @@
-import { useState,useContext } from "react";
+import { useState,useContext, useEffect } from "react";
 import { useProduct } from '../../hooks/hookProduct/useProduct';
 import ProductContext from '../../contexts/productsContext/ProductContext';
 
@@ -17,9 +17,11 @@ const FormProductLoad = () => {
     const [elaborationDate, setElaborationDate] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
     const [expiration, setExpiration] = useState(false);
+    const [id, setId] = useState('');
     const [errors,setErrors] = useState('');
 
-    const {loadProduct,validateLoadFormProduct} = useProduct();
+    const {loadProduct,validateLoadFormProduct, modifyProductHandler} = useProduct();
+    const {modifyProduct, modifyButton, loadButton, setModifyButton, setLoadButton, clean} = useContext(ProductContext)
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -37,30 +39,72 @@ const FormProductLoad = () => {
     const elaborationDateHandler = (e) => setElaborationDate((e.target.value));
     const expirationDateHandler = (e) => setExpirationDate((e.target.value));
     const expirationHandler = (e) => setExpiration((e.target.checked));
-
-    //Funcion para agregar un producto a la base de datos
-    const submitButton = () => {
-        setShowLoader(true)
+    
+    //Funcion setear producto
+    const setProductValidated = () => {
         const product = {
             productName: productName.trim(),
             price: price.trim(),
-            amount: amount.trim(),
+            amount: amount,
             elaborationDate: elaborationDate.trim(),
-            expirationDate: expiration ? expirationDate.trim() : '',
-            expiration: expiration 
+            expiration: expiration, 
+            expirationDate: expiration ? expirationDate.trim() : ''
         }
 
         let validate = validateLoadFormProduct(product)
         setErrors(validate)
-
-        if(Object.entries(validate).length === 0){
-            loadProduct(product)
+        return product;
+    }
+    
+    //Funcion para agregar un producto a la base de datos
+    const submitButtonHandler = () => {
+        setShowLoader(true)
+        const validatedProduct = setProductValidated();
+        
+        if(Object.entries(errors).length === 0){
+            loadProduct(validatedProduct)
             cleanInputs();
             setUpdateProducts(true);
             setShowLoader(false)
         }
-
+        
     }
+    //=========================================================================================================================================================================
+    //Effect producto modificado desde el form NO FUNCIONAAAAAAAAAAAAAAAAAAA
+    useEffect(()=>{ 
+        const modifyInputs = () =>{
+            setProductName(modifyProduct.productName)
+            setPrice(modifyProduct.price)
+            setAmount(modifyProduct.amount)
+            setElaborationDate(modifyProduct.elaborationDate)
+            setExpiration(modifyProduct.expiration)
+            setExpirationDate(modifyProduct.expirationDate)
+            setId(modifyProduct.id)
+        }
+        if(clean){
+            cleanInputs()
+            setModifyButton(false)
+            setLoadButton(true)
+        }else {
+            modifyInputs()
+        }
+    },[modifyProduct, clean])
+
+    //Funcion para modificar producto en la base de datos ESTE SERIA LA FUNCION DEL BOTON QUE SE RENDERIZARIA AL TOCAR EL MODIFICAR
+    const modifyButtonHandler = () => {
+        setShowLoader(true)
+        const validatedProduct = setProductValidated();
+
+        if(Object.entries(errors).length === 0){
+            modifyProductHandler({...validatedProduct,id:id})
+            cleanInputs();
+            setUpdateProducts(true);
+            setModifyButton(false)
+            setLoadButton(true)
+            setShowLoader(false)
+        }
+    }
+    //=========================================================================================================================================================================
 
     return (
     <>
@@ -98,7 +142,8 @@ const FormProductLoad = () => {
                     {errors.expDate && <p className="text-danger">{errors.expDate}</p>}
                 </Form.Group>
                 <Form.Group>
-                    <Button type='button' variant='success' className='add-user me-3' onClick={submitButton}>Agregar Producto</Button>
+                    {loadButton && <Button type='button' variant='success' className='add-user me-3' onClick={submitButtonHandler}>Agregar Producto</Button>}
+                    {modifyButton && <Button type='button' variant='warning' className='add-user me-3' onClick={modifyButtonHandler}>Modificar Producto</Button>}
                 </Form.Group>
             </Form>
         </div>

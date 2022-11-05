@@ -1,5 +1,6 @@
 import { collection, addDoc, deleteDoc, getDocs, doc, updateDoc} from 'firebase/firestore' ;
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import ProductContext from '../../contexts/productsContext/ProductContext';
 import { db } from '../../firebaseConfig/firebase' ;
 
 import { useNotes } from '../hookNotes/useNotes';
@@ -7,8 +8,9 @@ import { useNotes } from '../hookNotes/useNotes';
 export const useProduct = () => {
     
     const productCollection = collection(db, "products");
-    const {noteHandler} = useNotes()
+    const {noteHandler, deleteProductNote, modifyProductNote} = useNotes()
     const [products, setProducts] = useState([])
+    const {setModifyProduct, showForm, setShowForm} = useContext(ProductContext)
     
     const getListProducts = async () => {
         
@@ -19,14 +21,14 @@ export const useProduct = () => {
             
         return dataParsed;
     }
-        
+    
     const setProductsHandler = async () => {
         setProducts(await getListProducts())
     }
     
     const validateLoadFormProduct = (form) => {
         
-
+        
         let _errors = {}
         if(form.productName === ""){
             _errors.productName  = 'Campo obligatorio.' ;
@@ -59,7 +61,7 @@ export const useProduct = () => {
         
         return _errors;
     }
-
+    
     const validateSellFormProduct = async (form) => {
         let _errors = {}
         let aux = (await getListProducts()).filter((item)=> item.productName === form.productName.trim())
@@ -78,8 +80,6 @@ export const useProduct = () => {
         
         return _errors;
     }
-    
-
     const loadProduct = async (obj) => {
         
         let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
@@ -93,7 +93,7 @@ export const useProduct = () => {
         noteHandler(obj)
         setProducts(await getListProducts())
     }
-
+    
     const sellProduct = async (obj) => {
         let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
         const oldProduct = doc(db,"products",aux[0].id)
@@ -105,12 +105,21 @@ export const useProduct = () => {
         noteHandler(obj)
         setProducts(await getListProducts())
     }
-
+    
     const deleteProductHandler = async (id) => {
+        let aux = (await getListProducts()).filter((item)=> item.id === id)
         const ProductDoc = doc(db,"products", id)
         await deleteDoc(ProductDoc)
+        deleteProductNote(aux)
     }
-
-    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct}
+    
+    const modifyProductHandler = async (obj) => {
+        let aux = (await getListProducts()).filter((item)=> item.id === obj.id)
+        const oldProduct = doc(db,"products",aux[0].id)
+        await updateDoc(oldProduct,obj)
+        modifyProductNote(obj)
+    }
+    
+    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyProductHandler, showForm, setShowForm}
 }    
 

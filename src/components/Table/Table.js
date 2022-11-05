@@ -13,7 +13,7 @@ const Tabla = () => {
 
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
-    const {updateProducts,setUpdateProducts} = useContext(ProductContext)
+    const {updateProducts,setUpdateProducts, setModifyButton, setLoadButton, setShowForm, setClean, setModifyProduct} = useContext(ProductContext)
     const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
 
     const listProduct = async()=> setProductsHandler(await getListProducts()) ;
@@ -26,15 +26,19 @@ const Tabla = () => {
         listProduct();
         setUpdateProducts(false)
     }
-
-    //TODO HACER LOGICA MODIFICAR PRODUCTO
-    const modifyDataFormHandler = () => {
-        console.log("modificado")
-    }
-
+    
     const deleteRowProductHandler = (id) => {
         deleteProductHandler(id)
         setUpdateProducts(true)
+    }
+    
+    const modifyDataFormHandler = (id) => {
+        setShowForm(true)
+        setClean(false)
+        setModifyButton(true)
+        setLoadButton(false)
+        const obj = products.find(product => product.id === id)
+        setModifyProduct(obj)  
     }
     
     return (
@@ -55,7 +59,7 @@ const Tabla = () => {
                         }
                     </thead>    
                     <tbody>
-                        {products.map((item, index) =>
+                        {products.map((item) =>
                         <tr key={item.id}  >
                             <td>{item.productName}</td>  
                             <td>{item.amount}</td>          
@@ -65,7 +69,7 @@ const Tabla = () => {
                             {   user.role === 'Deposito' &&
                                 <>
                                     <td>
-                                        <Button onClick={()=>modifyDataFormHandler(index)}>Modificar</Button>
+                                        <Button onClick={()=>modifyDataFormHandler(item.id)}>Modificar</Button>
                                     </td>  
                                     <td>
                                         <Button onClick={()=>deleteRowProductHandler(item.id)} variant='danger'>Eliminar</Button>
