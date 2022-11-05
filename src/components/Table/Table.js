@@ -31,8 +31,7 @@ const Tabla = () => {
         deleteProductHandler(id)
         setUpdateProducts(true)
     }
-    //=========================================================================================================================================================================
-    //TODO HACER LOGICA MODIFICAR PRODUCTO
+    
     const modifyDataFormHandler = (id) => {
         setShowForm(true)
         setClean(false)
@@ -41,7 +40,7 @@ const Tabla = () => {
         const obj = products.find(product => product.id === id)
         setModifyProduct(obj)  
     }
-    //=========================================================================================================================================================================
+    
     return (
         <>
             <div className='container section' breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}  minBreakpoint="xxs" bordered >

@@ -112,18 +112,13 @@ export const useProduct = () => {
         await deleteDoc(ProductDoc)
         deleteProductNote(aux)
     }
-    //=========================================================================================================================================================================
     
     const modifyProductHandler = async (obj) => {
         let aux = (await getListProducts()).filter((item)=> item.id === obj.id)
-        console.log(aux)
-        console.log("id en modify",aux[0].id)
         const oldProduct = doc(db,"products",aux[0].id)
         await updateDoc(oldProduct,obj)
-        //modifyProductNote(obj)
+        modifyProductNote(obj)
     }
-
-    //=========================================================================================================================================================================
     
     return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyProductHandler, showForm, setShowForm}
 }    

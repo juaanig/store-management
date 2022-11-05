@@ -53,7 +53,6 @@ const FormProductLoad = () => {
 
         let validate = validateLoadFormProduct(product)
         setErrors(validate)
-        console.log("en validacion cheta", product)
         return product;
     }
     
@@ -86,15 +85,14 @@ const FormProductLoad = () => {
             cleanInputs()
             setModifyButton(false)
             setLoadButton(true)
-            console.log("Entré masters")
         }else {
             modifyInputs()
         }
-        console.log(clean, "en effect")
     },[modifyProduct, clean])
 
     //Funcion para modificar producto en la base de datos ESTE SERIA LA FUNCION DEL BOTON QUE SE RENDERIZARIA AL TOCAR EL MODIFICAR
     const modifyButtonHandler = () => {
+        setShowLoader(true)
         const validatedProduct = setProductValidated();
 
         if(Object.entries(errors).length === 0){

@@ -16,15 +16,11 @@ const FormProductSell = () => {
     const {setShowLoader} =useContext(AuthContext)
     
     useEffect(() => {
-        
         const getProducts = async() => {
             const data = await getListProducts();
             setProducts(data)
         }
-        console.log("loop")
-
         getProducts();
-        
     },[])
 
     const [productName, setProductName] = useState('');

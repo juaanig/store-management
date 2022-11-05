@@ -70,20 +70,19 @@ export const useNotes = () => {
         setNotes(await getListNotes())
         setUpdateNotes(true)
     }
-    //=========================================================================================================================================================================
+    
     const modifyProductNote = async (obj)=>{
         const actualtime = new Date();
         const actualtimeSort = actualtime.toISOString();
         const actualtimeNotes = actualtime.toLocaleString();
         const modifyNote = `${actualtimeNotes}: ${user.name} ${user.lastName} modificó ${obj.productName} de la base de datos.`
         const note = {note: modifyNote, date: actualtimeSort, variant:"warning"};
-        console.log(note)
-        /*await addDoc(notesCollection,note)
+        await addDoc(notesCollection,note)
         deleteExtraNotes()
         setNotes(await getListNotes())
-        setUpdateNotes(true)*/
+        setUpdateNotes(true)
     }
-    //=========================================================================================================================================================================
+    
     return {
         getListNotes,
         noteHandler,

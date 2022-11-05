@@ -6,13 +6,11 @@ import FormProductLoad from './FormProductLoad';
 import FormProductSell from './FormProductSell';
 
 import { Button } from 'react-bootstrap';
-import { useProduct } from '../../hooks/hookProduct/useProduct';
 
 const FormProducts = () => {
 
     const {user} = useContext(AuthContext)
     const {showForm, setClean, clean, setShowForm } = useContext(ProductContext)
-    //const {showFormHandler} = useProduct();
 
     const buttonName = () => {
         switch (user.role) {
@@ -47,7 +45,6 @@ const FormProducts = () => {
     const cancelButtonHandler = () => {
         setShowForm(false)
         setClean(true)
-        console.log(clean, "en FormProduct")
     }
 
     return (
