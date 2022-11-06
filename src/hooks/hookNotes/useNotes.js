@@ -35,7 +35,7 @@ export const useNotes = () => {
     const deleteExtraNotes = async () => {
         const notes = await getListNotes();
         if(notes.length > 20){
-            const lastNote = doc(db, "notes", notes[10].id);
+            const lastNote = doc(db, "notes", notes[20].id);
             await deleteDoc(lastNote);
         }
     }
