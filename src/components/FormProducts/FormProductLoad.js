@@ -53,15 +53,21 @@ const FormProductLoad = () => {
 
         let validate = validateLoadFormProduct(product)
         setErrors(validate)
-        return product;
+        if(Object.entries(validate).length === 0){
+            return product;
+        }else {
+            setShowLoader(false)
+            return false;
+        }
     }
     
     //Funcion para agregar un producto a la base de datos
     const submitButtonHandler = () => {
         setShowLoader(true)
         const validatedProduct = setProductValidated();
+        console.log("producto validado ",validatedProduct)
         
-        if(Object.entries(errors).length === 0){
+        if(validatedProduct !== false){
             loadProduct(validatedProduct)
             cleanInputs();
             setUpdateProducts(true);
@@ -95,7 +101,7 @@ const FormProductLoad = () => {
         setShowLoader(true)
         const validatedProduct = setProductValidated();
 
-        if(Object.entries(errors).length === 0){
+        if(validatedProduct !== false){
             modifyProductHandler({...validatedProduct,id:id})
             cleanInputs();
             setUpdateProducts(true);
