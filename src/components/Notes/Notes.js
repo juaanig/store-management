@@ -21,7 +21,7 @@ const Notes = () => {
   }
   
   return (  
-    <div className='container bg-secondary rounded-3 py-2 px-3 section'>
+    <div className='container bg-secondary rounded-3 py-2 px-3 section notes-container'>
       <div className="pb-3">
         <p className='text-dark fw-bold text-center'>NOTAS</p>
           <div className=''>
