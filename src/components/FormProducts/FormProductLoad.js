@@ -65,7 +65,6 @@ const FormProductLoad = () => {
     const submitButtonHandler = () => {
         setShowLoader(true)
         const validatedProduct = setProductValidated();
-        console.log("producto validado ",validatedProduct)
         
         if(validatedProduct !== false){
             loadProduct(validatedProduct)
