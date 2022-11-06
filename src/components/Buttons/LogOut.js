@@ -9,7 +9,7 @@ const LogoutButton = () => {
     
     const logOutHandler = () => {
         localStorage.removeItem("USER")
-        setInfoHandler(null)
+        setInfoHandler({})
         navigate("/login")
     }
 

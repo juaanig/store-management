@@ -34,7 +34,7 @@ const NavLayout = () => {
               </Dropdown.Item> 
 
               <Dropdown.Item key="action-2">
-                {user && <LogoutButton />}
+                {(Object.entries(user).length !== 0) ? <LogoutButton /> : <></>}
               </Dropdown.Item>
 
             </Dropdown.Menu>

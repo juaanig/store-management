@@ -10,7 +10,7 @@ import { Button } from 'react-bootstrap';
 const FormProducts = () => {
 
     const {user} = useContext(AuthContext)
-    const {showForm, setClean, clean, setShowForm } = useContext(ProductContext)
+    const {showForm, setClean, setShowForm } = useContext(ProductContext)
 
     const buttonName = () => {
         switch (user.role) {
