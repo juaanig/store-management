@@ -10,7 +10,7 @@ export const useProduct = () => {
     const productCollection = collection(db, "products");
     const {noteHandler, deleteProductNote, modifyProductNote} = useNotes()
     const [products, setProducts] = useState([])
-    const {setModifyProduct, showForm, setShowForm} = useContext(ProductContext)
+    const {showForm, setShowForm} = useContext(ProductContext)
     
     const getListProducts = async () => {
         

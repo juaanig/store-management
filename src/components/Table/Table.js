@@ -8,24 +8,25 @@ import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 import {useProduct} from '../../hooks/hookProduct/useProduct'; 
 import AuthContext from '../../contexts/authContext/AuthContext';
 import ProductContext from '../../contexts/productsContext/ProductContext';
+import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
 const Tabla = () => {
-
+    
+    const {products} = useContext(RequestProducts); 
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
     const {updateProducts,setUpdateProducts, setModifyButton, setLoadButton, setShowForm, setClean, setModifyProduct} = useContext(ProductContext)
-    const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
+    const {setProductsHandler, deleteProductHandler} = useProduct() ;
 
-    const listProduct = async()=> setProductsHandler(await getListProducts()) ;
+    // useEffect(()=>{ 
+    //     getListProducts()
+    //     console.log("LOOP EN TABLE, CORTÁ LA EJECUCIÓN WACHIN")
+    // },[])
 
-    useEffect(()=>{ 
-        listProduct()
-    },[])
-
-    if(updateProducts){
-        listProduct();
-        setUpdateProducts(false)
-    }
+    // if(updateProducts){
+    //     listProduct();
+    //     setUpdateProducts(false)
+    // }
     
     const deleteRowProductHandler = (id) => {
         deleteProductHandler(id)
