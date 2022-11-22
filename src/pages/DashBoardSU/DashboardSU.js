@@ -3,6 +3,7 @@ import { useAuth } from '../../hooks/hookAuth/useAuth';
 import { useValidate } from '../../hooks/hookValidate/useValidate';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
 import AuthContext from '../../contexts/authContext/AuthContext'
+import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
 import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
@@ -23,10 +24,13 @@ const DashboardSU = () => {
     const [role,setRole] = useState("");
     const [currentId,setCurrentId] = useState('');
     const [allUsers,setAllUsers] = useState([])
-    const {getList} = useAuth()
+
     const {validateForm} = useValidate();
-    const {theme} = useContext(ThemeContext)
+    const {getList} = useAuth()
+    
+    const { theme } = useContext(ThemeContext)
     const { showLoader, setShowLoader } = useContext(AuthContext)
+    const { listUser} = useContext(RequestProducts)
 
     const tBody = useRef()
     
@@ -41,15 +45,8 @@ const DashboardSU = () => {
     }
   
     useEffect(() => {
-        
-        const getUsers = async() => {
-            const data = await getList();
-            setAllUsers(data)
-        }
-        console.log("loop")
-
-        getUsers();
-        
+        setAllUsers(listUser)
+        console.log("loop en users dashboard")
     },[])
 
     // Handlers para captar todos los valores del los input
@@ -103,7 +100,8 @@ const DashboardSU = () => {
             email: email.trim(),
             password: password.trim(),
             role: role,
-            };
+        };
+
         return user;
     }
 
