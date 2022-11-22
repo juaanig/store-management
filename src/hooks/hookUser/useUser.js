@@ -1,49 +1,44 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import ProductContext from "../../contexts/productsContext/ProductContext"
 import RequestProducts from "../../contexts/requestsContext/requestProdContext"
+import { useValidate } from "../hookValidate/useValidate"
+
+import {collection, addDoc, deleteDoc, doc, updateDoc} from 'firebase/firestore' ;
+import { db } from '../../firebaseConfig/firebase' ;
 
 
-const useUser = () => {
+export const useUser = () => {
+
+    const usersCollection = collection(db, "users");
+
+    const {errors, setErrors} = useState();
 
     const {listUser, setListUsers} = useContext(RequestProducts)
     const {showLoader, setShowLoader} = useContext(ProductContext)
-
-    // Funcion setear los valores del formulario en un objeto
-    const setUser = (obj) => {
-        const user = {
-            name: obj.nameUser.trim(),
-            lastName: obj.lastNameUser.trim(),
-            email: obj.email.trim(),
-            password: obj.password.trim(),
-            role: obj.role,
-        };
-
-        return user;
-    }
+    const {validateForm} = useValidate()
 
     // Función para enviar los datos del formulario a la base de datos
-    const submitHandler = async (obj) =>{
-        setShowLoader(true)
-        let validate = await validateForm(setUser(obj))
-        setErrors(validate)
-
-        if(Object.entries(validate).length === 0){
-            await addDoc(usersCollection,setUser())
-            cleanInputs();
-            setAllUsers(await getList())
-        }
-        setShowLoader(false)
+    const createUser = async (obj) =>{
+        await addDoc(usersCollection,obj)
+        setListUsers([...listUser,obj])
     }
     
-    // Función para eliminar un usuario
-    const deleteRowUserHandler = async (id) => {
-        setShowLoader(true)
+    //Función para eliminar un usuario
+    const deleteUser = async (id) => {
         const userDoc = doc(db,"users", id)
         await deleteDoc(userDoc)
-        setAllUsers(await getList())
-        setShowLoader(false)
-    }
 
+        let aux = (listUser).filter((item)=> item.id === id)
+        console.log(aux)
+
+        const index = listUser.findIndex((item)=>{
+            return item.id === aux[0].id ;
+        })
+        let auxList = [...listUser]
+        auxList.splice(index,1)
+        setListUsers(auxList)
+    }
+    /*
     const modifyDataFormHandler = (index) => {
         setNameUser(allUsers[index].name);
         setLastNameUser(allUsers[index].lastName);
@@ -79,7 +74,7 @@ const useUser = () => {
             setAllUsers(await getList())
         }
         setShowLoader(false)
-    }
+    }*/
 
-    return {submitHandler}
+    return {createUser, deleteUser}
 }
