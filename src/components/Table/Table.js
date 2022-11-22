@@ -1,5 +1,3 @@
-import React,{useEffect} from 'react'
-
 import  TableProducts from 'react-bootstrap/Table';
 import {Button} from 'react-bootstrap'
 
@@ -15,22 +13,11 @@ const Tabla = () => {
     const {products} = useContext(RequestProducts); 
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
-    const {updateProducts,setUpdateProducts, setModifyButton, setLoadButton, setShowForm, setClean, setModifyProduct} = useContext(ProductContext)
-    const {setProductsHandler, deleteProductHandler} = useProduct() ;
-
-    // useEffect(()=>{ 
-    //     getListProducts()
-    //     console.log("LOOP EN TABLE, CORTÁ LA EJECUCIÓN WACHIN")
-    // },[])
-
-    // if(updateProducts){
-    //     listProduct();
-    //     setUpdateProducts(false)
-    // }
+    const {setModifyButton, setLoadButton, setShowForm, setClean, setModifyProduct} = useContext(ProductContext)
+    const { deleteProductHandler} = useProduct() ;
     
     const deleteRowProductHandler = (id) => {
         deleteProductHandler(id)
-        setUpdateProducts(true)
     }
     
     const modifyDataFormHandler = (id) => {

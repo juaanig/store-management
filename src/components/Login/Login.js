@@ -10,6 +10,7 @@ import { useValidate } from "../../hooks/hookValidate/useValidate";
 import  AuthContext  from "../../contexts/authContext/AuthContext";
 
 import Loader from '../Loader/Loader';
+import ProductContext from "../../contexts/productsContext/ProductContext";
 
 const Login = () => {
   
@@ -19,7 +20,9 @@ const Login = () => {
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   
-  const {setInfoHandler, icon, showPasswordHandler, visiblePassword, showLoader, setShowLoader} = useContext(AuthContext);
+  const {setShowLoader,showLoader} = useContext(ProductContext)
+
+  const {setInfoHandler, icon, showPasswordHandler, visiblePassword } = useContext(AuthContext);
 
   const {getUsersToCompare} = useAuth();
   const {validateLogin} = useValidate();  

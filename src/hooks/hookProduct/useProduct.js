@@ -1,33 +1,23 @@
-import { collection, addDoc, deleteDoc, getDocs, doc, updateDoc} from 'firebase/firestore' ;
-import { useState, useContext } from 'react';
-import ProductContext from '../../contexts/productsContext/ProductContext';
+import { useContext } from 'react';
+
+import { collection, addDoc, deleteDoc, doc, updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
+
+//import ProductContext from '../../contexts/productsContext/ProductContext';
+import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
 import { useNotes } from '../hookNotes/useNotes';
 
 export const useProduct = () => {
     
     const productCollection = collection(db, "products");
+
+    const {products,setProducts} = useContext(RequestProducts); 
+    //const {showForm, setShowForm} = useContext(ProductContext)
+
     const {noteHandler, deleteProductNote, modifyProductNote} = useNotes()
-    const [products, setProducts] = useState([])
-    const {showForm, setShowForm} = useContext(ProductContext)
-    
-    const getListProducts = async () => {
         
-        const data = await getDocs(productCollection);
-        const dataParsed = (data.docs.map( 
-            (doc) => ({...doc.data(),id:doc.id}) 
-        ))
-            
-        return dataParsed;
-    }
-    
-    const setProductsHandler = async () => {
-        setProducts(await getListProducts())
-    }
-    
     const validateLoadFormProduct = (form) => {
-        
         
         let _errors = {}
         if(form.productName === ""){
@@ -64,7 +54,7 @@ export const useProduct = () => {
     
     const validateSellFormProduct = async (form) => {
         let _errors = {}
-        let aux = (await getListProducts()).filter((item)=> item.productName === form.productName.trim())
+        let aux = (products).filter((item)=> item.productName === form.productName.trim())
         if(form.productName === ""){
             _errors.productName  = 'Campo obligatorio.' ;
         }
@@ -80,46 +70,88 @@ export const useProduct = () => {
         
         return _errors;
     }
+
     const loadProduct = async (obj) => {
         
-        let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
+        let aux = (products).filter((item)=> item.productName === obj.productName.trim())
         
         if (aux.length === 0 ){
             await addDoc(productCollection,obj)
+            setProducts([...products,obj])        
         }else{
             const oldProduct = doc(db,"products",aux[0].id)
-            await updateDoc(oldProduct,{...obj,amount:(Number(aux[0].amount) + Number(obj.amount))})
+            let auxNewProduct = {...obj,amount:(Number(aux[0].amount) + Number(obj.amount))}
+            await updateDoc(oldProduct,auxNewProduct)
+            const index = products.findIndex((item)=>{
+                return item.id === aux[0].id ;
+            })
+            let auxList = [...products]
+            auxList[index] = auxNewProduct
+            setProducts(auxList)
         }
         noteHandler(obj)
-        setProducts(await getListProducts())
     }
     
     const sellProduct = async (obj) => {
-        let aux = (await getListProducts()).filter((item)=> item.productName === obj.productName.trim())
+        let aux = (products).filter((item)=> item.productName === obj.productName.trim())
         const oldProduct = doc(db,"products",aux[0].id)
+
+        const index = products.findIndex((item)=>{
+            return item.id === aux[0].id ;
+        })
+
         if (Number(obj.sellAmount) < Number(aux[0].amount)) {
-            await updateDoc(oldProduct,{...obj,amount:(Number(aux[0].amount) - Number(obj.sellAmount))})
+
+            let auxNewProduct = {...aux[0],amount:(Number(aux[0].amount) - Number(obj.sellAmount))}
+            let auxList = [...products]
+            auxList[index] = auxNewProduct
+            setProducts(auxList)
+            await updateDoc(oldProduct,auxNewProduct)
+
         }else {
+ 
+            let auxList = [...products]
+            auxList.splice(index,1)
+            setProducts(auxList)
             await deleteDoc(oldProduct)
         }
         noteHandler(obj)
-        setProducts(await getListProducts())
+
     }
     
     const deleteProductHandler = async (id) => {
-        let aux = (await getListProducts()).filter((item)=> item.id === id)
+        
         const ProductDoc = doc(db,"products", id)
+        let aux = (products).filter((item)=> item.id === id)
+
+        const index = products.findIndex((item)=>{
+            return item.id === aux[0].id ;
+        })
+
+        let auxList = [...products]
+        auxList.splice(index,1)
+        setProducts(auxList)
+
         await deleteDoc(ProductDoc)
         deleteProductNote(aux)
     }
     
     const modifyProductHandler = async (obj) => {
-        let aux = (await getListProducts()).filter((item)=> item.id === obj.id)
+        
+        let aux = (products).filter((item)=> item.id === obj.id)
         const oldProduct = doc(db,"products",aux[0].id)
+
+        const index = products.findIndex((item)=>{
+            return item.id === aux[0].id ;
+        })
+
+        let auxList = [...products]
+        auxList[index] = obj
+        setProducts(auxList)
+    
         await updateDoc(oldProduct,obj)
         modifyProductNote(obj)
     }
     
-    return {getListProducts,loadProduct,validateLoadFormProduct, validateSellFormProduct, setProductsHandler, products, deleteProductHandler, sellProduct, modifyProductHandler, showForm, setShowForm}
+    return {loadProduct,validateLoadFormProduct, validateSellFormProduct, deleteProductHandler, sellProduct, modifyProductHandler}
 }    
-

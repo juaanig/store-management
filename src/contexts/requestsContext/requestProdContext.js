@@ -25,7 +25,7 @@ const RequestProductsProvider = ({children}) => {
     },[])
     
     return(
-        <RequestProducts.Provider value={{products,getListProducts}}>
+        <RequestProducts.Provider value={{products,setProducts}}>
             {children}
         </RequestProducts.Provider>
     )

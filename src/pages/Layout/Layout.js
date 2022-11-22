@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RequestProductsProvider } from "../../contexts/requestsContext/requestProdContext";
+import { ProductProvider } from "../../contexts/productsContext/ProductContext";
 
 import NavLayout from "../../components/Nav/NavLayout";
 
@@ -36,6 +37,7 @@ const Layout = () => {
 
     return (
         <>
+          <ProductProvider>
             <RequestProductsProvider>
                 <div className={'positions body-'+theme}>
                     <NavLayout/>
@@ -45,6 +47,7 @@ const Layout = () => {
                     <Footer/>
                 </div>
             </RequestProductsProvider>
+          </ProductProvider>
         </>
     )
 

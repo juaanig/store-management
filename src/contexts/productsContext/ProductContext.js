@@ -2,12 +2,11 @@ import { useState, createContext } from "react";
 
 const ProductContext = createContext();
 
-
 const ProductProvider = ({children}) => {
 
-    const [updateProducts,setUpdateProducts] = useState(false);
+    const [showLoader,setShowLoader] = useState(false)
     const [updateNotes, setUpdateNotes] = useState(false)
-    const[modifyProduct, setModifyProduct] =useState({
+    const [modifyProduct, setModifyProduct] =useState({
         productName:'',
         price:'',
         amount: '',
@@ -22,11 +21,10 @@ const ProductProvider = ({children}) => {
     const [clean, setClean] =useState(false)
 
     return(
-        <ProductContext.Provider value={{updateProducts,setUpdateProducts, updateNotes, setUpdateNotes, modifyProduct, setModifyProduct, loadButton, setLoadButton, modifyButton, setModifyButton, showForm, setShowForm, clean, setClean}}>
+        <ProductContext.Provider value={{showLoader,setShowLoader,updateNotes, setUpdateNotes, modifyProduct, setModifyProduct, loadButton, setLoadButton, modifyButton, setModifyButton, showForm, setShowForm, clean, setClean}}>
             {children}
         </ProductContext.Provider>
     )
-
 
 }
 
