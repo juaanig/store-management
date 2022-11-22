@@ -1,5 +1,3 @@
-import React,{useEffect} from 'react'
-
 import  TableProducts from 'react-bootstrap/Table';
 import {Button} from 'react-bootstrap'
 
@@ -8,28 +6,18 @@ import ThemeContext from '../../contexts/ThemeContext/ThemeContext';
 import {useProduct} from '../../hooks/hookProduct/useProduct'; 
 import AuthContext from '../../contexts/authContext/AuthContext';
 import ProductContext from '../../contexts/productsContext/ProductContext';
+import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
 const Tabla = () => {
-
+    
+    const {products} = useContext(RequestProducts); 
     const {user} = useContext(AuthContext)
     const {theme} = useContext(ThemeContext)
-    const {updateProducts,setUpdateProducts, setModifyButton, setLoadButton, setShowForm, setClean, setModifyProduct} = useContext(ProductContext)
-    const {setProductsHandler, products, getListProducts, deleteProductHandler} = useProduct() ;
-
-    const listProduct = async()=> setProductsHandler(await getListProducts()) ;
-
-    useEffect(()=>{ 
-        listProduct()
-    },[])
-
-    if(updateProducts){
-        listProduct();
-        setUpdateProducts(false)
-    }
+    const {setModifyButton, setLoadButton, setShowForm, setClean, setModifyProduct} = useContext(ProductContext)
+    const { deleteProductHandler} = useProduct() ;
     
     const deleteRowProductHandler = (id) => {
         deleteProductHandler(id)
-        setUpdateProducts(true)
     }
     
     const modifyDataFormHandler = (id) => {

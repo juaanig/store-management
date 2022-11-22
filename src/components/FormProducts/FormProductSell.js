@@ -1,28 +1,19 @@
 import React from 'react'
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import {useProduct} from '../../hooks/hookProduct/useProduct'
 import ProductContext from '../../contexts/productsContext/ProductContext';
-import AuthContext from '../../contexts/authContext/AuthContext';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
 const FormProductSell = () => {
 
-    const {getListProducts, validateSellFormProduct, sellProduct} = useProduct();
-    const [products,setProducts] = useState([]);
+    const {validateSellFormProduct, sellProduct} = useProduct();
     const [errors,setErrors] = useState({});
-
-    const {setUpdateProducts} = useContext(ProductContext)
-    const {setShowLoader} =useContext(AuthContext)
     
-    useEffect(() => {
-        const getProducts = async() => {
-            const data = await getListProducts();
-            setProducts(data)
-        }
-        getProducts();
-    },[])
-
+    const {products} = useContext(RequestProducts);
+    const {setShowLoader} = useContext(ProductContext)
+    
     const [productName, setProductName] = useState('');
     const [sellAmount, setSellAmount] = useState('');
 
@@ -49,13 +40,12 @@ const FormProductSell = () => {
         if(Object.entries(validate).length === 0){
             sellProduct(product)
             cleanInputs();
-            setUpdateProducts(true);
             setShowLoader(false)
         }
     }
 
 
-  return (
+    return (
     <>
         <div className='container mb-5' >
             <Form>
@@ -64,7 +54,7 @@ const FormProductSell = () => {
                     <Form.Select value={productName} onChange={productNameHandler}>
                         <option value="" >Seleccione un producto</option>
                         {products.map((item) => (
-                            <option value={item.productName}>{item.productName}</option>
+                            <option key={item.id} value={item.productName}>{item.productName}</option>
                         ))}
                     </Form.Select>
                     {errors.productName && <p className="text-danger">{errors.productName}</p>}
@@ -80,7 +70,7 @@ const FormProductSell = () => {
             </Form>
         </div>
     </>
-  )
+    )
 }
 
 export default FormProductSell

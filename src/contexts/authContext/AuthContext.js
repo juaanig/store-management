@@ -32,10 +32,9 @@ const AuthProvider = ({children}) => {
         }
     }
 
-    const [showLoader,setShowLoader] = useState(false)
 
     return (
-        <AuthContext.Provider value={{setInfoHandler,user, visiblePassword,icon, showPasswordHandler, showLoader, setShowLoader}}>
+        <AuthContext.Provider value={{setInfoHandler,user, visiblePassword,icon, showPasswordHandler}}>
             {children}
         </AuthContext.Provider>
     )

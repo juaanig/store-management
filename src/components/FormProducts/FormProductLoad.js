@@ -4,13 +4,12 @@ import ProductContext from '../../contexts/productsContext/ProductContext';
 
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import AuthContext from "../../contexts/authContext/AuthContext";
 
 const FormProductLoad = () => {
 
-    const {setUpdateProducts} = useContext(ProductContext)
-    const {setShowLoader} = useContext(AuthContext)
-
+    const {setShowLoader} = useContext(ProductContext)
+    const {modifyProduct, modifyButton, loadButton, setModifyButton, setLoadButton, clean} = useContext(ProductContext)
+    
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
     const [amount, setAmount] = useState('');
@@ -21,7 +20,6 @@ const FormProductLoad = () => {
     const [errors,setErrors] = useState('');
 
     const {loadProduct,validateLoadFormProduct, modifyProductHandler} = useProduct();
-    const {modifyProduct, modifyButton, loadButton, setModifyButton, setLoadButton, clean} = useContext(ProductContext)
 
     //Funcion para limpiar los imputs del formulario
     const cleanInputs = () => {
@@ -69,7 +67,6 @@ const FormProductLoad = () => {
         if(validatedProduct !== false){
             loadProduct(validatedProduct)
             cleanInputs();
-            setUpdateProducts(true);
             setShowLoader(false)
         }
         
@@ -103,7 +100,6 @@ const FormProductLoad = () => {
         if(validatedProduct !== false){
             modifyProductHandler({...validatedProduct,id:id})
             cleanInputs();
-            setUpdateProducts(true);
             setModifyButton(false)
             setLoadButton(true)
             setShowLoader(false)
