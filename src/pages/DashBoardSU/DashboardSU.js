@@ -1,4 +1,5 @@
 import React,{useState,useRef,useEffect, useContext} from 'react'
+import {useUsers} from '../../hooks/hookUser/useUser'
 import { useAuth } from '../../hooks/hookAuth/useAuth';
 import { useValidate } from '../../hooks/hookValidate/useValidate';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
@@ -12,7 +13,7 @@ import FormUsers from '../../components/FormUsers/FormUsers';
 import Loader from '../../components/Loader/Loader';
 
 const DashboardSU = () => {
-    
+
     const [errors, setErrors] = useState({});
     const [showForm,setShowForm ] = useState(false);
     const [submitButton, setSubmitButton] = useState(true);
@@ -30,7 +31,8 @@ const DashboardSU = () => {
     
     const { theme } = useContext(ThemeContext)
     const { showLoader, setShowLoader } = useContext(AuthContext)
-    const { listUser} = useContext(RequestProducts)
+    const { listUser, setListUsers} = useContext(RequestProducts)
+    const {submitHandler} =useUsers()
 
     const tBody = useRef()
     
@@ -107,16 +109,7 @@ const DashboardSU = () => {
 
     // Función para enviar los datos del formulario a la base de datos
     const submitUserHandler = async () =>{
-        setShowLoader(true)
-        let validate = await validateForm(setUser())
-        setErrors(validate)
-
-        if(Object.entries(validate).length === 0){
-            await addDoc(usersCollection,setUser())
-            cleanInputs();
-            setAllUsers(await getList())
-        }
-        setShowLoader(false)
+        submitHandler(setUser())
     }
 
     //Función para editar usuario 
@@ -160,7 +153,7 @@ const DashboardSU = () => {
             <UserTable 
                 theme={theme}
                 tBody={tBody}
-                users={allUsers} 
+                users={listUser} 
                 modifyDataFormHandler={modifyDataFormHandler} 
                 deleteRowUserHandler={deleteRowUserHandler}
             />
