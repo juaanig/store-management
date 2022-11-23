@@ -38,43 +38,28 @@ export const useUser = () => {
         auxList.splice(index,1)
         setListUsers(auxList)
     }
-    /*
-    const modifyDataFormHandler = (index) => {
-        setNameUser(allUsers[index].name);
-        setLastNameUser(allUsers[index].lastName);
-        setEmail(allUsers[index].email);
-        setPassword(allUsers[index].password);
-        setRole(allUsers[index].role);
 
-        setCurrentId(allUsers[index].id);
+    //Función para editar usuario 
+    const updateUser = async (user,id) => {
+        
+        //agregar los cambios a la BBDD
+        const oldUser = doc(db,"users",id) //PODRIAMOS USAR USECALLBACK
+        await updateDoc(oldUser,user)
+        
+        //En el arreglo pushearle los valores cambiados
+        let aux = (listUser).filter((item)=> item.id === id)
+        console.log(user)
 
-        setShowForm(true);
-        setSubmitButton(false);
-        setEditButton(true)
+        const index = listUser.findIndex((item)=>{
+            return item.id === aux[0].id ;
+        })
+        let auxList = [...listUser]
+        auxList[index] = {...user,id:id};
+        console.log(auxList[index])
+        setListUsers(auxList)
+
+
     }
 
-
-
-    
-    //Función para editar usuario 
-    const editUserHandler = async () => {
-        
-        setShowLoader(true)
-        const oldUser = doc(db,"users",currentId)
-        
-        let validate = await validateForm(setUser())  
-        delete validate.user;
-        setErrors(validate)
-
-        if(Object.entries(validate).length === 0){  
-            await updateDoc(oldUser,setUser())
-            cleanInputs();
-            setSubmitButton(true);
-            setEditButton(false);
-            setAllUsers(await getList())
-        }
-        setShowLoader(false)
-    }*/
-
-    return {createUser, deleteUser}
+    return {createUser, deleteUser,updateUser}
 }

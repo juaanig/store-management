@@ -31,7 +31,7 @@ const DashboardSU = () => {
     const { theme } = useContext(ThemeContext)
     const { showLoader, setShowLoader } = useContext(ProductContext)
     const { listUser, setListUsers} = useContext(RequestProducts)
-    const {createUser, deleteUser} =useUser()
+    const {createUser, deleteUser, updateUser} =useUser()
 
     const tBody = useRef()
     
@@ -86,7 +86,7 @@ const DashboardSU = () => {
         if(Object.entries(validate).length === 0){
             createUser(setUser())
             cleanInputs();
-            //setAllUsers(await getList())
+            //setlistUser(await getList())
         }
         setShowLoader(false)
     }
@@ -101,37 +101,36 @@ const DashboardSU = () => {
 
     //llamar a la base de datos de firebase y colocar los datos en el formulario para que el usuario pueda modificarlos
     const modifyDataFormHandler = (index) => {
-        // setNameUser(allUsers[index].name);
-        // setLastNameUser(allUsers[index].lastName);
-        // setEmail(allUsers[index].email);
-        // setPassword(allUsers[index].password);
-        // setRole(allUsers[index].role);
+        setNameUser(listUser[index].name);
+        setLastNameUser(listUser[index].lastName);
+        setEmail(listUser[index].email);
+        setPassword(listUser[index].password);
+        setRole(listUser[index].role);
+        setCurrentId(listUser[index].id);
 
-        // setCurrentId(allUsers[index].id);
-
-        // setShowForm(true);
-        // setSubmitButton(false);
-        // setEditButton(true)
+        setShowForm(true);
+        setSubmitButton(false);
+        setEditButton(true)
     }
 
     //Función para editar usuario 
     const editUserHandler = async () => {
         
-        // setShowLoader(true)
-        // const oldUser = doc(db,"users",currentId)
+        let auxUser = setUser()
+        setShowLoader(true)
         
-        // let validate = await validateForm(setUser())  
-        // delete validate.user;
-        // setErrors(validate)
-
-        // if(Object.entries(validate).length === 0){  
-        //     await updateDoc(oldUser,setUser())
-        //     cleanInputs();
-        //     setSubmitButton(true);
-        //     setEditButton(false);
-        //     setAllUsers(await getList())
-        // }
-        // setShowLoader(false)
+        let validate = await validateForm(auxUser)  
+        delete validate.user;
+        setErrors(validate)
+        
+        if(Object.entries(validate).length === 0){  
+            updateUser(auxUser,currentId)
+            cleanInputs();
+            setSubmitButton(true);
+            setEditButton(false);
+            //setlistUser(await getList())
+        }
+        setShowLoader(false)
     }
 
     return (
