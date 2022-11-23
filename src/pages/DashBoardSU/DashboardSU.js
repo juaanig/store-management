@@ -1,12 +1,9 @@
 import React,{useState,useRef, useContext} from 'react'
 import {useUser} from '../../hooks/hookUser/useUser'
-import { useAuth } from '../../hooks/hookAuth/useAuth';
 import { useValidate } from '../../hooks/hookValidate/useValidate';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
 import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
-import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
-import { db } from '../../firebaseConfig/firebase' ;
 import UserTable from '../../components/UserTable/UserTable';
 import FormUsers from '../../components/FormUsers/FormUsers';
 import Loader from '../../components/Loader/Loader';
@@ -26,7 +23,6 @@ const DashboardSU = () => {
     const [currentId,setCurrentId] = useState('');
 
     const {validateForm} = useValidate();
-    const {getList} = useAuth()
     
     const { theme } = useContext(ThemeContext)
     const { showLoader, setShowLoader } = useContext(ProductContext)
@@ -34,8 +30,6 @@ const DashboardSU = () => {
     const {createUser, deleteUser, updateUser} =useUser()
 
     const tBody = useRef()
-    
-    const usersCollection = collection(db, "users"); 
 
     const cleanInputs = () => { 
         setNameUser('');
