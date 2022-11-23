@@ -1,17 +1,16 @@
-import React,{useState,useRef,useEffect, useContext} from 'react'
-import { useAuth } from '../../hooks/hookAuth/useAuth';
+import React,{useState,useRef, useContext} from 'react'
+import {useUser} from '../../hooks/hookUser/useUser'
 import { useValidate } from '../../hooks/hookValidate/useValidate';
 import ThemeContext from '../../contexts/ThemeContext/ThemeContext'
-import AuthContext from '../../contexts/authContext/AuthContext'
+import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
-import { collection, addDoc,doc, deleteDoc, updateDoc} from 'firebase/firestore' ;
-import { db } from '../../firebaseConfig/firebase' ;
 import UserTable from '../../components/UserTable/UserTable';
 import FormUsers from '../../components/FormUsers/FormUsers';
 import Loader from '../../components/Loader/Loader';
+import ProductContext from '../../contexts/productsContext/ProductContext';
 
 const DashboardSU = () => {
-    
+
     const [errors, setErrors] = useState({});
     const [showForm,setShowForm ] = useState(false);
     const [submitButton, setSubmitButton] = useState(true);
@@ -22,15 +21,15 @@ const DashboardSU = () => {
     const [password,setPassword] = useState('');
     const [role,setRole] = useState("");
     const [currentId,setCurrentId] = useState('');
-    const [allUsers,setAllUsers] = useState([])
-    const {getList} = useAuth()
+
     const {validateForm} = useValidate();
-    const {theme} = useContext(ThemeContext)
-    const { showLoader, setShowLoader } = useContext(AuthContext)
+    
+    const { theme } = useContext(ThemeContext)
+    const { showLoader, setShowLoader } = useContext(ProductContext)
+    const { listUser, setListUsers} = useContext(RequestProducts)
+    const {createUser, deleteUser, updateUser} =useUser()
 
     const tBody = useRef()
-    
-    const usersCollection = collection(db, "users"); 
 
     const cleanInputs = () => { 
         setNameUser('');
@@ -39,18 +38,6 @@ const DashboardSU = () => {
         setPassword('');
         setRole('');
     }
-  
-    useEffect(() => {
-        
-        const getUsers = async() => {
-            const data = await getList();
-            setAllUsers(data)
-        }
-        console.log("loop")
-
-        getUsers();
-        
-    },[])
 
     // Handlers para captar todos los valores del los input
     const nameHandler = (e) => setNameUser((e.target.value));  
@@ -71,30 +58,6 @@ const DashboardSU = () => {
         setEditButton(false);
     }
 
-    //llamar a la base de datos de firebase y colocar los datos en el formulario para que el usuario pueda modificarlos
-    const modifyDataFormHandler = (index) => {
-        setNameUser(allUsers[index].name);
-        setLastNameUser(allUsers[index].lastName);
-        setEmail(allUsers[index].email);
-        setPassword(allUsers[index].password);
-        setRole(allUsers[index].role);
-
-        setCurrentId(allUsers[index].id);
-
-        setShowForm(true);
-        setSubmitButton(false);
-        setEditButton(true)
-    }
-
-    // Función para eliminar un usuario
-    const deleteRowUserHandler = async (id) => {
-        setShowLoader(true)
-        const userDoc = doc(db,"users", id)
-        await deleteDoc(userDoc)
-        setAllUsers(await getList())
-        setShowLoader(false)
-    }
-
     // Funcion setear los valores del formulario en un objeto
     const setUser = () => {
         const user = {
@@ -103,7 +66,8 @@ const DashboardSU = () => {
             email: email.trim(),
             password: password.trim(),
             role: role,
-            };
+        };
+
         return user;
     }
 
@@ -114,29 +78,51 @@ const DashboardSU = () => {
         setErrors(validate)
 
         if(Object.entries(validate).length === 0){
-            await addDoc(usersCollection,setUser())
+            createUser(setUser())
             cleanInputs();
-            setAllUsers(await getList())
+            //setlistUser(await getList())
         }
         setShowLoader(false)
+    }
+    
+    // Función para eliminar un usuario
+    const deleteRowUserHandler = (id) => {
+        console.log("entré")
+        setShowLoader(true)
+        deleteUser(id)
+        setShowLoader(false)
+    }
+
+    //llamar a la base de datos de firebase y colocar los datos en el formulario para que el usuario pueda modificarlos
+    const modifyDataFormHandler = (index) => {
+        setNameUser(listUser[index].name);
+        setLastNameUser(listUser[index].lastName);
+        setEmail(listUser[index].email);
+        setPassword(listUser[index].password);
+        setRole(listUser[index].role);
+        setCurrentId(listUser[index].id);
+
+        setShowForm(true);
+        setSubmitButton(false);
+        setEditButton(true)
     }
 
     //Función para editar usuario 
     const editUserHandler = async () => {
         
+        let auxUser = setUser()
         setShowLoader(true)
-        const oldUser = doc(db,"users",currentId)
         
-        let validate = await validateForm(setUser())  
+        let validate = await validateForm(auxUser)  
         delete validate.user;
         setErrors(validate)
-
+        
         if(Object.entries(validate).length === 0){  
-            await updateDoc(oldUser,setUser())
+            updateUser(auxUser,currentId)
             cleanInputs();
             setSubmitButton(true);
             setEditButton(false);
-            setAllUsers(await getList())
+            //setlistUser(await getList())
         }
         setShowLoader(false)
     }
@@ -162,7 +148,7 @@ const DashboardSU = () => {
             <UserTable 
                 theme={theme}
                 tBody={tBody}
-                users={allUsers} 
+                users={listUser} 
                 modifyDataFormHandler={modifyDataFormHandler} 
                 deleteRowUserHandler={deleteRowUserHandler}
             />

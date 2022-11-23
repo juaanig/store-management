@@ -67,8 +67,8 @@ const FormProductLoad = () => {
         if(validatedProduct !== false){
             loadProduct(validatedProduct)
             cleanInputs();
-            setShowLoader(false)
         }
+        setShowLoader(false)
         
     }
     //=========================================================================================================================================================================

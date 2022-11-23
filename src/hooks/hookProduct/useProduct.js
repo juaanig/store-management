@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { collection, addDoc, deleteDoc, doc, updateDoc} from 'firebase/firestore' ;
 import { db } from '../../firebaseConfig/firebase' ;
 
-//import ProductContext from '../../contexts/productsContext/ProductContext';
 import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
 import { useNotes } from '../hookNotes/useNotes';
@@ -13,7 +12,6 @@ export const useProduct = () => {
     const productCollection = collection(db, "products");
 
     const {products,setProducts} = useContext(RequestProducts); 
-    //const {showForm, setShowForm} = useContext(ProductContext)
 
     const {noteHandler, deleteProductNote, modifyProductNote} = useNotes()
         

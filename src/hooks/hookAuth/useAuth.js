@@ -1,32 +1,20 @@
-import { collection, getDocs} from 'firebase/firestore' ;
-import { db } from '../../firebaseConfig/firebase' ;
+import { useContext } from 'react';
+import RequestProducts from '../../contexts/requestsContext/requestProdContext';
 
 export const useAuth = () => {
 
-    const usersCollection = collection(db, "users");
+    const {listUser} = useContext(RequestProducts);
 
-    const getList = async () => {
-
-        const data = await getDocs(usersCollection);
-        const dataParsed = (data.docs.map( 
-            (doc) => ({...doc.data(),id:doc.id}) 
-        ))
-
-        return dataParsed;
-    }
-
-    const getPassToCompare = async (pass) => {
+    const getPassToCompare = (pass) => {
             
-        let docsUser = await getList()
-        let aux = docsUser.filter((item) => item.password === pass ).length
+        let aux = listUser.filter((item) => item.password === pass ).length
         let result = aux === 0 ? true : false
         return result;
     }
 
-    const getUsersToCompare = async (email) => {
+    const getUsersToCompare = (email) => {
 
-        let docsUser = await getList()
-        let aux = docsUser.filter((item) => item.email === email )
+        let aux = listUser.filter((item) => item.email === email )
         let result = aux.length === 0 ? true : false
         let uid = result ? null : aux[0].id
 
@@ -38,8 +26,7 @@ export const useAuth = () => {
 
     return {
         getUsersToCompare,
-        getPassToCompare,
-        getList
+        getPassToCompare
     }
         
 }
